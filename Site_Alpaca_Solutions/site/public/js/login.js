@@ -21,10 +21,12 @@ function validar_senha(){
 
     if(senha.length < 8){
         input_senha.classList.add("erro_input");
+        input_senha.classList.remove("senha_media");
         label_senha.style.color = "red"
     }
     else if(senha.length >=8 && senha.length < 10){
         input_senha.classList.add("senha_media");
+        input_senha.classList.remove("erro_input");
         label_senha.style.color = "rgb(255, 151, 15)"
     }
     else{
