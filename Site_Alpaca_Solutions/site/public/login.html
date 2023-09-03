@@ -7,6 +7,8 @@
     <title>Login</title>
     <link rel="stylesheet" href="../public/css/login.css">
     <link rel="icon" href="assets/icon/ALPACA_SOLUTIONS-removebg-preview 1.png">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/login.js"></script>
 
 </head>
 
@@ -29,12 +31,12 @@
                     Faça seu Login
                 </h2>
                 <div class="formulario">
-                <label>Email:</label>
-                <input type="text" placeholder="Insira seu email" >
-                <label>Senha:</label>
-                <input placeholder="Insira sua senha" type="password">
+                <label id="email_label">Email:</label>
+                <input type="text" placeholder="Insira seu email" id="input_email" onkeyup="validar_email()">
+                <label id="senha_label">Senha:</label>
+                <input placeholder="Insira sua senha" type="password" id="input_senha" onkeyup="validar_senha()">
 
-                <button>Login</button>
+                <button id="btn">Login</button>
                 <span>Não tem uma conta? <a>Cadastre-se</a></span>
             </div>
             </div>
@@ -43,3 +45,19 @@
 </body>
 
 </html>
+<script>
+  const span = document.getElementById("btn");
+
+  span.addEventListener("click", () => {
+  // Mostrar o popup
+  Swal.fire({
+    icon: "info",
+    title: "Ops deu ruim ...",
+    text: "Ops, e-mail ou senha inválida. Tente novamente",
+    toast: true,
+    iconColor: "red",
+    confirmButtonColor: "#ad2525",
+  
+  });
+});
+</script>

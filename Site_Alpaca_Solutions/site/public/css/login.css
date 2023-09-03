@@ -138,7 +138,6 @@
   .formulario input{
     width: 52vh;
     height: 5vh;
-    color: #ffff;
     border: transparent;
     border-radius: 10vh;
     margin-bottom: 5vh;
@@ -165,4 +164,55 @@
     left: 10vh;
     color: #ffff;  
     white-space: break-word; 
+  }
+
+  .erro_input {
+    border-radius: 45px solid red;
+    color: black;
+    outline: 3px solid red;
+    animation: shake 1s ease-in-out;
+  }
+  .senha_media{
+    border-radius: 45px solid rgb(255, 151, 15);
+    color: black;
+    outline: 3px solid rgb(255, 151, 15);
+    animation: shake 1s ease-in-out;
+  }
+  @keyframes shake {
+    0% {
+      transform: translate(0, 0);
+    }
+    10% {
+      transform: translate(-10px, 0);
+    }
+    20% {
+      transform: translate(10px, 0);
+    }
+    30% {
+      transform: translate(-10px, 0);
+    }
+    40% {
+      transform: translate(10px, 0);
+    }
+    50% {
+      transform: translate(-10px, 0);
+    }
+    60% {
+      transform: translate(10px, 0);
+    }
+    70% {
+      transform: translate(-10px, 0);
+    }
+    80% {
+      transform: translate(10px, 0);
+    }
+    90% {
+      transform: translate(-10px, 0);
+    }
+    100% {
+      transform: translate(0, 0);
+    }
+  }
+  .label_erro{
+    color: red;
   }
