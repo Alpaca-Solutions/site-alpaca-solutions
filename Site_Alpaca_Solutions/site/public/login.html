@@ -14,31 +14,31 @@
 
 <body>
     <div class="fundo">
-        <a href="cadastro.html"> <img  class="imagem_voltar" src="assets/imgs/seta-esquerda.png" alt=""></a>
+        <a href="cadastro.html"> <img class="imagem_voltar" src="assets/imgs/seta-esquerda.png" alt=""></a>
         <div class="logo">
-  <a href="index.html"><img src="assets/icon/ALPACA_SOLUTIONS-removebg-preview 1.png"></a>
+            <a href="index.html"><img src="assets/icon/ALPACA_SOLUTIONS-removebg-preview 1.png"></a>
 
         </div>
         <div class="imagem_cadastro">
-       <img src="assets/imgs/Destacada_Qual_tipo_de_Banco_de_Dados_utilizar-removebg-preview (1) 1.png" alt="">
+            <img src="assets/imgs/Destacada_Qual_tipo_de_Banco_de_Dados_utilizar-removebg-preview (1) 1.png" alt="">
         </div>
         <div class="login">
             <div class="form">
                 <br>
-                
+
                 <h2>Bem Vindo de Volta!
                     <br>
                     Faça seu Login
                 </h2>
                 <div class="formulario">
-                <label id="email_label">Email:</label>
-                <input type="text" placeholder="Insira seu email" id="input_email" onkeyup="validar_email()">
-                <label id="senha_label">Senha:</label>
-                <input placeholder="Insira sua senha" type="password" id="input_senha" onkeyup="validar_senha()">
+                    <label id="email_label">Email:</label>
+                    <input type="text" placeholder="Insira seu email" id="input_email" onkeyup="validar_email()">
+                    <label id="senha_label">Senha:</label>
+                    <input placeholder="Insira sua senha" type="password" id="input_senha" onkeyup="validar_senha()">
 
-                <button id="btn">Login</button>
-                <span>Não tem uma conta? <a>Cadastre-se</a></span>
-            </div>
+                    <button id="btn">Login</button>
+                    <span>Não tem uma conta? <a>Cadastre-se</a></span>
+                </div>
             </div>
         </div>
     </div>
@@ -46,18 +46,18 @@
 
 </html>
 <script>
-  const span = document.getElementById("btn");
+    const span = document.getElementById("btn");
 
-  span.addEventListener("click", () => {
-  // Mostrar o popup
-  Swal.fire({
-    icon: "info",
-    title: "Ops deu ruim ...",
-    text: "Ops, e-mail ou senha inválida. Tente novamente",
-    toast: true,
-    iconColor: "red",
-    confirmButtonColor: "#ad2525",
-  
-  });
-});
+    span.addEventListener("click", () => {
+        // Mostrar o popup
+        Swal.fire({
+            icon: "info",
+            title: "Ops deu ruim ...",
+            text: "Ops, e-mail ou senha inválida. Tente novamente",
+            toast: true,
+            iconColor: "red",
+            confirmButtonColor: "#ad2525",
+
+        });
+    });
 </script>
