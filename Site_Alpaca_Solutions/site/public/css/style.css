@@ -101,22 +101,80 @@ body {
   padding-top: 15%;
   display: flex;
   justify-content: space-evenly;
+  color: #ffffff;
 }
 
 .box-1 {
   background-color: #C0C7FF;
-  width: 350px;
-  height: 500px;
+  width: 330px;
+  height: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #000000;
+  border-radius: 13px;
+  box-shadow: #00000080 2px 2px 20px;
 }
 
 .box-2 {
   background-color: #060143;
-  width: 350px;
-  height: 500px;
+  width: 330px;
+  height: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+  border-radius: 13px;
+  box-shadow: #00000080 2px 2px 20px;
 }
 
 .box-3 {
   background-color: #C0C7FF;
-  width: 350px;
-  height: 500px;
+  width: 330px;
+  height: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #000000;
+  border-radius: 13px;
+  box-shadow: #00000080 2px 2px 20px;
+}
+
+.missao {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 60px;
+}
+
+.visao {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 60px;
+}
+
+.valores {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 60px;
+}
+
+.MVV-container img {
+  width: 140px;
+  height: 140px;
+}
+
+.text-box {
+  font-size: large;
+  width: 90%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
