@@ -25,9 +25,11 @@ body {
 }
 
 .itens-header {
-  background-color: #060143; 
+  background-color: #06014360;
   color: #ffffff;
   width: 100vw;
+  position: fixed;
+  z-index: 1;
 }
 
 .itens-header button {
@@ -43,7 +45,7 @@ body {
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
   color: #4F9AFF;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 .buttonCadastro {
@@ -51,7 +53,7 @@ body {
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
   color: #ffffff;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 .index {
@@ -61,16 +63,19 @@ body {
   background-repeat: no-repeat;
   width: 100%;
   height: 3000px;
+  padding-top: 10%;
 }
 
 .container-mid {
   display: flex;
   align-items: center;
+  flex-wrap: wrap
 }
 
 .text-mid {
   width: 40%;
   color: #ffffff;
+  min-width: 400px;
 }
 
 .text-mid-title {
@@ -81,6 +86,7 @@ body {
 
 .image-mid {
   width: 50%;
+  min-width: 350px;
 }
 
 .vetor1 {
@@ -88,6 +94,7 @@ body {
   display: flex;
   padding-left: 15%;
   padding-top: 7%;
+  min-width: 210px;
 }
 
 .servidorPNG {
@@ -95,6 +102,7 @@ body {
   width: 30%;
   display: flex;
   position: absolute;
+  min-width: 220px;
 }
 
 .MVV-container {
@@ -102,6 +110,7 @@ body {
   display: flex;
   justify-content: space-evenly;
   color: #ffffff;
+  flex-wrap: wrap;
 }
 
 .box-1 {
