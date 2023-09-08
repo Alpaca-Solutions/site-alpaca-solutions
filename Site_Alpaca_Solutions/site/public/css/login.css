@@ -59,7 +59,7 @@
 .form {
   /* font-family: 'Roboto', sans-serif; */
   font-family: 'Roboto Mono', monospace;
-  /* border-radius: 2vh; */
+  border-radius: 2vh; 
   width: 60vh;
   height: 60vh;
   background-color: #B0B8FF;
@@ -92,9 +92,10 @@
   }
 
   .form {
-    /* border-radius: 2 vh; */
+  
     width: 30vh;
     height: 50vh;
+    border-radius: 1vh;
     background-color: #B0B8FF;
     /* opacity: 0.5; */
   }
@@ -204,6 +205,12 @@ span {
   outline: 3px solid rgb(255, 151, 15);
   animation: shake 1s ease-in-out;
 }
+.input_ok {
+  border-radius: 45px solid #008000;
+  color: black;
+  outline: 3px solid #008000;
+}
+
 
 @keyframes shake {
   0% {
