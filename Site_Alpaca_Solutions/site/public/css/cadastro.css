@@ -1,0 +1,267 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Imprima&family=Inconsolata:wght@700;900&family=Inter:wght@700&family=Montserrat&family=Open+Sans:ital,wght@1,300&family=Roboto&family=Roboto+Condensed&family=Roboto+Mono:ital,wght@0,100;0,200;0,400;1,100;1,200&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+:root{
+    --cor-primaria:#000748E0;
+    --cor-secundaria:#B0B8FF;
+    --cor-texto:#ffff;
+    --cor-fundo-form:#B0B8FF;
+    --font-padrao: font-family: 'Roboto Mono', monospace;
+    --cor-botao:#010953;
+    --cor-span:#000000;
+    --fundo-formulario: rgba(217, 217, 217, 0.28);
+}
+
+.fundo{
+    width: 100%;
+    height: 100vh;
+    background-color: var(--cor-primaria);
+    background-image: linear-gradient(to bottom, var(--cor-primaria), var(--cor-secundaria));
+}
+
+.logo{
+    display: flex;
+    justify-content: center;
+}
+
+.logo img {
+    width: 20vh;
+}
+
+.imagem_voltar {
+    display: none;
+    position: absolute;
+    left: 10px;
+    top: 20px;
+    width: 40px;
+}
+
+.imagem_cadastro {
+    position: fixed;
+    top: 30vh;
+    bottom: 10px;
+    left: 10vh;
+}
+
+.imagem_cadastro img {
+    width: 85vh;
+}
+
+@media screen and (max-width: 992px) {
+    .imagem_cadastro{
+        display: none;
+    }
+}
+
+.cadastro {
+    position: fixed;
+    right: 30vh;
+    top: 15vh;
+}
+  
+.form {
+    font-family: var(--font-padrao);
+    width: 60vh;
+    height: 80vh;
+    background:var(--fundo-formulario);
+}
+
+.form h2 {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 19.75px;
+    font-weight: 400;
+    line-height: 25.56px;
+    color: var(--cor-texto);
+    opacity: 2;
+}
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 15vh;
+    left: 2vh;
+}
+
+.formulario label {
+    text-align: center;
+    margin-bottom: 1vh;
+    color: var(--cor-texto);
+    font-family: var(--font-padrao);
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.formulario input {
+    text-align: center;
+    width: 56vh;
+    height: 5vh;
+    border: transparent;
+    border-radius: 1vh;
+    margin-bottom: 2vh;    
+}
+
+button {
+    position: relative;
+    left: 30%;
+    background-color: var(--cor-botao);
+    justify-content: center;
+    width: 20vh;
+    height: 5vh;
+    border-radius: 10px;
+    color: var(--cor-texto);
+    font-family: "Roboto";
+    font-weight: 400;
+    font-size: 15px;
+    border: none;
+}
+
+span {
+    position: relative;
+    font-weight: 500;
+    font-size: 13px;
+    top: 1vh;
+    left: 14vh;
+    color: var(--cor-span);
+    white-space: break-word;
+}
+
+@media (max-width: 1000px) {
+    .logo{
+        display: flex;
+        justify-content: center;
+    }
+    
+    .logo img {
+        width: 15vh;
+    }
+    .imagem_voltar {
+      display: block;
+    }
+  
+    .cadastro {
+    display: flex;
+    justify-content: center;
+      width: 30vh;
+      height: 10vh;
+      top: 10%;
+      transform: translate(-50%, -50%);
+    }
+  
+    .form {
+      border-radius: 2 vh;
+      width: 40vh;
+      height: 80vh;
+      background:var(--fundo-formulario);
+    }
+  
+    .form h2 {
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      font-size: 2vh;
+      font-weight: 400;
+      line-height: 30px;
+      color: white;
+    }
+  
+    .formulario {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: absolute;
+      top: 15vh;
+      left: 8vh;
+  
+    }
+  
+    .formulario label {
+      margin-bottom: 1vh;
+      font-size: 20px;
+    }
+  
+    .formulario input {
+      max-width: 25vh;
+    }
+  
+    button {
+      top: 2vh;
+      max-width: 10vh;
+      left: 7vh;
+    }
+  
+    span {
+      display: none;
+    }
+}
+
+.erro_input {
+    border-radius: 45px solid red;
+    color: black;
+    outline: 3px solid red;
+    animation: shake 1s ease-in-out;
+  }
+  
+  .senha_media {
+    border-radius: 45px solid rgb(255, 151, 15);
+    color: black;
+    outline: 3px solid rgb(255, 151, 15);
+    animation: shake 1s ease-in-out;
+  }
+  
+  @keyframes shake {
+    0% {
+      transform: translate(0, 0);
+    }
+  
+    10% {
+      transform: translate(-10px, 0);
+    }
+  
+    20% {
+      transform: translate(10px, 0);
+    }
+  
+    30% {
+      transform: translate(-10px, 0);
+    }
+  
+    40% {
+      transform: translate(10px, 0);
+    }
+  
+    50% {
+      transform: translate(-10px, 0);
+    }
+  
+    60% {
+      transform: translate(10px, 0);
+    }
+  
+    70% {
+      transform: translate(-10px, 0);
+    }
+  
+    80% {
+      transform: translate(10px, 0);
+    }
+  
+    90% {
+      transform: translate(-10px, 0);
+    }
+  
+    100% {
+      transform: translate(0, 0);
+    }
+  }
+  
+  .label_erro {
+    color: red;
+  } 
