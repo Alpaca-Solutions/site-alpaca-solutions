@@ -8,7 +8,7 @@ function validar_nome() {
 
     if (nome == "") {
         input_nome.classList.add("erro_input");
-        label_nome.innerHTML = "Campo vazio";
+        label_nome.innerHTML = "Campo vazio";9
         label_nome.style.color = "red";
         input_nome.classList.remove("input_ok");
     }
