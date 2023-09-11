@@ -133,6 +133,7 @@
     position: relative;
     top: -2vh;
     max-width: 10vh;
+    cursor: pointer;
   }
 
   span {
@@ -178,6 +179,7 @@ button {
   font-weight: 400;
   font-size: 15px;
   border: none;
+  cursor: pointer;
 }
 
 span {
