@@ -1,16 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Imprima&family=Inconsolata:wght@700;900&family=Inter:wght@700&family=Montserrat&family=Open+Sans:ital,wght@1,300&family=Roboto&family=Roboto+Condensed&family=Roboto+Mono:ital,wght@0,100;0,200;0,400;1,100;1,200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
 
-*{
+* {
     margin: 0;
     padding: 0;
-}
+    font-family: 'Roboto Condensed', sans-serif;
+  }
 
 :root{
     --cor-primaria:#000748E0;
     --cor-secundaria:#B0B8FF;
     --cor-texto:#ffff;
     --cor-fundo-form:#B0B8FF;
-    --font-padrao: font-family: 'Roboto Mono', monospace;
     --cor-botao:#010953;
     --cor-span:#000000;
     --fundo-formulario: rgba(217, 217, 217, 0.28);
@@ -64,8 +64,11 @@
 }
   
 .form {
+<<<<<<< HEAD
   border-radius: 1vh;
     font-family: var(--font-padrao);
+=======
+>>>>>>> d89cf7bcd29dac3dbc6f758c9f9530827a872591
     width: 60vh;
     height: 80vh;
     background:var(--fundo-formulario);
@@ -95,7 +98,6 @@
     text-align: center;
     margin-bottom: 1vh;
     color: var(--cor-texto);
-    font-family: var(--font-padrao);
     font-weight: 400;
     font-size: 16px;
 }
@@ -118,10 +120,10 @@ button {
     height: 5vh;
     border-radius: 10px;
     color: var(--cor-texto);
-    font-family: "Roboto";
     font-weight: 400;
     font-size: 15px;
     border: none;
+    cursor: pointer;
 }
 
 span {
