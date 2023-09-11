@@ -64,6 +64,8 @@
 }
   
 .form {
+  border-radius: 1vh;
+    font-family: var(--font-padrao);
     width: 60vh;
     height: 80vh;
     background:var(--fundo-formulario);
@@ -154,8 +156,12 @@ span {
     }
   
     .form {
-      border-radius: 2 vh;
-      width: 40vh;
+      border-radius: 2vh;
+      width: 45vh;
+      position: relative;
+      top: 52vh;
+      left: 52vh;
+      transform: translate(-50%, -50%);
       height: 80vh;
       background:var(--fundo-formulario);
     }
@@ -169,7 +175,7 @@ span {
       line-height: 30px;
       color: white;
     }
-  
+/*   
     .formulario {
       display: flex;
       flex-direction: column;
@@ -177,8 +183,9 @@ span {
       position: absolute;
       top: 15vh;
       left: 8vh;
+      
   
-    }
+    } */
   
     .formulario label {
       margin-bottom: 1vh;
@@ -263,3 +270,8 @@ span {
   .label_erro {
     color: red;
   } 
+  .input_ok {
+    border-radius: 45px solid #008000;
+    color: black;
+    outline: 3px solid #008000;
+  }

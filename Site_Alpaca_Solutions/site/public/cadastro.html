@@ -7,11 +7,11 @@
   <link rel="icon" href="assets/icon/ALPACA_SOLUTIONS-removebg-preview 1.png">
   
   <title>Cadastro</title>
-  
+  <script src="js/cadastro.js"></script>
 </head>
 <body>
   <div class="fundo">
-    <a href="cadastro.html"> <img class="imagem_voltar" src="assets/imgs/seta-esquerda.png" alt=""></a>
+    <a href="index.html"> <img class="imagem_voltar" src="assets/imgs/seta-esquerda.png" alt=""></a>
     <div class="logo">
       <a href="index.html"><img src="assets/icon/ALPACA_SOLUTIONS-removebg-preview 1.png"></a>
     </div>
@@ -27,17 +27,15 @@
           Faça seu cadastro
         </h2>
         <div class="formulario">
-          <label id="nome_label">Nome Completo</label>
-          <input id="input_nome" placeholder="Insira seu nome completo" type="text"  onkeyup="validar_nome()" >
           <label id="email_label">Email</label>
-          <input type="text" placeholder="Insira seu email" id="input_email" onkeyup="validar_email()">
-          <label id="sistema-label">Sistema Operacional</label>
-          <input type="text" placeholder="insira seu sistema Operacional" id="input_so" onkeyup="validar_so()"> 
+          <input  type="text" placeholder="Insira seu email" id="input_email" onkeyup="validar_email()">
+          <label id="sistema_label">Sistema Operacional</label>
+          <input  type="text" placeholder="insira seu sistema Operacional" id="input_so" onkeyup="validar_so()"> 
           <label id="senha_label">Senha</label>
-          <input placeholder="Insira sua senha" type="password" id="input_senha" onkeyup="validar_senha()" >
-          <label id="confirmar_senha">Confirme Senha</label>
-          <input placeholder="Confirme sua senha" type="password" id="input_confirma_senha" onkeyup="validar_confirmacao()">
 
+          <input  placeholder="Insira sua senha" type="password" id="input_senha" onkeyup="validar_senha()">
+          <label id="confirma_senha_label">Confirme Senha</label>
+          <input  placeholder="Confirme sua senha" type="password" id="input_confirma_senha" onkeyup="validar_confirmacao()">
           <button id="btn" onclick="validar_cadastro()">Cadastrar</button>
           <span>Já tem uma conta? <a href="login.html">Faça seu login</a></span>
         </div>
