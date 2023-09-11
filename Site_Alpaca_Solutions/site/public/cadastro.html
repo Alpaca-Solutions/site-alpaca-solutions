@@ -4,13 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/cadastro.css">
+  <link rel="icon" href="assets/icon/ALPACA_SOLUTIONS-removebg-preview 1.png">
+  
   <title>Cadastro</title>
+  
 </head>
 <body>
   <div class="fundo">
     <a href="cadastro.html"> <img class="imagem_voltar" src="assets/imgs/seta-esquerda.png" alt=""></a>
     <div class="logo">
-      <a href=""></a><img src="assets/icon/ALPACA_SOLUTIONS-removebg-preview 1.png">
+      <a href="index.html"><img src="assets/icon/ALPACA_SOLUTIONS-removebg-preview 1.png"></a>
     </div>
     <div class="imagem_cadastro">
       <img src="assets/imgs/Destacada_Qual_tipo_de_Banco_de_Dados_utilizar-removebg-preview (1) 1.png" alt="">
@@ -19,27 +22,29 @@
       <div class="form">
         <br>
         <h2>
-          Bem Vindo a Alpaca Solutions!
+          Bem-vindo a Alpaca Solutions!
           <br>
           Faça seu cadastro
         </h2>
         <div class="formulario">
           <label id="nome_label">Nome Completo</label>
-          <input id="input_nome" placeholder="Insira seu nome completo" type="text" onkeyup="validar_nome()">
+          <input id="input_nome" placeholder="Insira seu nome completo" type="text"  onkeyup="validar_nome()" >
           <label id="email_label">Email</label>
           <input type="text" placeholder="Insira seu email" id="input_email" onkeyup="validar_email()">
           <label id="sistema-label">Sistema Operacional</label>
           <input type="text" placeholder="insira seu sistema Operacional" id="input_so" onkeyup="validar_so()"> 
           <label id="senha_label">Senha</label>
-          <input placeholder="Insira sua senha" type="password" id="input_senha" onkeyup="validar_senha()">
+          <input placeholder="Insira sua senha" type="password" id="input_senha" onkeyup="validar_senha()" >
           <label id="confirmar_senha">Confirme Senha</label>
           <input placeholder="Confirme sua senha" type="password" id="input_confirma_senha" onkeyup="validar_confirmacao()">
 
-          <button id="btn">Login</button>
-          <span>Já tem uma conta? <a>Faça seu login</a></span>
+          <button id="btn" onclick="validar_cadastro()">Cadastrar</button>
+          <span>Já tem uma conta? <a href="login.html">Faça seu login</a></span>
         </div>
       </div>
     </div>
   </div>
 </body>
 </html>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="js/cadastro.js"></script>
