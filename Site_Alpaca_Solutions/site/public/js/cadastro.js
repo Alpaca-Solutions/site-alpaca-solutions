@@ -1,6 +1,3 @@
-
-<<<<<<< HEAD
-
 function validar_nome() {
     let input_nome = document.getElementById("input_nome");
     let label_nome = document.getElementById("nome_label");
@@ -151,8 +148,6 @@ function validar_confirmacao(senha){
         label_senha.style.color = "#FFFF";
     }
 }
-  }
-=======
 document.getElementById("formulario").addEventListener("submit", function (event) {
     event.preventDefault();
 
@@ -199,5 +194,6 @@ document.getElementById("formulario").addEventListener("submit", function (event
         title: 'Sucesso',
         text: 'Formulário enviado com sucesso!',
     });
+
 });
->>>>>>> d89cf7bcd29dac3dbc6f758c9f9530827a872591
+

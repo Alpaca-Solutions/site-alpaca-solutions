@@ -64,11 +64,8 @@
 }
   
 .form {
-<<<<<<< HEAD
   border-radius: 1vh;
     font-family: var(--font-padrao);
-=======
->>>>>>> d89cf7bcd29dac3dbc6f758c9f9530827a872591
     width: 60vh;
     height: 80vh;
     background:var(--fundo-formulario);
