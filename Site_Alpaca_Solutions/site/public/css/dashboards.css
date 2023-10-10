@@ -1,120 +1,53 @@
 /* pagina mural */
 
-*,
-body {
-  font-family: "Exo 2", sans-serif;
+* {
+  font-family: 'Roboto Condensed', sans-serif;
+  margin: 0px;
+
 }
 
-.label-captura {
-  display: flex;
-  justify-content: center;
+header {
+  text-decoration: none;
+  color: #000000;
 }
 
-.dash-right .avisos {
-  width: 100%;
-  /* border: 3px solid pink; */
-  color: rgb(216, 216, 216);
-  font-family: "Exo 2", sans-serif;
+header a {
+  text-decoration: none;
 }
 
-.dash-right .avisos .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.dash-right .avisos .container .div-form {
-  width: 100%;
-}
-
-.dash-right .avisos .container .div-form #form_postagem {
-  width: 100%;
-}
-
-.dash-right .avisos .div-form label {
-  width: 100%;
-}
-
-.dash-right .avisos .div-form input {
-  width: 100%;
-  border-radius: 5px;
-}
-
-.dash-right .avisos .div-form textarea {
-  width: 100%;
-  /* color: #E6005A; */
-  border: 3px solid #e6005a;
-  background-color: white;
-  border-radius: 5px;
-}
-
-.dash-right .avisos .div-form button {
-  cursor: pointer;
-  font-family: "Exo 2", sans-serif;
-  border: 0;
-  border-radius: 5px;
-  font-weight: 600;
-  font-size: 18px;
-  padding: 10px 15px;
-  color: white;
-  background-color: #e6005a;
-  width: 120px;
-}
-
-.publicacao-btn-editar {
-  cursor: pointer;
-  font-family: "Exo 2", sans-serif;
-  border: 0;
-  border-radius: 5px;
-  font-weight: 600;
-  font-size: 14px;
-  padding: 5px 8px;
-  color: white;
-  background-color: #e6005a;
-  width: 80px;
-}
-
-.publicacao {
+.menu-lateral {
   display: flex;
   flex-wrap: wrap;
-  align-content: stretch;
-  flex-direction: column;
   justify-content: center;
-  align-items: stretch;
-  border-bottom: 3px solid #e6005a;
-  padding: 20px;
+
 }
 
-.publicacao > *:not(:last-child) {
-  padding: 0 0 10px 0;
+nav {
+  background-color: #000748;
+  width: 15%;
+  position: sticky;
+  top: 0;
+  right: 20%;
+  height: 88vh;
+  text-align: center;
 }
 
-.div-results {
-  width: 100%;
+nav a {
+  color: #ffffff;
+
+  margin: 10% 0 10% 0;
 }
 
-.div-results .feed-container {
-  background-color: #212124;
-  border-radius: 5px;
-  margin-bottom: 80px;
+nav ul{
+  list-style: none;
+  background-color: #060143;
 }
 
-.div-buttons {
-  display: flex;
-  justify-content: flex-end;
+body {
+  background-color: #f1f1f1;
 }
 
-.div-buttons > * {
-  margin-left: 30px;
-}
-
-/* pagina graficos */
-
-.dash-header {
-  background-color: #212124;
-}
-
-.dash {
+/* .corpo {
   width: 80%;
   position: relative;
   top: 0;
@@ -122,157 +55,20 @@ body {
   background-color: #161618;
   height: 100vh;
   overflow: auto;
-}
+} */
 
-.regua {
+.boasVindas {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
-  margin-top: 30px;
+  justify-content: space-between;
+  align-items: end;
+  background-color: #ffffff;
 }
 
-.perigo-frio {
-  background-color: #5c6bc0;
+.textoBoasVindas {
+  margin: 2% 6% 2% 0;
+  background-color: #ffffff;
 }
 
-.perigo-quente {
-  background-color: #ff7043;
-}
-
-.alerta-frio {
-  background-color: #42a5f5;
-}
-
-.alerta-quente {
-  background-color: #ffee58;
-}
-
-.ideal {
-  background-color: #9ccc65;
-}
-
-.item-regua {
-  padding: 5px;
-  width: 15%;
-  margin: 5px;
-  text-align: center;
-  padding-top: 15px;
-}
-
-.cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  height: 450px;
-  width: 100%;
-  align-items: center;
-  color: white;
-}
-
-.card {
-  margin: 2%;
-  width: 40%;
-  flex-wrap: wrap;
-  display: flex;
-  text-align: center;
-  height: 180px;
-  justify-content: right;
-  background-color: #212124;
-  font-size: 20px;
-}
-
-.card p {
-  margin: 0;
-  font-size: 50px;
-  font-weight: lighter;
-  text-align: left;
-}
-
-.cards h1 {
-  font-size: 22px;
-  width: 100%;
-  border-bottom: solid white 1px;
-  text-align: left;
-  font-weight: lighter;
-  margin: 20px;
-}
-
-.temperatura,
-.umidade {
-  margin: 5px;
-  margin-left: 20px;
-  width: 75%;
-}
-
-.cor-alerta {
-  width: 13%;
-  height: 30%;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.btns-dash {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 30px;
-  flex-wrap: wrap;
-  padding: 0 30% 0 30%
-}
-
-.graph {
-  width: 80%;
-  margin: auto;
-  padding-top: 10px;
-}
-
-.tituloGraficos {
-  color: rgb(216, 216, 216);
-  display: flex;
-  justify-content: center;
-}
-
-.btn-chart {
-  font-family: "Exo 2", sans-serif;
-  border: 0;
-  font-weight: 600;
-  font-size: 18px;
-  padding: 10px 15px;
-  color: #e6005a;
-  background-color: white;
-  margin: 5px;
-  border-radius: 3px;
-}
-
-.btn-pink {
-  color: white;
-  background-color: #e6005a;
-}
-
-.btn-white {
-  color: #e6005a;
-  background-color: white;
-
-}
-
-.label-captura {
-  height: 80px;
-}
-
-.display-none {
-  display: none;
-}
-
-.display-flex {
-  display: flex;
-}
-
-.display-block {
-  display: block;
-}
-
-canvas {
-  width: 100% !important;
-  height: 100% !important;
+.boasVindas img{
+  margin: 2% 0 2% 6%;
 }
