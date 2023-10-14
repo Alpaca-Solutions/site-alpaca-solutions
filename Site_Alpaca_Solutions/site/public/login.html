@@ -6,42 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="../public/css/login.css">
-    <link rel="icon" href="assets/icon/ALPACA_SOLUTIONS-removebg-preview 1.png">
+    <link rel="icon" href="assets/icon/ALPACA_SOLUTIONS__1_-removebg-preview.png">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/login.js"></script>
 
 </head>
 
 <body>
-    <div class="fundo">
-        <a href="cadastro.html"> <img class="imagem_voltar" src="assets/imgs/seta-esquerda.png" alt=""></a>
-        <div class="logo">
-            <a href="index.html"><img src="assets/icon/ALPACA_SOLUTIONS-removebg-preview 1.png"></a>
-
+    <a href="index.html"><button class="btn_voltar"><</button></a>
+  <div class="fundo">
+    <div class="conteudo">
+        <img src="assets/icon/ALPACA_SOLUTIONS-removebg-preview 1.png" alt="" class="logo">
+        <div class="campos">
+          <h2>Bem-vindo de volta!</h2>
+        <div class="inputs">
+            <span>E-mail: <input type="text" id="input_email" placeholder="email.exemplo@gmail.com"></span>
+            <span>Senha: <input type="password" id="input_senha" placeholder="*********"><br><!--<a href="">Esqueci minha senha</a>--></span>
         </div>
-        <div class="imagem_cadastro">
-            <img src="assets/imgs/Destacada_Qual_tipo_de_Banco_de_Dados_utilizar-removebg-preview (1) 1.png" alt="">
+        <div class="div_btn">
+          <button class="login_btn">Entrar</button>
+          <a href="cadastro.html">Ainda não tem uma conta?</a>
         </div>
-        <div class="login">
-            <div class="form">
-                <br>
-
-                <h2>Bem-vindo de volta!
-                    <br>
-                    Faça seu Login
-                </h2>
-                <div class="formulario">
-                    <label id="email_label">Email:</label>
-                    <input type="text" placeholder="  Insira seu email" id="input_email" onkeyup="validar_email()">
-                    <label id="senha_label">Senha:</label>
-                    <input placeholder="  Insira sua senha" type="password" id="input_senha" onkeyup="validar_senha()">
-
-                    <button id="btn">Login</button>
-                    <span>Não tem uma conta? <a href="cadastro.html">Cadastre-se</a></span>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+    <div class="imagem_login">
+        <img src="assets/icon/ALPACA_SOLUTIONS__1_-removebg-preview.png" alt="" class="decor_cadastro">
+        <h1 style="color: white;">ALPACA SOLUTIONS</h1>
+    </div>
+  </div>
 </body>
 
 </html>

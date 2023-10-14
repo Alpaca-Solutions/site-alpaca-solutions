@@ -7,271 +7,259 @@
   }
 
 :root{
-    --cor-primaria:#000748E0;
+    --cor-primaria:#000748;
     --cor-secundaria:#B0B8FF;
     --cor-texto:#ffff;
-    --cor-fundo-form:#B0B8FF;
+    --cor-fundo-form:#f1f1f1;
     --cor-botao:#010953;
     --cor-span:#000000;
     --fundo-formulario: rgba(217, 217, 217, 0.28);
+}
+
+a {
+  text-decoration: none;
 }
 
 .fundo{
     width: 100%;
     height: 100vh;
     background-color: var(--cor-primaria);
-    background-image: linear-gradient(to bottom, var(--cor-primaria), var(--cor-secundaria));
-}
-
-.logo{
     display: flex;
-    justify-content: center;
+    flex-direction: row-reverse;
 }
 
-.logo img {
-    width: 20vh;
+.conteudo {
+  background-color: var(--cor-fundo-form);
+  width: 50%;
+  height: 100%;
+  min-width: 470px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
-.imagem_voltar {
-    display: none;
-    position: absolute;
-    left: 10px;
-    top: 20px;
-    width: 40px;
+.campos {
+  width: 80%;
+  height: 90%;
+  min-width: 450px;
+  border-radius: 20px;
+  box-shadow: #00000040 1px 1px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.imagem_cadastro {
-    position: fixed;
-    top: 30vh;
-    bottom: 10px;
-    left: 10vh;
+.endereco {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+  height: 100%;
+  width: 50%;
+  min-width: 150px;
 }
 
-.imagem_cadastro img {
-    width: 85vh;
-}
-
-@media screen and (max-width: 992px) {
-    .imagem_cadastro{
-        display: none;
-    }
-}
-
-.cadastro {
-    position: fixed;
-    right: 30vh;
-    top: 15vh;
-}
-  
-.form {
-  border-radius: 1vh;
-    font-family: var(--font-padrao);
-    width: 60vh;
-    height: 80vh;
-    background:var(--fundo-formulario);
-}
-
-.form h2 {
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    font-size: 19.75px;
-    font-weight: 400;
-    line-height: 25.56px;
-    color: var(--cor-texto);
-    opacity: 2;
-}
-
-.formulario {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: absolute;
-    top: 15vh;
-    left: 2vh;
-}
-
-.formulario label {
-    text-align: center;
-    margin-bottom: 1vh;
-    color: var(--cor-texto);
-    font-weight: 400;
-    font-size: 16px;
-}
-
-.formulario input {
-    text-align: center;
-    width: 56vh;
-    height: 5vh;
-    border: transparent;
-    border-radius: 1vh;
-    margin-bottom: 2vh;    
-}
-
-button {
-    position: relative;
-    left: 30%;
-    background-color: var(--cor-botao);
-    justify-content: center;
-    width: 20vh;
-    height: 5vh;
-    border-radius: 10px;
-    color: var(--cor-texto);
-    font-weight: 400;
-    font-size: 15px;
-    border: none;
-    cursor: pointer;
+.user {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100%;
+  width: 50%;
+  min-width: 150px;
 }
 
 span {
-    position: relative;
-    font-weight: 500;
-    font-size: 13px;
-    top: 1vh;
-    left: 14vh;
-    color: var(--cor-span);
-    white-space: break-word;
+  display: flex;
+  flex-direction: column;
 }
 
-@media (max-width: 1000px) {
-    .logo{
-        display: flex;
-        justify-content: center;
-    }
-    
-    .logo img {
-        width: 15vh;
-    }
-    .imagem_voltar {
-      display: block;
-    }
-  
-    .cadastro {
+input {
+  border: none;
+  border-radius: 5px;
+  height: 30px;
+  width: 220px;
+  box-shadow: #00000040 0px 0px 7px;
+  text-align: center;
+}
+
+.estadoSelect {
+  border: solid 2px black;
+  height: 30px;
+  width: 220px;
+}
+
+.cadastrar_btn {
+  border: 3px solid #010953;
+  border-radius: 10px;
+  height: 40px;
+  width: 125px;
+  font-size: large;
+  cursor: pointer;
+  transition: all ease-in-out 0.1s;
+}
+
+.cadastrar_btn:hover {
+  background-color: var(--cor-botao);
+  color: var(--cor-fundo-form);
+}
+
+.imagem_cadastro {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.inputs {
+  display: flex;
+  height: 80%;
+  width: 100%;
+}
+
+.div_btn {
+  height: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-bottom: 15px;
+  text-decoration: none;
+}
+
+.logo {
+  height: 20%;
+}
+
+.decor_cadastro {
+  height: 60%;
+}
+
+.btn_voltar {
+  height: 30px;
+  width: 30px;
+  border-radius: 40px;
+  border: none;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+   align-items: center;
+  font-size: 25px;
+  cursor: pointer;
+  color: var(--cor-fundo-form);
+  background-color: #00000060;
+  margin: 15px;
+  position: absolute;
+}
+
+.conteudo img {
+  display: none;
+}
+
+@media only screen and (max-width: 800px) {
+  .conteudo {
+    width: 100%;
+    background-color: var(--cor-primaria);
+    color: var(--cor-fundo-form);
+    min-width: none;
     display: flex;
     justify-content: center;
-      width: 30vh;
-      height: 10vh;
-      top: 10%;
-      transform: translate(-50%, -50%);
-    }
+    align-items: center;
+  }
+
+  .conteudo img {
+    display: flex;
+    width: 105px;
+    height: 105px;
+  }
+
+  .campos {
+    background-color: var(--cor-fundo-form);
+    color: var(--cor-span);
+    display: flex;
+  }
   
-    .form {
-      border-radius: 2vh;
-      width: 45vh;
-      position: relative;
-      top: 52vh;
-      left: 52vh;
-      transform: translate(-50%, -50%);
-      height: 80vh;
-      background:var(--fundo-formulario);
-    }
-  
-    .form h2 {
-      text-align: center;
-      justify-content: center;
-      align-items: center;
-      font-size: 2vh;
-      font-weight: 400;
-      line-height: 30px;
-      color: white;
-    }
-/*   
-    .formulario {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      position: absolute;
-      top: 15vh;
-      left: 8vh;
-      
-  
-    } */
-  
-    .formulario label {
-      margin-bottom: 1vh;
-      font-size: 20px;
-    }
-  
-    .formulario input {
-      max-width: 25vh;
-    }
-  
-    button {
-      top: 2vh;
-      max-width: 10vh;
-      left: 7vh;
-    }
-  
-    span {
-      display: none;
-    }
+  .imagem_cadastro {
+    display: none;
+  }
+
+  .campos {
+    min-width: 450px;
+  }
 }
 
-.erro_input {
-    border-radius: 45px solid red;
-    color: black;
-    outline: 3px solid red;
-    animation: shake 1s ease-in-out;
+@media only screen and (max-width: 455px) {
+
+  * {
+    overflow-x: scroll;
   }
-  
-  .senha_media {
-    border-radius: 45px solid rgb(255, 151, 15);
-    color: black;
-    outline: 3px solid rgb(255, 151, 15);
-    animation: shake 1s ease-in-out;
+
+  .fundo {
+    display: flex;
+    align-items: center;
+    height: 1000px;
   }
-  
-  @keyframes shake {
-    0% {
-      transform: translate(0, 0);
-    }
-  
-    10% {
-      transform: translate(-10px, 0);
-    }
-  
-    20% {
-      transform: translate(10px, 0);
-    }
-  
-    30% {
-      transform: translate(-10px, 0);
-    }
-  
-    40% {
-      transform: translate(10px, 0);
-    }
-  
-    50% {
-      transform: translate(-10px, 0);
-    }
-  
-    60% {
-      transform: translate(10px, 0);
-    }
-  
-    70% {
-      transform: translate(-10px, 0);
-    }
-  
-    80% {
-      transform: translate(10px, 0);
-    }
-  
-    90% {
-      transform: translate(-10px, 0);
-    }
-  
-    100% {
-      transform: translate(0, 0);
-    }
+
+  .campos {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    align-items: center;
   }
-  
-  .label_erro {
-    color: red;
-  } 
-  .input_ok {
-    border-radius: 45px solid #008000;
-    color: black;
-    outline: 3px solid #008000;
+
+  .conteudo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
+
+  .conteudo img {
+    display: none;
+    min-width: none;
+  }
+
+  .inputs {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    min-width: none;
+  }
+
+  .user {
+    align-items: center;
+    width: 90%;
+    min-width: none;
+  }
+
+  .endereco {
+    align-items: center;
+    width: 90%;
+    min-width: none;
+  }
+
+  .inputs span {
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-width: none;
+    overflow-y: scroll;
+  }
+
+  input {
+    width: 70%;
+    min-width: none;
+  }
+
+  .estadoSelect {
+    width: 70%;
+  }
+}
