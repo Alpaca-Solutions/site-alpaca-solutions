@@ -134,13 +134,33 @@
 
       <div class="superior-content">
         <div class="superior-text"><!--texto da fale conosco-->
-          <div class="titulo-fale-conosco">FALE CONOSCO</div><br>
-          <div class="texto-fale-conosco">Obrigado por escolher a Alpaca Solutions! Como seu parceiro confiável em
+          <div class="titulo-fale-conosco">FALE CONOSCO</div>
+          <p> Para obter mais informações sobre nossos serviços e como podemos ajudar sua instituição, fale conosco.</p>
+
+          <form>
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome">
+
+            <!-- <label for="telefone">Telefone</label>
+            <input type="text" id="telefone" name="telefone"> -->
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email">
+
+            <label for="assunto">Assunto</label>
+            <input type="text" id="assunto" name="assunto">
+
+            <label for="mensagem">Mensagem</label>
+            <textarea id="mensagem" name="mensagem" cols="30" rows="10"></textarea>
+
+            <div><button class="button" type="submit">Enviar</button></div>
+          </form>
+          <!-- <div class="texto-fale-conosco">Obrigado por escolher a Alpaca Solutions! Como seu parceiro confiável em
             monitoramento de servidores.<br><br>
             Estamos ansiosos para colaborar com você no avanço do ensino e aprendizado.<br><br>
             Para obter mais informações sobre nossos serviços e como podemos ajudar sua instituição, entre em contato
             conosco hoje mesmo.
-          </div>
+          </div> -->
         </div>
         <div class="superior-image"> <!--imagem da fale conosco-->
           <img src="assets/imgs/Figure - Fale Conosco 1.png" alt="">
@@ -177,13 +197,45 @@
       </div>
     </div>
   </div>
-  <div class="rodape">
-    <div class="rodape-conteudo">
-      <img src="assets/imgs/alpca-logo-rodape.png" alt="" class="imgs-logo-rodape">
+
+  <!-- Rodapé -->
+
+  <footer class="footer">
+    <div class="footer-item footer-logo">
+      <img src="assets/icon/ALPACA_SOLUTIONS-removebg-preview 1.png" alt="Logo da empresa">
       <p>Alpaca Solutions 2023 ©<br>
         Todos os direitos reservados.</p>
     </div>
-  </div>
+    <div class="footer-item organizar-celular">
+      <div class="footer-item footer-menu">
+        <ul>
+          <span>Menu</span>
+          <li><a href="#">Início</a></li>
+          <li><a href="#MMV-container">Sobre</a></li>
+          <li><a href="#fale-conosco-container">Fale conosco</a></li>
+        </ul>
+      </div>
+      <div class="footer-item footer-contatos">
+        <p>Entre em contato:</p>
+        <p>Endereço: Rua Ficticia, 1234 - SP</p>
+        <p>Telefone: +55 11 91234-5678</p>
+        <p>Email: alpaca.solutions@gmail.com</p>
+      </div>
+    </div>
+    <div class="footer-item logo-button">
+
+      <div class="footer-item footer-logo2">
+        <img src="assets/icon/ALPACA_SOLUTIONS-removebg-preview 1.png" alt="Logo da empresa">
+        <p>Alpaca Solutions 2023 ©<br>
+          Todos os direitos reservados.</p>
+      </div>
+      <div class="footer-item footer-voltar">
+        <img  onclick="window.scrollTo(0, 0)" src="assets/imgs/seta-cima.png" alt="">
+        <span>Voltar para o Início</span>
+      </div>
+    </div>
+  </footer>
+
 </body>
 
 </html>

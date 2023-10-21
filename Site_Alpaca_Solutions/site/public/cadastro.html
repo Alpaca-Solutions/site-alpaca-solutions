@@ -4,42 +4,76 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/cadastro.css">
-  <link rel="icon" href="assets/icon/ALPACA_SOLUTIONS-removebg-preview 1.png">
+  <link rel="icon" href="assets/icon/ALPACA_SOLUTIONS__1_-removebg-preview.png">
   
   <title>Cadastro</title>
   <script src="js/cadastro.js"></script>
 </head>
 <body>
+  <a href="index.html"><button class="btn_voltar"><</button></a>
   <div class="fundo">
-    <a href="index.html"> <img class="imagem_voltar" src="assets/imgs/seta-esquerda.png" alt=""></a>
-    <div class="logo">
-      <a href="index.html"><img src="assets/icon/ALPACA_SOLUTIONS-removebg-preview 1.png"></a>
-    </div>
-    <div class="imagem_cadastro">
-      <img src="assets/imgs/Destacada_Qual_tipo_de_Banco_de_Dados_utilizar-removebg-preview (1) 1.png" alt="">
-    </div>
-    <div class="cadastro">
-      <div class="form">
-        <br>
-        <h2>
-          Bem-vindo a Alpaca Solutions!
-          <br>
-          Faça seu cadastro
-        </h2>
-        <div class="formulario">
-          <label id="email_label">Email</label>
-          <input  type="text" placeholder="Insira seu email" id="input_email" onkeyup="validar_email()">
-          <label id="sistema_label">Sistema Operacional</label>
-          <input  type="text" placeholder="insira seu sistema Operacional" id="input_so" onkeyup="validar_so()"> 
-          <label id="senha_label">Senha</label>
-
-          <input  placeholder="Insira sua senha" type="password" id="input_senha" onkeyup="validar_senha()">
-          <label id="confirma_senha_label">Confirme Senha</label>
-          <input  placeholder="Confirme sua senha" type="password" id="input_confirma_senha" onkeyup="validar_confirmacao()">
-          <button id="btn" onclick="validar_cadastro()">Cadastrar</button>
-          <span>Já tem uma conta? <a href="login.html">Faça seu login</a></span>
+    <div class="conteudo">
+      <h3>Bem-vindo a Alpaca Solutions!</h3>
+      <img src="assets/icon/ALPACA_SOLUTIONS-removebg-preview 1.png" alt="" class="logo">
+      <div class="campos">
+        <div class="inputs">
+          <div class="user">
+            <span>Nome Fantasia: <input type="text" id="input_nomeFantasia" placeholder="McDonald's"></span>
+            <span>Razão Social: <input type="text" id="input_razaoSocial" placeholder="Arcos Dourados"></span>
+            <span>CNPJ: <input type="text" id="input_cnpj" placeholder="12345678910234"></span>
+            <span>E-mail: <input type="text" id="input_email" placeholder="email.exemplo@gmail.com"></span>
+            <span>Senha: <input type="password" id="input_senha" placeholder="*********"></span>
+            <span>Confirmar Senha: <input type="password" id="confirmacao_senha_input" placeholder="*********"></span>
+            <span>Telefone: <input type="text" id="input_telefone" placeholder="11912345678"></span>
+          </div>
+          <div class="endereco">
+            <span>CEP: <input type="text" id="input_cep" placeholder="09815-032"></span>
+            <span>Rua: <input type="text" id="input_rua" placeholder="Ruaditum de Masp"></span>
+            <span>Número: <input type="text" id="input_numero" placeholder="1855, 4° andar"></span>
+            <span>Bairro: <input type="text" id="input_bairro" placeholder="Santa Filomena"></span>
+            <span>Cidade: <input type="text" id="input_cidade" placeholder="São Paulo"></span>
+            <span>Estado: 
+              <select name="estado" id="input_estado" class="estadoSelect">
+                <option selected disabled="">Selecione seu estado</option>
+                <option value="AC">AC</option>
+                <option value="AL">AL</option>
+                <option value="AP">AP</option>
+                <option value="AM">AM</option>
+                <option value="BA">BA</option>
+                <option value="CE">CE</option>
+                <option value="DF">DF</option>
+                <option value="ES">ES</option>
+                <option value="GO">GO</option>
+                <option value="MA">MA</option>
+                <option value="MT">MT</option>
+                <option value="MS">MS</option>
+                <option value="MG">MG</option>
+                <option value="PA">PA</option>
+                <option value="PB">PB</option>
+                <option value="PR">PR</option>
+                <option value="PE">PE</option>
+                <option value="PI">PI</option>
+                <option value="RJ">RJ</option>
+                <option value="RN">RN</option>
+                <option value="RS">RS</option>
+                <option value="RO">RO</option>
+                <option value="RR">RR</option>
+                <option value="SC">SC</option>
+                <option value="SP">SP</option>
+                <option value="SE">SE</option>
+                <option value="TO">TO</option>
+              </select>
+          </div>
+        </div>
+        <div class="div_btn">
+          <button class="cadastrar_btn">Cadastrar</button>
+          <a href="login.html">Já tem uma conta?</a>
         </div>
       </div>
+    </div>
+    <div class="imagem_cadastro">
+      <img src="assets/icon/ALPACA_SOLUTIONS-removebg-preview 1.png" alt="" class="logo">
+      <img src="assets/imgs/Destacada_Qual_tipo_de_Banco_de_Dados_utilizar-removebg-preview (1) 1.png" alt="" class="decor_cadastro">
     </div>
   </div>
 </body>

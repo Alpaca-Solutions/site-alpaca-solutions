@@ -238,12 +238,12 @@ body {
   flex-direction: column;
 }
 
-.superior-content {
+/* .superior-content {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
 
-}
+} */
 
 .titulo-fale-conosco {
   color: #FFF;
@@ -694,4 +694,186 @@ body {
     height: 176px;
     flex-shrink: 0;
   } 
+}
+
+/* fale conosco */
+
+.superior-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.superior-text {
+  background-color: rgba(152, 153, 230, 0.29);
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  max-width: 400px;
+  align-items: center;
+}
+
+.titulo-fale-conosco {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #000;
+  display: flex;
+  text-align: left;
+}
+.titulo-fale-conosco p{
+  text-align: left;
+}
+
+/* Estilos para o formulário */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: bold;
+  margin-top: 10px;
+  display: flex;
+  width: 24vw;
+}
+
+input{
+  width: 24vw;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  width: 25vw;
+  background-color: #f1f1f1c0;
+}
+
+textarea {
+  resize: vertical;
+  height: 10vh;
+}
+
+.button {
+  background-color: #010953;
+  justify-content: center;
+  width: 20vw;
+  height: 5vh;
+  border-radius: 5px;
+  color: #ffff;
+  font-weight: 400;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #357ABD;
+}
+
+/* Responsividade */
+@media screen and (max-width: 768px) {
+  .superior-text {
+      width: 90%;
+  }
+}
+
+
+/* Estilos gerais do rodapé */
+.footer {
+  background-color: #000748;
+  color: #fff;
+  padding: 10px 10px;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border-top: 5px solid #070237;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+/* Estilos para as divisões internas */
+.footer-item {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Estilos para o botão de voltar */
+.footer-voltar button {
+  cursor: pointer;
+  border-radius: 350px;
+}
+/* tamanho das div */
+
+.organizar-celular{
+  display: flex;
+  width: 50vw; 
+  justify-content: space-evenly;
+}
+  .organizar-celular a{
+    text-align: left;
+
+  }
+
+.footer-menu li:hover{
+  text-decoration: underline;
+}
+
+.footer-logo2{
+  display: none;
+}
+
+
+/* Estilos para dispositivos móveis */
+@media screen and (max-width: 768px) {
+  .footer-logo2{
+    display: flex;
+    align-items: center;  
+    flex-direction: column;  
+  }
+  .footer-logo{
+    display: none;
+  }
+  .footer {
+    flex-direction: column;
+  }
+  .footer-item {
+    flex-basis: 100%;
+  }
+  .organizar-celular{
+    display: flex;
+    width: 90vw; 
+  }
+  .footer-menu{
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    width: 20vw;
+  }
+  .footer-menu ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    }
+
+    .footer-contatos{
+      display: flex;
+      width: 70vw;
+      flex-direction: column;
+    }
+  .logo-button{
+    display: flex;
+    /* justify-content: space-between;  */
+  }
+}
+a, ul {
+  text-decoration: none;
+  color: inherit; 
+  list-style: none;
 }
