@@ -6,24 +6,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alpaca Solutions - Home</title>
   <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="assets/icon/ALPACA_SOLUTIONS__1_-removebg-preview.png">
+  <link rel="shortcut icon" href="assets/icon/icon_alpaca.png" type="image/x-icon">
 </head>
 
 <body>
-  <div class="itens-header" id="itens-header">
-    <ul>
-      <li>
-        <img src="assets/icon/ALPACA_SOLUTIONS-removebg-preview 1.png" alt="AlpacaLogo">
-      </li>
-      <li><a href="#index">Início</a></li>
-      <li><a href="#MMV-container">Sobre</a></li>
-      <li><a href="#fale-conosco-container">Fale conosco</a></li>
-      <li>
-        <a href="login.html"><button class="buttonLogin">Login</button></a><a href="cadastro.html"><button
-            class="buttonCadastro">Cadastro</button></a>
-      </li>
-    </ul>
-  </div>
+  <!-- Início da navbar -->
+  <header>
+    <div class="itens-header" id="itens-header">
+      <ul>
+        <li>
+          <img src="assets/icon/logo_alpaca.png" id="AlpacaLogo" width="130px">
+        </li>
+        <li><a href="#index" class="itens-menu">Início</a></li>
+        <li><a href="#MMV-container">Sobre</a></li>
+        <li><a href="#fale-conosco-container">Fale conosco</a></li>
+        <li>
+          <a href="login.html"><button class="buttonLogin">Login</button></a><a href="cadastro.html"><button
+              class="buttonCadastro">Cadastro</button></a>
+        </li>
+      </ul>
+    </nav>
+
+  <!-- Fim da navbar -->
+
   <div class="index" id="index">
     <div class="container-mid">
       <div class="image-mid">
@@ -43,44 +48,87 @@
         que as falhas aconteçam.
       </div>
     </div>
-    <div class="MVV-container" id="MMV-container">
-      <div class="missao">
-        MISSÃO
-        <div class="box-1">
-          <div class="text-box">
-            <p>Capacitar instituições de ensino oferecendo uma experiência de aprendizagem contínua e ininterrupta.
-            </p><br>
-            <p>Acreditamos que cada aluno merece acesso ininterrupto aos recursos educacionais, e é isso que nos motiva
-              a trabalhar incansavelmente todos os dias.</p>
-          </div>
-          <img src="assets/imgs/target 1.png" alt="">
+
+
+    <!-- Cards 
+     -->
+
+    <div class="container">
+      <!-- Card 1 -->
+      <div class="card card-1">
+        <!-- card-header -->
+        <div class="card-header">
+          <img src="assets/imgs/target 1.png" alt="" class="card-img">
         </div>
-      </div>
-      <div class="visao">
-        VISÃO
-        <div class="box-2">
-          <div class="text-box">
-            <p>Enxergamos um futuro onde todas as instituições educacionais tenham a tranquilidade de saber que seus
-              servidores estão em boas mãos. </p><br>
-            <p>Queremos ser líderes na transformação da educação por meio de soluções de TI confiáveis e inovadoras.</p>
-          </div>
-          <img src="assets/imgs/visao-compartilhada (1) 1.png" alt="">
+        <!-- card-header -->
+
+        <!-- card-body -->
+        <div class="card-body">
+          <h3 class="card-local">MISSÃO</h3>
+          <p class="card-texto">
+            Capacitar instituições de ensino oferecendo uma experiência de aprendizagem contínua e ininterrupta.
+            <br>
+            Acreditamos que cada aluno merece acesso ininterrupto aos recursos educacionais, e é isso que nos motiva
+            a trabalhar incansavelmente todos os dias.
+          </p>
         </div>
+        <!-- card-body -->
+
       </div>
-      <div class="valores">
-        VALORES
-        <div class="box-3">
-          <div class="text-box">
-            <p>Na Alpaca Solutions, avaliamos os seguintes valores:</p><br>
-            <p>Inovação Contínua</p><br>
-            <p>Integridade e Ética</p><br>
-            <p>Foco no Cliente</p><br>
-            <p>Compromisso com a Excelência</p>
-          </div>
-          <img src="assets/imgs/favorites 1.png" alt="">
+      <!-- Card 1 -->
+
+      <!-- Card 2 -->
+      <div class="card card-2">
+        <!-- card-header -->
+        <div class="card-header">
+          <img src="assets/imgs/visao-compartilhada.png" alt="" class="card-img" width="30%">
         </div>
+        <!-- card-header -->
+
+        <!-- card-body -->
+        <div class="card-body">
+          <h3 class="card-local">VISÃO</h3>
+          <p class="card-texto">
+            Enxergamos um futuro onde todas as instituições educacionais tenham a tranquilidade de saber que seus
+            servidores estão em boas mãos. <br>
+            Queremos ser líderes na transformação da educação por meio de soluções de TI confiáveis e inovadoras.</p>
+
+          </p>
+          </p>
+        </div>
+        <!-- card-body -->
+
       </div>
+      <!-- Card 2 -->
+
+      <!-- Card 3 -->
+      <div class="card card-3">
+        <!-- card-header -->
+        <div class="card-header">
+          <img src="assets/imgs/favorites 1.png" alt="" class="card-img">
+        </div>
+        <!-- card-header -->
+
+        <!-- card-body -->
+        <div class="card-body">
+          <h3 class="card-local">VALORES</h3>
+          <p class="card-texto">
+            Na Alpaca Solutions, avaliamos os seguintes valores:<br><br>
+
+            Inovação Contínua<br>
+            Integridade e Ética<br>
+            Foco no Cliente<br>
+            Compromisso com a Excelência
+          </p>
+        </div>
+        <!-- card-body -->
+      </div>
+      <!-- Card 3 -->
     </div>
+
+    <!--  FIM DOS CARDS
+ -->
+
     <div class="fale-conosco-container" id="fale-conosco-container">
       <!--todas as imagens já estão baixadas na pasta assets/imgs-->
 
@@ -116,6 +164,35 @@
         </div>
         <div class="superior-image"> <!--imagem da fale conosco-->
           <img src="assets/imgs/Figure - Fale Conosco 1.png" alt="">
+        </div>
+      </div>
+
+      <div class="inferior-content">
+        <div class="inferior-content-pai"> <!--email-->
+          <div class="contacts">
+            <img src="assets/imgs/email (1).png" alt="" class="imgs-inferior">
+          </div>
+          <br>
+          <p class="inferior-text">EMAIL</p><br>
+          <p class="inferior-text">alpaca.solutions@gmail.com</p>
+        </div>
+
+        <div class="inferior-content-pai">
+          <div class="contacts"> <!--telefone-->
+            <img src="assets/imgs/telephone-call (1).png" alt="" class="imgs-inferior">
+          </div>
+          <br>
+          <p class="inferior-text">TELEFONE</p><br>
+          <p class="inferior-text">+55 11 91234-5678</p>
+        </div>
+
+        <div class="inferior-content-pai">
+          <div class="contacts"> <!--mapa-->
+            <img src="assets/imgs/map (1).png" alt="" class="imgs-inferior">
+          </div>
+          <br>
+          <p class="inferior-text">ENDEREÇO</p><br>
+          <p class="inferior-text">Rua Ficticia, 1234 - SP</p>
         </div>
       </div>
     </div>
