@@ -82,164 +82,95 @@ li#leave {
   top: 17.5em;
   left: 0em;
 }
-header#NEW {
-  text-align: center;
+
+
+
+/* Estilos para cards superiores */
+.cards_superiores {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
   background-color: rgb(255, 255, 255);
-  width: 250px;
-  padding-top: 14px;
-  height: 120px;
+  width: 75%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  top: 0;
+  margin-top: 5%;
+  margin-left: 20%;
+  position: absolute;
+  border-radius: 9px;
+}
+
+.titulos_cards1 {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  width: 23%;
+  text-align: center;
+}
+
+.titulos_cards1 h1 {
+  font-size: 20px;
+}
+
+.titulos_cards1 h2 {
+  font-size: 30px;
+  color: #060143;
+}
+
+.graficos {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 14px;
   right: 0;
   left: 0;
-  top: 0;
-  margin-top: 100px;
-  margin-left: 270px;
-  position: absolute;
-  text-size-adjust: 20px;
-  border-radius: 9px;
-}
-header#NEW h1 {
-  font: normal 1.7em arial;
-}
-header#NEW h2 {
-  padding-top: 1em;
-  font: italic bolder 4em;
-}
-header#NEW1 {
-  text-align: center;
-  background-color: rgb(255, 255, 255);
-  width: 250px;
-  padding-top: 14px;
-  height: 120px;
-  right: 0;
-  left: 24em;
-  top: 0;
-  margin-top: 100px;
-  margin-left: 12%;
-  position: absolute;
-  text-size-adjust: 20px;
-  border-radius: 9px;
-}
-header#NEW1 h1 {
-  font: normal 1.7em arial;
-}
-header#NEW1 h2 {
-  padding-top: 1em;
-  font: italic bolder 4em;
-}
-header#NEW2 {
-  text-align: center;
-  background-color: rgb(255, 255, 255);
-  width: 250px;
-  padding-top: 14px;
-  height: 120px;
-  right: 0;
-  left: 48em;
-  padding-top: 14px;
-  top: 0;
-  margin-top: 100px;
-  margin-left: 3.8%;
-  position: absolute;
-  text-size-adjust: 20px;
-  border-radius: 9px;
-}
-header#NEW2 h1 {
-  font: normal 1.7em arial;
-}
-header#NEW2 h2 {
-  padding-top: 1em;
-  font: italic bolder 4em;
-}
-header#NEW3 {
-  text-align: center;
-  background-color: rgb(255, 255, 255);
-  width: 250px;
-  padding-top: 14px;
-  height: 120px;
-  left: 68em;
-  padding-top: 14px;
-  top: 0;
-  margin-top: 100px;
-  margin-left: 0.09%;
-  position: absolute;
-  text-size-adjust: 20px;
-  border-radius: 9px;
-}
-header#NEW3 h1 {
-  font: normal 1.7em arial;
-}
-header#NEW3 h2 {
-  padding-top: 1em;
-  font: italic bolder 4em;
-}
-header#BIG1 {
-  text-align: center;
-  background-color: rgb(255, 255, 255);
-  width: 39%;
-  height: 39%;
-  padding-top: 14px;
-  right: 0;
-  left: 0em;
   top: 11em;
-  margin-top: 80px;
-  margin-left: 270px;
+  margin-top: 3%;
+  margin-left: 20%;
   position: absolute;
   text-size-adjust: 20px;
   border-radius: 9px;
 }
-header#BIG1 h1 {
-  font: normal 1.7em arial;
+
+.graficos .BIG {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
-header#BIG2 {
+
+.BIG h1 {
+  font: normal 1.7em Arial;
+}
+
+
+.graficos2 {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
   text-align: center;
-  background-color: rgb(255, 255, 255);
-  width: 39%;
-  height: 39%;
-  padding-top: 14px;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 14px;
   right: 0;
-  left: 34em;
-  top: 11em;
-  margin-top: 80px;
-  margin-left: 270px;
+  left: 0;
+  top: 26em;
+  margin-top: 3%;
+  margin-left: 20%;
   position: absolute;
   text-size-adjust: 20px;
   border-radius: 9px;
+
 }
-header#BIG2 h1 {
-  font: normal 1.7em arial;
+
+.graficos2 .BIG2 {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
-header#BIG3 {
-  text-align: center;
-  background-color: rgb(255, 255, 255);
-  width: 39%;
-  height: 39%;
-  padding-top: 14px;
-  right: 0;
-  left: 0em;
-  top: 28em;
-  margin-top: 80px;
-  margin-left: 270px;
-  position: absolute;
-  text-size-adjust: 20px;
-  border-radius: 9px;
-}
-header#BIG3 h1 {
-  font: normal 1.7em arial;
-}
-header#BIG4 {
-  text-align: center;
-  background-color: rgb(255, 255, 255);
-  width: 39%;
-  height: 39%;
-  padding-top: 14px;
-  right: 0;
-  left: 44.5em;
-  top: 28em;
-  margin-top: 80px;
-  margin-left: 100px;
-  position: absolute;
-  text-size-adjust: 20px;
-  border-radius: 9px;
-}
-header#BIG4 h1 {
-  font: normal 1.7em arial;
+
+.BIG2 h1 {
+  font: normal 1.7em Arial;
 }
