@@ -15,7 +15,14 @@ body {
   overflow-x: hidden;
 }
 
-
+.invisibleScreen {
+  background-color: transparent;
+  width: 100%;
+  position: fixed;
+  display: flex;
+  flex-direction: row-reverse;
+  z-index: 2;
+}
 
 .itens-header ul {
   display: flex;
@@ -36,7 +43,7 @@ body {
   color: #ffffff;
   width: 100vw;
   position: fixed;
-  z-index: 1;
+  z-index: 0;
 }
 
 .itens-header button {
@@ -86,6 +93,18 @@ body {
   display: flex;
   align-items: center;
   flex-wrap: wrap
+}
+
+.nav-burger {
+  display: none;
+}
+
+.menuLateral {
+  display: none;
+}
+
+.itensMenuLateral {
+  display: none;
 }
 
 .text-mid {
@@ -238,12 +257,12 @@ body {
   flex-direction: column;
 }
 
-/* .superior-content {
+.superior-content {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-
-} */
+  width: 100%;
+}
 
 .titulo-fale-conosco {
   color: #FFF;
@@ -257,7 +276,8 @@ body {
 
 .superior-text {
   font-size: large;
-  width: 44%;
+  width: 85%;
+  max-width: 400px;
   /* height: 70%; */
   display: flex;
   text-align: center;
@@ -291,7 +311,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-
 }
 
 .contacts {
@@ -341,6 +360,10 @@ body {
   width: 174px;
   height: 176px;
   flex-shrink: 0;
+}
+
+form {
+  width: 85%;
 }
 
 @media (max-width: 1000px) {
@@ -403,17 +426,21 @@ body {
   .itens-header button {
     border: none;
     text-align: center;
-    width: 50px;
+    width: 100%;
     border-radius: 7px;
     height: 30px;
     cursor: pointer;
     font-size: 10px;
   }
 
+  .superior-content input {
+    width: 100%;
+  }
+
   .itens-header li {
     display: flex;
     flex-direction: column;
-    width: 60px;
+    width: 90px;
     align-items: center;
     justify-content: space-around;
   }
@@ -422,14 +449,16 @@ body {
     background-color: #ffffff;
     color: #4F9AFF;
     font-weight: 400;
-    display: none;
+    height: 30px;
+    width: 90px;
   }
   
   .buttonCadastro {
     background-color: #4F9AFF;
     color: #ffffff;
     font-weight: 400;
-    display: none;
+    height: 30px;
+    width: 90px;
   }
   
   .index {
@@ -602,8 +631,9 @@ body {
   
   .superior-content {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
+    width: 100%;
   }
   
   .titulo-fale-conosco {
@@ -621,7 +651,7 @@ body {
     display: flex;
     text-align: center;
     flex-direction: column;
-    width: 80%;
+    width: 100%;
   }
   
   .texto-fale-conosco {
@@ -710,7 +740,7 @@ body {
   border-radius: 5px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   padding: 10px;
-  max-width: 400px;
+  max-width: 700px;
   align-items: center;
 }
 
@@ -740,7 +770,7 @@ label {
 }
 
 input{
-  width: 24vw;
+  width: 100%;
 }
 
 input[type="text"],
@@ -750,7 +780,7 @@ textarea {
   margin: 5px 0;
   border: 1px solid #ccc;
   border-radius: 3px;
-  width: 25vw;
+  width: 100%;
   background-color: #f1f1f1c0;
 }
 
@@ -772,8 +802,14 @@ textarea {
   cursor: pointer;
 }
 
-button:hover {
+.buttonLogin:hover {
   background-color: #357ABD;
+  color: white;
+}
+
+.buttonCadastro:hover {
+  background-color: #a1a1a1;
+  color: #00ccff;
 }
 
 /* Responsividade */
@@ -829,6 +865,17 @@ button:hover {
   display: none;
 }
 
+.superior-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.superior-text {
+  width: 100%;
+  max-width: 400px;
+}
 
 /* Estilos para dispositivos móveis */
 @media screen and (max-width: 768px) {
@@ -837,6 +884,70 @@ button:hover {
     align-items: center;  
     flex-direction: column;  
   }
+
+  .menuLateral {
+    display: flex;
+    height: 100%;
+    width: 0%;
+    position: fixed;
+    z-index: 1;
+    background-color: #000748;
+    color: white;
+    border-left: 2px solid white;
+    transition: all ease-in-out 0.2s;
+  }
+  
+  .itensMenuLateral {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    justify-content: space-evenly;
+  }
+
+  .itensMenuLateral li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 35px;
+    width: 100%;
+    height: 5%;
+    font-size: 20px;
+  }
+  
+  .nav-burger {
+    display: block;
+    background-color: #060143;
+    background-color: #06014360;
+    color: #ffffff;
+    width: 100vw;
+    position: fixed;
+    z-index: 1;
+  }
+
+  .nav-burger ul {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: 10%;
+    z-index: 1;
+  }
+
+  .itens-header {
+    display: none;
+    position: fixed;
+  }
+
+  .itensMenuLateral ul {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
   .footer-logo{
     display: none;
   }
