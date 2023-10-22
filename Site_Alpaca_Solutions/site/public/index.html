@@ -10,23 +10,42 @@
 </head>
 
 <body>
-  <!-- Início da navbar -->
-  <header>
-    <div class="itens-header" id="itens-header">
-      <ul>
-        <li>
-          <img src="assets/icon/logo_alpaca.png" id="AlpacaLogo" width="130px">
-        </li>
-        <li><a href="#index" class="itens-menu">Início</a></li>
-        <li><a href="#MMV-container">Sobre</a></li>
-        <li><a href="#fale-conosco-container">Fale conosco</a></li>
-        <li>
-          <a href="login.html"><button class="buttonLogin">Login</button></a><a href="cadastro.html"><button
-              class="buttonCadastro">Cadastro</button></a>
-        </li>
-      </ul>
+
+  <!-- Inicio do menu -->
+  <div class="invisibleScreen">
+    <div class="menuLateral" id="menuLateral">
+      
     </div>
-  </header>
+  </div>
+
+  <!-- Fim do menu -->
+
+  <!-- Início da navbar -->
+
+  <div class="itens-header" id="itens-header">
+    <ul>
+      <li>
+        <img src="assets/icon/logo_alpaca.png" id="AlpacaLogo" width="130px">
+      </li>
+      <li><a href="#index" class="itens-menu">Início</a></li>
+      <li><a href="#MMV-container">Sobre</a></li>
+      <li><a href="#fale-conosco-container">Fale conosco</a></li>
+      <li>
+        <a href="login.html"><button class="buttonLogin">Login</button></a><a href="cadastro.html"><button
+            class="buttonCadastro">Cadastro</button></a>
+      </li>
+    </ul>
+  </div>
+  <div class="nav-burger">
+    <ul>
+      <li>
+        <img src="assets/icon/logo_alpaca.png" id="AlpacaLogo" width="130px">
+      </li>
+      <li>
+        <a onclick="liberarNav()" id="menuButton">Menu</a>
+      </li>
+    </ul>
+  </div>
   <!-- Fim da navbar -->
 
   <div class="index" id="index">
@@ -53,7 +72,7 @@
     <!-- Cards 
      -->
 
-    <div class="container">
+    <div class="container" id="container">
       <!-- Card 1 -->
       <div class="card card-1">
         <!-- card-header -->
@@ -239,3 +258,37 @@
 </body>
 
 </html>
+
+<script>
+
+  var menuLateral = document.getElementById("menuLateral");
+  menuLateral.addEventListener("menuLateral", liberarNav);
+  var width = menuLateral.offsetWidth;
+
+  var exibindoMenu = false;
+  function liberarNav() {
+    if (exibindoMenu == false) {
+      menuLateral.style.width = "40%";
+      exibindoMenu = true;
+      menuLateral.innerHTML = `<div class="itensMenuLateral">
+                                <ul>
+                                  <li><a onclick="liberarNav()">X</a></li>
+                                  <li><a href="#index">Início</a></li>
+                                  <li><a href="#container">Sobre</a></li>
+                                  <li><a href="#fale-conosco-container">Fale conosco</a></li>
+                                  <li>
+                                    <a href="login.html">Login</a>
+                                  </li>
+                                  <li>
+                                    <a href="cadastro.html">Cadastro</a>
+                                  </li>
+                                </ul>
+                              </div>`
+    } else {
+      menuLateral.style.width = "0%";
+      exibindoMenu = false;
+      menuLateral.innerHTML = ""
+    }
+  }
+
+</script>
