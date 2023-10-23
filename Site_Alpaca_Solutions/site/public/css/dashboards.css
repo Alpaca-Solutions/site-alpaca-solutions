@@ -19,6 +19,7 @@ header a {
   flex-wrap: wrap;
   justify-content: center;
   width: 17%;
+  height: 900px;
 }
 
 nav {
@@ -156,7 +157,7 @@ li#leave {
   padding: 14px;
   right: 0;
   left: 0;
-  top: 26em;
+  top: 32em;
   margin-top: 3%;
   margin-left: 20%;
   position: absolute;

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,100 +10,160 @@
 
 
 </head>
+
 <body>
     <header>
         <div class="boasVindas">
-        <img src="../assets/icon/seta-esquerda.png" alt="" width="25px">
+            <img src="../assets/icon/seta-esquerda.png" alt="" width="25px">
             <div class="textoBoasVindas">
-            <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
-        </div>
+                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+            </div>
         </div>
 
         <nav class="menu-lateral">
-            
-<ul>
-    <li class="listaMenu"><a href="#">HOME</a></li>
-    <br>
-    <li class="listaMenu"><a href="#">CONTA</a></li>
-    <br>
-    <li class="listaMenu"><a href="#">USUÁRIOS</a></li>
-    <br>
-    <li class="listaMenu"><a href="#">DETALHES</a></li>
-    <br>
 
-    
-    
-    <li id="leave"><a href="#">SAIR</a></li>
+            <ul>
+                <li class="listaMenu"><a href="#">HOME</a></li>
+                <br>
+                <li class="listaMenu"><a href=  "#">CONTA</a></li>
+                <br>
+                <li class="listaMenu"><a href="#">USUÁRIOS</a></li>
+                <br>
+                <li class="listaMenu"><a href="#">DETALHES</a></li>
+                <br>
 
-</ul>
+
+
+                <li id="leave"><a href="#">SAIR</a></li>
+
+            </ul>
         </nav>
     </header>
     <div class="cards_superiores">
-    
-    <div class="titulos_cards1">
-                <h1>TITULO 01</h1>
-                <h2>100</h2>
-    </div>
 
-    <div class="titulos_cards1">
-                <h1>TITULO 02</h1>
-                <h2>100</h2>
-    </div>
-    <div class="titulos_cards1">
-                <h1>TITULO 03</h1>
-                <h2>100</h2>
-    </div>
-
-    <div class="titulos_cards1"> 
-                <h1>TITULO 04</h1>
-                <h2>100</h2>
-    </div>
-
-</div>
-    
-   <div class="graficos">
-            <div class="BIG"> 
-                <h1>MEMÓRIA RAM</h1>
+        <div class="titulos_cards1">
+            <h1>RAM</h1>
+            <h2>104455</h2>
         </div>
 
-            <div class="BIG"> 
-                <h1>CAPTURA DE DADOS DE REDE</h1>
+        <div class="titulos_cards1">
+            <h1>DADOS REDE</h1>
+            <h2>348756</h2>
+        </div>
+        <div class="titulos_cards1">
+            <h1>DISCO</h1>
+            <h2>39</h2>
+        </div>
+
+        <div class="titulos_cards1">
+            <h1>CPU</h1>
+            <h2>49</h2>
+        </div>
+
     </div>
-   </div>
+
+    <div class="graficos">
+        <div class="BIG">
+            <!-- <h1>MEMÓRIA RAM</h1> -->
+            <div id="chart_div1" style="width: 500px; height: 300px;"></div>
+        </div>
+
+        <div class="BIG">
+            <!-- <h1>CAPTURA DE DADOS DE REDE</h1> -->
+            <div id="chart_div2" style=" width: 500px; height: 300px;"></div>
+        </div>
+    </div>
+
     <div class="graficos2">
 
-            <div class="BIG2"> 
-                <h1>DISCO</h1>
-        
-    </div>
-            <div class="BIG2"> 
-                <h1>CPU</h1>
+        <div class="BIG2">
+            <!-- <h1>DISCO</h1> -->
+            <div id="chart_div3" style="width: 500px; height: 300px;"></div>
+        </div>
+        <div class="BIG2">
+            <!-- <h1>CPU</h1> -->
+            <div id="chart_div4" style="width: 500px; height: 300px;"></div>
         </div>
     </div>
 </body>
+
 </html>
 <script>
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(desenharGraficos);
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawCharts);
 
-    function desenharGraficos() {
-        function desenharGraficos() {
-            var data = google.visualization.arrayToDataTable([
-                ['Tarefa', 'Horas por dia'],
-                ['Trabalho', 11],
-                ['Exercício', 2],
-                ['Social', 2],
-                ['TV', 5],
-                ['Comer', 4]
-            ]);
+    function drawCharts() {
+        var data1 = google.visualization.arrayToDataTable([
+            ['Hora', 'Mb/s'],
+            ['21:20', 104455],
+            ['21:40', 68802],
+            ['22:00', 66844],
+            ['22:20', 499929],
+            ['22:40', 34871],
+        ]);
+
+        var data2 = google.visualization.arrayToDataTable([
+        ['Hora', 'Enviados'],
+        ['21:20', 548756],
+        ['21:40', 948756],
+        ['22:00', 348756],
+        ['22:20', 948756],
+        ['22:40', 348756],
         
-            var options = {
-                title: 'Meu Uso de Tempo Diário',
-            };
-        
-            var chart = new google.visualization.PieChart(document.getElementById('grafico_pizza'));
-        
-            chart.draw(data, options);
-        }
+        ]);
+
+        var data3 = google.visualization.arrayToDataTable([
+            ['Qtd', '%'],
+            ['21:20', 29],
+            ['21:40', 30],
+            ['22:00', 29],
+            ['22:20', 31],
+            ['22:40', 31],
+        ]);
+
+        var data4 = google.visualization.arrayToDataTable([
+            ['Qtd', '%'],
+            ['21:20', 49],
+            ['21:40', 50],
+            ['22:00', 29],
+            ['22:20', 29],
+            ['22:40', 28],
+        ]);
+
+        // Opções para os gráficos
+        var options = {
+            title: 'MEMÓRIA RAM',
+            curveType: 'function',
+            legend: { position: 'bottom' }
+        };
+
+        var options2 = {
+            title: 'CAPTURA DE DADOS DE REDE',
+            curveType: 'function',
+            legend: { position: 'bottom' }
+        };
+
+        var options3 = {
+            title: 'DISCO',
+            curveType: 'function',
+            legend: { position: 'bottom' }
+        };
+
+        var options4 = {
+            title: 'CPU',
+            curveType: 'function',
+            legend: { position: 'bottom' }
+        };
+
+        // Elementos HTML onde os gráficos serão exibidos
+        var chart1 = new google.visualization.LineChart(document.getElementById('chart_div1'));
+        var chart2 = new google.visualization.LineChart(document.getElementById('chart_div2'));
+        var chart3 = new google.visualization.LineChart(document.getElementById('chart_div3'));
+        var chart4 = new google.visualization.LineChart(document.getElementById('chart_div4'));
+
+        chart1.draw(data1, options);
+        chart2.draw(data2, options2);
+        chart3.draw(data3, options3);
+        chart4.draw(data4, options4);
     }
 </script>
