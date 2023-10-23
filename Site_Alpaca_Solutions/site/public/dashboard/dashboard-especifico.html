@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>DASHBOARD ESPECIFICA</title>
+        <link rel="stylesheet" href="../css/dashboard-especifico.css">
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+    </head>
+
+    
+<body>
+
+
+    
+    <div class="corpo">
+        <div class="header">
+            <div class="boasVindas">
+                <div class="voltar">
+                    <img src="../assets/icon/seta-esquerda.png" alt="" width="25px">
+                </div>
+                <div class="textoBoasVindas">
+                    <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="menu-lateral">
+                <div class="opcoes">
+                    <a href="#"><div class="listaMenu">HOME</div></a>
+                    <a href="#"><div class="listaMenu">CONTA</div></a>
+                    <a href="#"><div class="listaMenu">USUÁRIOS</div></a>
+                    <a href="#"><div class="listaMenu">DETALHES</div></a>
+                </div>
+                <div class="sair">
+                    <a href="#"><div id="leave" class="listaMenu">SAIR</div></a>
+                </div>
+            </div>
+            <div class="graficos">
+                <div class="chart-container">
+                    <div id="cpu-chart" class="chart"></div>
+                    <div id="ram-chart" class="chart"></div>
+                    <div id="disco-chart" class="chart"></div>
+                </div>
+                <div id="line-chart" class="chart"></div>
+                <script type="text/javascript" src="scripts.js"></script>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+   google.charts.load('current', { 'packages': ['corechart'] });
+google.charts.setOnLoadCallback(drawCharts);
+
+function drawCharts() {
+    drawChart('cpu-chart', 'CPU', 75, 25);
+    drawChart('ram-chart', 'RAM', 95, 5);
+    drawChart('disco-chart', 'Disco', 45, 55);
+    
+    drawLineChart();
+}
+
+function drawChart(containerId, title, value, remaining) {
+    var data = google.visualization.arrayToDataTable([
+        ['Label', 'Value'],
+        [title, value],
+        ['Restante', remaining]
+    ]);
+
+    var options = {
+        title: title,
+        pieHole: 0.4,
+        colors: ['#7E57C2', '#EEEEEE'],
+        legend: 'none',
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById(containerId));
+    chart.draw(data, options);
+}
+
+function drawLineChart() {
+    var data = google.visualization.arrayToDataTable([
+        ['Tempo', 'CPU', 'Disco','Memoria'],
+        ['Jan', 300, 600, 700],
+        ['Fev', 400, 710, 550],
+        ['Mar', 299, 600, 700],
+        ['Abr', 700, 500, 750],
+        ['Maio', 500, 400, 400],
+        ['Jun', 600, 600, 500],
+        // Adicione mais linhas de dados conforme necessário
+    ]);
+
+    var options = {
+        title: 'Desempenho de Recursos da Maquina',
+        curveType: 'function',
+        legend: { position: 'bottom' },
+        colors: ['#7E57C2', '#2196F3', '#FF5722']
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('line-chart'));
+    chart.draw(data, options);
+}
+
+
+
+</script>
