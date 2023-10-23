@@ -1,39 +1,43 @@
 var database = require("../database/config");
 
-function buscarPorId(id) {
-  var query = `select * from empresa where id = '${id}'`;
+// function buscarPorId(id) {
+//   var query = `select * from empresa where id = '${id}'`;
 
-  return database.executar(query);
-}
+//   return database.executar(query);
+// }
 
-function listar() {
-  var query = `select * from empresa`;
+// function listar() {
+//   var query = `select * from empresa`;
 
-  return database.executar(query);
-}
+//   return database.executar(query);
+// }
 
-function buscarPorCnpj(cnpj) {
-  var query = `select * from empresa where cnpj = '${cnpj}'`;
+// function buscarPorCnpj(cnpj) {
+//   var query = `select * from empresa where cnpj = '${cnpj}'`;
 
-  return database.executar(query);
-}
+//   return database.executar(query);
+// }
 
 function cadastrarEndereco(rua, bairro, estado, cep, cidade, numero) {
+  if (process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
   var query = `
-  INSERT INTO Endereco (rua, bairro, estado, cep, cidade, complemento) VALUES
-  ('${rua}','${bairro}','${estado}','${cep}','${cidade}','${numero}');
+    INSERT INTO Endereco (rua, bairro, estado, cep, cidade, complemento) VALUES
+    ('${rua}', '${bairro}', '${estado}', '${cep}', '${cidade}', '${numero}');
   `;
 
   console.log("Executando a instrução SQL: \n" + query);
   return database.executar(query);
+  }else{
+    console.log("TA FAZENDO MERDA MINHA FIA")
+  }
 }
 
 async function cadastrarEmpresa(nomeFantasia, razaoSocial, cnpj, rua, bairro, estado, cep, cidade, numero) {
   var insertEndereco = await cadastrarEndereco(rua, bairro, estado, cep, cidade, numero);
 
   var query = `
-  INSERT INTO Empresa (nome_fantasia, razao_social, cnpj, fk_endereço) VALUES
-('${nomeFantasia}', '${razaoSocial}', '${cnpj}', now(), '${insertEndereco.insertId}');
+    INSERT INTO Empresa (nome_fantasia, razao_social, cnpj, fk_endereço) VALUES
+    ('${nomeFantasia}', '${razaoSocial}', '${cnpj}', ${insertEndereco.insertId});
   `;
 
   console.log("Executando a instrução SQL: \n" + query);
@@ -43,16 +47,15 @@ async function cadastrarEmpresa(nomeFantasia, razaoSocial, cnpj, rua, bairro, es
 async function cadastrarUsuario(nome, email, senha, nomeFantasia, razaoSocial, cnpj) {
   console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor do seu BD está rodando corretamente. \n\n function cadastrar():", email, senha);
 
-  var insertEmpresa = await cadastrarEmpresa(nomeFantasia, razaoSocial, cnpj, rua, bairro, estado, cep, cidade, numero);
+  var insertEmpresa = await cadastrarEmpresa(nomeFantasia, razaoSocial, cnpj);
 
-  var instrução = `
-  INSERT INTO Usuario (nome, email, senha, tipo_acesso, nivel_acesso, fk_cliente_usuario) VALUES 
-  ('${nome}', '${email}', '${senha}', '1', '1', now(),' ${insertEmpresa.insertId}');
+  var instrucao = `
+    INSERT INTO Usuario (nome, email, senha, tipo_acesso, nivel_acesso, fk_cliente_usuario) VALUES 
+    ('${nome}', '${email}', '${senha}', '1', '1', ${insertEmpresa.insertId});
   `;
 
-  console.log("Executando a instrução SQL: \n" + instrução);
-  return database.executar(instrução);
+  console.log("Executando a instrução SQL: \n" + instrucao);
+  return database.executar(instrucao);
 }
 
-
-module.exports = {cadastrarUsuario, cadastrarEmpresa, cadastrarEndereco };
+module.exports = { cadastrarUsuario, cadastrarEmpresa, cadastrarEndereco };
