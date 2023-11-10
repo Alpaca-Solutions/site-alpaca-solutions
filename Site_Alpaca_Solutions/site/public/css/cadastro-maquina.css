@@ -1,0 +1,106 @@
+* {
+    font-family: "Roboto Condensed", sans-serif;
+    margin: 0px;
+}
+
+.menu-lateral {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 17%;
+    height: 100%;
+    background-color: #08115f;
+}
+
+.opcoes {
+    height: 60%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.sair {
+    display: flex;
+    flex-direction: column;
+    height: 25%;
+    justify-content: center;
+    width: 100%;
+}
+
+.menu-lateral a {
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.header {
+    height: 8%;
+    width: 100%;
+    margin: 0
+}
+
+.listaMenu {
+    background-color: #0f0a3f;
+    width: 85%;
+    height: 50px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body {
+    background-color: #f1f1f1;
+    height: 100vh;
+}
+
+.corpo {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.boasVindas {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    background-color: #ffffff;
+    height: 100%;
+}
+
+.textoBoasVindas {
+    height: 100%;
+    width: 180px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.boasVindas img {
+    cursor: pointer;
+}
+
+.voltar {
+    width: 100px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content {
+    height: 100%;
+    display: flex;
+}
+
+.grade {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

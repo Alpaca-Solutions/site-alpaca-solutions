@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Usuários</title>
+    <link rel="stylesheet" href="../css/cadastro-usuario.css">
+    <link rel="shortcut icon" href="../assets/icon/icon_alpaca.png" type="image/x-icon">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+    <div class="corpo">
+        <div class="header">
+            <div class="boasVindas">
+                <div class="voltar">
+                    <img src="../assets/icon/seta-esquerda.png" alt="" width="25px">
+                </div>
+                <div class="textoBoasVindas">
+                    <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="menu-lateral">
+                <div class="opcoes">
+                    <a href="#"><div class="listaMenu">HOME</div></a>
+                    <a href="#"><div class="listaMenu">CONTA</div></a>
+                    <a href="#"><div class="listaMenu">USUÁRIOS</div></a>
+                    <a href="#"><div class="listaMenu">DETALHES</div></a>
+                </div>
+                <div class="sair">
+                    <a href="#"><div id="leave" class="listaMenu">SAIR</div></a>
+                </div>
+            </div>
+            <div class="grade">
+                Nome: <input type="text">
+                Email: <input type="text">
+                Senha: <input type="text">
+                Confirmar senha: <input type="text">
+                <select name="" id="tipoAcesso">
+                    <option value="1">Operador</option>
+                    <option value="2">Administrador</option>
+                </select>
+                <select name="" id="nivelAcesso">
+                    <option value="">N1</option>
+                    <option value="">N2</option>
+                    <option value="">N3</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</body>
