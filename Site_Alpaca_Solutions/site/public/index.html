@@ -8,15 +8,24 @@
   <link rel="shortcut icon" href="assets/icon/icon_alpaca.png" type="image/x-icon">
 </head>
 <body>
+
+    <div class="invisibleScreen">
+        <div class="menuLateral" id="menuLateral">
+          
+        </div>
+    </div>
+
+
     <div class="header" id="header">
         <img src="assets/icon/logo_alpaca_preto.png" id="AlpacaLogo" width="130px">
         <div class="menuNav">
-            <a href="#second_content">Quem somos?</a>
-            <a href="#third_content">Soluções</a>
-            <a href="#fourth_content">Fale conosco</a>
+            <a href="#second_content" class="a_nav_resp">Quem somos?</a>
+            <a href="#third_content" class="a_nav_resp">Soluções</a>
+            <a href="#fourth_content" class="a_nav_resp">Fale conosco</a>
             <hr>
-            <a href="login.html">Fazer login</a>
-            <a href="cadastro.html"><button>Cadastre-se</button></a>
+            <a href="login.html" class="a_nav_resp">Fazer login</a>
+            <a href="cadastro.html" class="a_nav_resp"><button>Cadastre-se</button></a>
+            <img src="assets/imgs/menu-button-of-three-horizontal-lines.png" alt="men_lines"  class="menu_lines" style="width: 40px; height: 40px;" onclick="liberarNav()">
         </div>
     </div>
     <hr>
@@ -168,18 +177,48 @@
 
 <script>
 
-function revealElements() {
-            const elements = document.querySelectorAll('.card_animation');
-            elements.forEach(element => {
-                const rect = element.getBoundingClientRect();
-                if (rect.top < window.innerHeight) {
-                    element.classList.add('revealed');
-                }
-            });
-        }
+    function revealElements() {
+        const elements = document.querySelectorAll('.card_animation');
+        elements.forEach(element => {
+            const rect = element.getBoundingClientRect();
+            if (rect.top < window.innerHeight) {
+                element.classList.add('revealed');
+            }
+        });
+    }
 
-        window.addEventListener('scroll', revealElements);
-        window.addEventListener('resize', revealElements);
-        revealElements();
+    window.addEventListener('scroll', revealElements);
+    window.addEventListener('resize', revealElements);
+    revealElements();
+
+    var menuLateral = document.getElementById("menuLateral");
+  menuLateral.addEventListener("menuLateral", liberarNav);
+  var width = menuLateral.offsetWidth;
+
+  var exibindoMenu = false;
+  function liberarNav() {
+    if (exibindoMenu == false) {
+      menuLateral.style.width = "40%";
+      exibindoMenu = true;
+      menuLateral.innerHTML = `<div class="itensMenuLateral">
+                                <ul>
+                                  <li><a onclick="liberarNav()">X</a></li>
+                                  <li><a href="#header">Início</a></li>
+                                  <li><a href="#second_content">Sobre</a></li>
+                                  <li><a href="#fourth_content">Fale conosco</a></li>
+                                  <li>
+                                    <a href="login.html">Login</a>
+                                  </li>
+                                  <li>
+                                    <a href="cadastro.html"><button>Cadastro</button></a>
+                                  </li>
+                                </ul>
+                              </div>`
+    } else {
+      menuLateral.style.width = "0%";
+      exibindoMenu = false;
+      menuLateral.innerHTML = ""
+    }
+  }
 
 </script>
