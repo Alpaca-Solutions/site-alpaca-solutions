@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DASHBOARD GERAL</title>
-    <link rel="stylesheet" href="../css/dashboards.css">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../../css/dashboards.css">
+    <link rel="shortcut icon" href="../../assets/icon/icon_alpaca.png" type="image/x-icon">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
-
 </head>
 
 <body>
@@ -16,7 +14,7 @@
         <div class="header">
             <div class="boasVindas">
                 <div class="voltar">
-                    <img src="../assets/icon/seta-esquerda.png" alt="" width="25px">
+                    <img src="../../assets/icon/seta-esquerda.png" alt="" width="25px" onclick="funcVoltar()">
                 </div>
                 <div class="textoBoasVindas">
                     <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
@@ -26,13 +24,13 @@
         <div class="content">
             <div class="menu-lateral">
                 <div class="opcoes">
-                    <a href="#"><div class="listaMenu">HOME</div></a>
-                    <a href="#"><div class="listaMenu">CONTA</div></a>
-                    <a href="#"><div class="listaMenu">USUÁRIOS</div></a>
-                    <a href="#"><div class="listaMenu">DETALHES</div></a>
+                    <a href="../dahsboards/dashboard-geral.html"><div class="listaMenu">DASHBOARD</div></a>
+                    <a href="../dahsboards/dashboard-especifico.html"><div class="listaMenu">DASH DETALHES</div></a>
+                    <a href="../listas/lista-maquina.html"><div class="listaMenu">MÁQUINAS</div></a>
+                    <a href="../listas/lista-usuario.html"><div class="listaMenu">USUÁRIOS</div></a>
                 </div>
                 <div class="sair">
-                    <a href="#"><div id="leave" class="listaMenu">SAIR</div></a>
+                    <a href="../../index.html"><div id="leave" class="listaMenu">SAIR</div></a>
                 </div>
             </div>
             <div class="graficos">
@@ -156,4 +154,9 @@
         chart3.draw(data3, options3);
         chart4.draw(data4, options4);
     }
+
+    function funcVoltar() {
+    window.history.back()
+    }
+
 </script>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Usuários</title>
+    <link rel="stylesheet" href="../../css/cadastro-usuario.css">
+    <link rel="shortcut icon" href="../../assets/icon/icon_alpaca.png" type="image/x-icon">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+    <div class="corpo">
+        <div class="header">
+            <div class="boasVindas">
+                <div class="voltar">
+                    <img src="../../assets/icon/seta-esquerda.png" alt="" width="25px" onclick="funcVoltar()">
+                </div>
+                <div class="textoBoasVindas">
+                    <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="menu-lateral">
+                <div class="opcoes">
+                    <a href="../dahsboards/dashboard-geral.html"><div class="listaMenu">DASHBOARD</div></a>
+                    <a href="../dahsboards/dashboard-especifico.html"><div class="listaMenu">DASH DETALHES</div></a>
+                    <a href="../listas/lista-maquina.html"><div class="listaMenu">MÁQUINAS</div></a>
+                    <a href="../listas/lista-usuario.html"><div class="listaMenu">USUÁRIOS</div></a>
+                </div>
+                <div class="sair">
+                    <a href="../../index.html"><div id="leave" class="listaMenu">SAIR</div></a>
+                </div>
+            </div>
+            <div class="grade">
+                <div class="campos">
+                    <div class="listas_users">
+                        <div class="nome_instancia"></div>
+                        <div class="ip"></div>
+                        <div class="sistema_operacional"></div>
+                        <div class="status_servidor"></div>
+                        <div class="unidade"></div>
+                        <div class="acoes"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+
+function funcVoltar() {
+    window.history.back()
+}
+
+</script>
