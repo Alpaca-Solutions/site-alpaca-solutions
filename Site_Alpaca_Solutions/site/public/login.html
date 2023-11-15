@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="../public/css/login.css">
+    <link rel="stylesheet" href="css/login.css">
     <link rel="icon" href="assets/icon/ALPACA_SOLUTIONS__1_-removebg-preview.png">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/login.js"></script>
@@ -24,7 +24,7 @@
             <span>Senha: <input type="password" id="input_senha" placeholder="*********"><br><!--<a href="">Esqueci minha senha</a>--></span>
         </div>
         <div class="div_btn">
-          <button class="login_btn" onclick="">Entrar</button>
+          <button class="login_btn" onclick="entrar()">Entrar</button>
           <a href="cadastro.html">Ainda não tem uma conta?</a>
         </div>
       </div>
@@ -37,7 +37,8 @@
 </body>
 
 </html>
-<script>
+<script src="js/login.js"></script>
+<!-- <script>
     const span = document.getElementById("login_btn");
 
     span.addEventListener("click", () => {
@@ -52,4 +53,4 @@
 
         });
     });
-</script>
+</script> -->
