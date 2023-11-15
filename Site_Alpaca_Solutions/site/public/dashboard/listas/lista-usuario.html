@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="../../assets/icon/icon_alpaca.png" type="image/x-icon">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
-<body>
+<body onload="redirectEdit()">
     <div class="corpo">
         <div class="header">
             <div class="boasVindas">
@@ -34,7 +34,27 @@
             </div>
             <div class="grade">
                 <div class="campos">
-                    
+                    <div class="campos_box">
+                        <a href="../cadastros/cadastro-usuario.html"><button>+ Cadastrar novo usuário</button></a>
+                        <div class="listas_users">
+                            <div class="titulos">
+                                <div class="titulo">Nome</div>
+                                <div class="titulo">Email</div>
+                                <div class="titulo">Tipo de acesso</div>
+                                <div class="titulo">Nível de acesso</div>
+                                <div class="titulo">Editar</div>
+                            </div>
+                            <div class="dados">
+                                <div class="linha_dados">
+                                    <div class="nome" id="nome"></div>
+                                    <div class="email" id="email"></div>
+                                    <div class="tipo_acesso" id="tipo_acesso"></div>
+                                    <div class="nivel_acesso" id="nivel_acesso"></div>
+                                    <div class="acoes" id="acoes"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -47,4 +67,13 @@ function funcVoltar() {
     window.history.back()
 }
 
+function redirectEdit() {
+    for (i = 0; i <= 45; i++) {
+        nome.innerHTML += `<div class="campo" id="nome${i}"> ${i}</div>`
+        email.innerHTML += `<div class="campo" id="campo_email${i}">email${i + i}@email.com</div>`
+        tipo_acesso.innerHTML += `<div class="campo" id="campo_tipo_acesso${i}">ADM</div>`
+        nivel_acesso.innerHTML += `<div class="campo" id="campo_nivel_acesso${i}">N${i}</div>`
+        acoes.innerHTML += `<div class="campo" id="campo_acoes${i}"><a href="../edits/edicao-usuario.html"><img src="../../assets/imgs/configuracoes.png" alt="" style="width: 30px;"></a></div>`
+    }
+}
 </script>

@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="../../assets/icon/icon_alpaca.png" type="image/x-icon">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
-<body>
+<body onload="redirectEdit()">
     <div class="corpo">
         <div class="header">
             <div class="boasVindas">
@@ -35,8 +35,8 @@
             <div class="grade">
                 <div class="campos">
                     <div class="campos_box">
-                        <button onclick="redirectEdit()">+ Cadastrar nova máquina</button>
-                        <div class="listas_users">
+                        <a href="../cadastros/cadastro-maquina.html"><button>+ Cadastrar nova máquina</button></a>
+                        <div class="listas_maquina">
                             <div class="titulos">
                                 <div class="titulo">Nome Instancia</div>
                                 <div class="titulo">IP</div>
@@ -76,7 +76,7 @@ function redirectEdit() {
         sistema_operacional.innerHTML += `<div class="campo" id="campo_so${i}">Ubuntu</div>`
         status_servidor.innerHTML += `<div class="campo" id="campo_status${i}">Ativo</div>`
         unidade.innerHTML += `<div class="campo" id="campo_unidade${i}">SPTECH</div>`
-        acoes.innerHTML += `<div class="campo" id="campo_acoes${i}" onclick="redirectEdit()"><img src="../../assets/imgs/configuracoes.png" alt="" style="width: 30px;"></div>`
+        acoes.innerHTML += `<div class="campo" id="campo_acoes${i}"><a href="../edits/edicao-maquina.html"><img src="../../assets/imgs/configuracoes.png" alt="" style="width: 30px;"></a></div>`
     }
 }
 
