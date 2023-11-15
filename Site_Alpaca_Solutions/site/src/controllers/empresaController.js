@@ -1,47 +1,87 @@
 var empresaModel = require("../models/empresaModel");
 
-function buscarPorCnpj(req, res) {
-  var cnpj = req.query.cnpj;
-
-  empresaModel.buscarPorCnpj(cnpj).then((resultado) => {
-    res.status(200).json(resultado);
-  });
-}
-
-function listar(req, res) {
-  empresaModel.listar().then((resultado) => {
-    res.status(200).json(resultado);
-  });
-}
-
-function buscarPorId(req, res) {
-  var id = req.params.id;
-
-  empresaModel.buscarPorId(id).then((resultado) => {
-    res.status(200).json(resultado);
-  });
-}
-
 function cadastrar(req, res) {
-  var cnpj = req.body.cnpj;
-  var razaoSocial = req.body.razaoSocial;
+  var nomeFantasia = req.body.nomeFantasiaServer;
+  var razaoSocial = req.body.razaoSocialServer;
+  var cnpj = req.body.cnpjServer;
 
-  empresaModel.buscarPorCnpj(cnpj).then((resultado) => {
-    if (resultado.length > 0) {
-      res
-        .status(401)
-        .json({ mensagem: `a empresa com o cnpj ${cnpj} já existe` });
-    } else {
-      empresaModel.cadastrar(razaoSocial, cnpj).then((resultado) => {
-        res.status(201).json(resultado);
-      });
-    }
-  });
+  var rua = req.body.ruaServer;
+  var bairro = req.body.bairroServer;
+  var estado = req.body.estadoServer;
+  var cep = req.body.cepServer;
+  var cidade = req.body.cidadeServer;
+  var numero = req.body.numeroServer;
+
+  var email = req.body.emailServer;
+  var senha = req.body.senhaServer;
+  var telefone = req.body.telefoneServer;
+
+  empresaModel
+    .cadastrarEmpresa(
+      nomeFantasia,
+      razaoSocial,
+      cnpj,
+      rua,
+      bairro,
+      estado,
+      cep,
+      cidade,
+      numero,
+      email,
+      senha,
+      telefone
+    )
+    .then((resultado) => {
+      res.status(201).json(resultado);
+    })
+    .catch((error) => {
+      res.status(500).json({ error: error.message });
+    });
 }
+
+function cadastrarMaquina(req, res) {
+
+  var ipServidor = req.body.ipServidorServer;
+  var sistemaOperacional = req.body.sistemaOperacionalServer;
+  var tipoInstancia = req.body.tipoInstanciaServer;
+  var statusServidor = req.body.statusServidorServer;
+  var NomeServidor = req.body.NomeServidorServer;
+  var nomeUnidade = req.body.NomeUnidadeServer;
+
+  var rua = req.body.ruaServer;
+  var bairro = req.body.bairroServer;
+  var estado = req.body.estadoServer;
+  var cep = req.body.cepServer;
+  var cidade = req.body.cidadeServer;
+  var numero = req.body.numeroServer;
+
+    empresaModel
+    .cadastrarMaquinas(
+      ipServidor,
+      sistemaOperacional,
+      tipoInstancia,
+      statusServidor,
+      NomeServidor,
+      nomeUnidade,
+      rua,
+      bairro,
+      estado,
+      cep,
+      cidade,
+      numero,
+    )
+    .then((resultado) => {
+      res.status(201).json(resultado);
+    })
+    .catch((error) => {
+      res.status(500).json({ error: error.message });
+    });
+
+}
+
+
 
 module.exports = {
-  buscarPorCnpj,
-  buscarPorId,
   cadastrar,
-  listar,
+  cadastrarMaquina
 };

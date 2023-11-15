@@ -34,18 +34,18 @@
             </div>
             <div class="grade">
                 <div class="campos">
-                    Nome: <input type="text">
-                    Email: <input type="text">
-                    Senha: <input type="text">
+                    Nome: <input type="text" id="nome">
+                    Email: <input type="text" id="email">
+                    Senha: <input type="text" id="senha">
                     Confirmar senha: <input type="text">
                     <select name="" id="tipoAcesso">
                         <option value="1">Operador</option>
                         <option value="2">Administrador</option>
                     </select>
                     <select name="" id="nivelAcesso">
-                        <option value="">N1</option>
-                        <option value="">N2</option>
-                        <option value="">N3</option>
+                        <option value="1">N1</option>
+                        <option value="2">N2</option>
+                        <option value="3">N3</option>
                     </select>
                     <button onclick="cadastrarUsuario()">Cadastrar</button>
                 </div>
@@ -53,7 +53,7 @@
         </div>
     </div>
 </body>
-
+<script src="cadastro-usuario.js"></script>
 <script>
 
 function funcVoltar() {
