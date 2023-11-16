@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="../../assets/icon/icon_alpaca.png" type="image/x-icon">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
-<body onload="redirectEdit()">
+<body onload="obterDados_usuarios()">
     <div class="corpo">
         <div class="header">
             <div class="boasVindas">
@@ -44,14 +44,8 @@
                                 <div class="titulo">Nível de acesso</div>
                                 <div class="titulo">Editar</div>
                             </div>
-                            <div class="dados">
-                                <div class="linha_dados">
-                                    <div class="nome" id="nome"></div>
-                                    <div class="email" id="email"></div>
-                                    <div class="tipo_acesso" id="tipo_acesso"></div>
-                                    <div class="nivel_acesso" id="nivel_acesso"></div>
-                                    <div class="acoes" id="acoes"></div>
-                                </div>
+                            <div class="dados" id="linha_dados">
+                                <!-- Os elementos serão adicionados aqui dinamicamente -->
                             </div>
                         </div>
                     </div>
@@ -67,13 +61,64 @@ function funcVoltar() {
     window.history.back()
 }
 
-function redirectEdit() {
-    for (i = 0; i <= 45; i++) {
-        nome.innerHTML += `<div class="campo" id="nome${i}"> ${i}</div>`
-        email.innerHTML += `<div class="campo" id="campo_email${i}">email${i + i}@email.com</div>`
-        tipo_acesso.innerHTML += `<div class="campo" id="campo_tipo_acesso${i}">ADM</div>`
-        nivel_acesso.innerHTML += `<div class="campo" id="campo_nivel_acesso${i}">N${i}</div>`
-        acoes.innerHTML += `<div class="campo" id="campo_acoes${i}"><a href="../edits/edicao-usuario.html"><img src="../../assets/imgs/configuracoes.png" alt="" style="width: 30px;"></a></div>`
-    }
+function obterDados_usuarios() {
+    var idUsuario = sessionStorage.ID_USUARIO;
+    console.log("ID do Usuário:", idUsuario);
+
+    fetch(`/avisos/listar_usuarios/${idUsuario}`, { cache: 'no-store' })
+        .then(function (response) {
+            if (!response.ok) {
+                console.error('Erro na API:', response.status, response.statusText);
+                throw new Error('Erro na API');
+            }
+
+            // Verificar se o corpo da resposta está vazio
+            const contentLength = response.headers.get('content-length');
+            if (contentLength && contentLength === '0') {
+                console.log('Nenhum dado encontrado na resposta.');
+                return null;
+            }
+
+            // Tentar analisar o corpo da resposta como JSON
+            return response.json();
+        })
+        .then(function (resposta) {
+            if (resposta !== null) {
+                const containerDados = document.getElementById("linha_dados");
+
+                // Limpar qualquer conteúdo existente
+                containerDados.innerHTML = "";
+
+                resposta.forEach(dados_banco => {
+                    // Criar div para cada propriedade dos dados
+                    const divNome = document.createElement("div");
+                    const divEmail = document.createElement("div");
+                    const divTipoAcesso = document.createElement("div");
+                    const divNivelAcesso = document.createElement("div");
+                    const divAcoes = document.createElement("div");
+
+                    // Preencher os elementos div com os dados reais
+                    divNome.textContent = dados_banco.nome || dados_banco.nome_fantasia;
+                    divEmail.textContent = dados_banco.email;
+                    divTipoAcesso.textContent = dados_banco.tipo_acesso;
+                    divNivelAcesso.textContent = dados_banco.nivel_acesso;
+
+                    // Adicionar botões ou outras ações conforme necessário
+                    divAcoes.innerHTML = `<a href="../edits/edicao-usuario.html"><img src="../../assets/imgs/configuracoes.png" alt="" style="width: 30px;"></a>`;
+
+                    // Adicionar os elementos div ao contêiner
+                    containerDados.appendChild(divNome);
+                    containerDados.appendChild(divEmail);
+                    containerDados.appendChild(divTipoAcesso);
+                    containerDados.appendChild(divNivelAcesso);
+                    containerDados.appendChild(divAcoes);
+                });
+            }
+        })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados para gráfico: ${error.message}`);
+        });
 }
+
 </script>
+</html>

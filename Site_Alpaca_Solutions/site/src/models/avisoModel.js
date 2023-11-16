@@ -19,6 +19,18 @@ function listar() {
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
+function listar_usuarios(idUsuario) {
+    var instrucao = `
+    SELECT * FROM empresa 
+    JOIN usuario ON usuario.fk_cliente_usuario = empresa.idEmpresa 
+    WHERE empresa.idempresa = '${idUsuario}';
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
+
 
 function pesquisarDescricao(texto) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function pesquisarDescricao()");
@@ -95,5 +107,6 @@ module.exports = {
     pesquisarDescricao,
     publicar,
     editar,
-    deletar
+    deletar,
+    listar_usuarios
 }

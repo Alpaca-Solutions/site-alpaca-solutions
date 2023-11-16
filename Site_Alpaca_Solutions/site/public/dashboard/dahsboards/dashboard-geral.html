@@ -9,7 +9,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 
-<body>
+<body onload="obter_dados_grafico()">
     <div class="corpo">
         <div class="header">
             <div class="boasVindas">
@@ -158,5 +158,60 @@
     function funcVoltar() {
     window.history.back()
     }
+
+
+    function obter_dados_grafico() {
+        console.log('Função obter_dados_grafico foi chamada.');
+    
+        // Define uma função para buscar os dados e plotar o gráfico
+        function buscarDadosEPlotar() {
+            fetch(`/medidas/busca_dados_rede`, { cache: 'no-store' }).then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                        resposta.reverse();
+    
+                        plotar_grafico_rede(resposta);
+                    });
+                } else {
+                    console.error('Nenhum dado encontrado ou erro na API');
+                }
+            })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+        }
+    
+        // Define a função para buscar os dados e plotar o gráfico inicialmente
+        buscarDadosEPlotar();
+    
+        // Define um intervalo para chamar a função a cada 3 segundos
+        setInterval(buscarDadosEPlotar, 3000);
+    }
+    function plotar_grafico_rede(dados) {
+        var data2 = new google.visualization.DataTable();
+        data2.addColumn('string', 'Hora');
+        data2.addColumn('number', 'Enviados');
+        data2.addColumn('number', 'Recebidos');
+        data2.addColumn('number', 'Enviados');
+    
+        for (const dados_api of dados) {
+           
+            data2.addRow(['21:20', parseFloat(dados_api.byte_enviado), parseFloat(dados_api.byte_recebido), parseFloat(dados_api.byte_enviado)]);
+           
+            
+        }
+    
+        const options2 = {
+            title: 'CAPTURA DE DADOS DE REDE',
+            curveType: 'function',
+            legend: { position: 'bottom' }
+        };
+    
+        var chart2 = new google.visualization.LineChart(document.getElementById('chart_div2'));
+        chart2.draw(data2, options2);
+    }
+
+    
 
 </script>
