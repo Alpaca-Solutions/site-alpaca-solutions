@@ -36,9 +36,9 @@
             </div>
             <div class="graficos">
                 <div class="chart-container">
-                    <div id="cpu-chart" class="chart"></div>
-                    <div id="ram-chart" class="chart"></div>
+                    <div id="memoria-chart" class="chart"></div>
                     <div id="disco-chart" class="chart"></div>
+                    <div id="cpu-chart" class="chart"></div>
                     <div class="list-machine">
                         <p onclick="">nome_da_maquina</p>
                         <p onclick="">nome_da_maquina</p>
@@ -64,9 +64,9 @@
 google.charts.setOnLoadCallback(drawCharts);
 
 function drawCharts() {
-    drawChart('cpu-chart', 'CPU', 75, 25);
-    drawChart('ram-chart', 'RAM', 95, 5);
-    drawChart('disco-chart', 'Disco', 45, 55);
+    drawChart('memoria-chart', 'Uso da Memória', 75, 25);
+    drawChart('disco-chart', 'Uso do Disco', 95, 5);
+    drawChart('cpu-chart', 'Uso da CPU', 45, 55);
     
     drawLineChart();
 }
@@ -91,18 +91,17 @@ function drawChart(containerId, title, value, remaining) {
 
 function drawLineChart() {
     var data = google.visualization.arrayToDataTable([
-        ['Tempo', 'CPU', 'Disco','Memoria'],
-        ['Jan', 300, 600, 700],
-        ['Fev', 400, 710, 550],
-        ['Mar', 299, 600, 700],
-        ['Abr', 700, 500, 750],
-        ['Maio', 500, 400, 400],
-        ['Jun', 600, 600, 500],
+        ['Tempo', 'Bytes Enviados Mb', 'Bytes Recebidos Mb'],
+        ['21:20', 300, 600],
+        ['21:40', 400, 710],
+        ['22:00', 299, 600],
+        ['22:20', 700, 500],
+        ['22:40', 500, 400],
         // Adicione mais linhas de dados conforme necessário
     ]);
 
     var options = {
-        title: 'Desempenho de Recursos da Maquina',
+        title: 'CAPTURA DE DADOS DE REDE',
         curveType: 'function',
         legend: { position: 'bottom' },
         colors: ['#7E57C2', '#2196F3', '#FF5722']
