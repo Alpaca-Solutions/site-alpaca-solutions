@@ -283,12 +283,8 @@ hr {
   margin-right: -3px;
 }
 
-.email, .nome, .tipo_acesso, .nivel_acesso, .acoes {
+.cpu, .nome, .rede, .disco, .memoria {
   width: 20%;
-}
-
-.email {
-  font-size: 90%;
 }
 
 .linha_dados {
@@ -296,13 +292,13 @@ hr {
   width: 100%;
 }
 
-.campos ::-webkit-scrollbar {
+.campos_box ::-webkit-scrollbar {
   background-color: transparent;
   border-left: 2px solid black;
   width: 5px;
 }
 
-.campos ::-webkit-scrollbar-thumb {
+.campos_box ::-webkit-scrollbar-thumb {
   background-color: white;
   border: solid 1px;
   border-radius: 5px;

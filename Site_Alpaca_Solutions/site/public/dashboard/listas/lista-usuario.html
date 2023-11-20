@@ -44,8 +44,14 @@
                                 <div class="titulo">Nível de acesso</div>
                                 <div class="titulo">Editar</div>
                             </div>
-                            <div class="dados" id="linha_dados">
-                                <!-- Os elementos serão adicionados aqui dinamicamente -->
+                            <div class="dados">
+                                <div class="linha_dados" id="linha_dados">
+                                    <div class="nome" id="nome"></div>
+                                    <div class="email" id="email"></div>
+                                    <div class="tipo_acesso" id="tipo_acesso"></div>
+                                    <div class="nivel_acesso" id="nivel_acesso"></div>
+                                    <div class="acoes" id="acoes"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -62,6 +68,8 @@ function funcVoltar() {
 }
 
 function obterDados_usuarios() {
+    redirectEdit();
+    redirectEdit();
     var idUsuario = sessionStorage.ID_USUARIO;
     console.log("ID do Usuário:", idUsuario);
 
@@ -118,6 +126,16 @@ function obterDados_usuarios() {
         .catch(function (error) {
             console.error(`Erro na obtenção dos dados para gráfico: ${error.message}`);
         });
+
+    function redirectEdit() {
+        for (i = 0; i <= 15; i++) {
+        nome.innerHTML += `<div class="campo" id="nome${i}">instancia ${i}</div>`
+        email.innerHTML += `<div class="campo" id="campo_cpu${i}">${i + i + i}%</div>`
+        tipo_acesso.innerHTML += `<div class="campo" id="campo_disco${i}">${i + i}%</div>`
+        nivel_acesso.innerHTML += `<div class="campo" id="campo_memoria${i}">${i + 10}%</div>`
+        acoes.innerHTML += `<div class="campo" id="campo_acoes${i}"><a href="../edits/edicao-maquina.html"><img src="../../assets/imgs/configuracoes.png" alt="" style="width: 30px;"></a></div>`
+        }
+    }
 }
 
 </script>
