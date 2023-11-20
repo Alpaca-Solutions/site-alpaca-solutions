@@ -54,6 +54,7 @@
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
+    overflow: hidden;
   }
 
   .listaMenu {
@@ -114,12 +115,13 @@
   .chart-container {
     display: flex;
     width: 90%;
-    justify-content: space-between;
+    justify-content: start;
   }
 
   .chart {
-    width: 300px;
-    height: 300px;
+    width: 25%;
+    height: 70%;
+    margin-right: 10px;
   }
 
   #line-chart {
@@ -127,6 +129,36 @@
     height: 45%;
   }
   
+  .list-machine {
+    width: 25%;
+    height: 200px;
+    background-color: #ffffff;
+    overflow-y: scroll;
+    border: solid 1px;
+    border-right: none;
+  }
+
+  .list-machine p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+    height: 35px;
+    border-top: solid 1px;
+    border-bottom: solid 1px;
+
+  }
+
+  .graficos ::-webkit-scrollbar {
+    background-color: transparent;
+    border-left: 2px solid black;
+    width: 5px;
+  }
   
+  .graficos ::-webkit-scrollbar-thumb {
+    background-color: white;
+    border: solid 1px;
+    border-radius: 5px;
+  }
   
   /* Estilos para cards superiores */

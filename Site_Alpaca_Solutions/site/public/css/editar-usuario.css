@@ -126,10 +126,22 @@ body {
     box-shadow: #00000040 0px 0px 7px;
 }
 
-.campos button {
+.atualizar {
     width: 150px;
     border: none;
     background: linear-gradient(90deg, #0e0388 12.03%, #2d6af0 90.05%);
+    color: #f1f1f1;
+    font-weight: 550;
+    font-size: 18px;
+    height: 45px;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+.excluir {
+    width: 150px;
+    border: none;
+    background: linear-gradient(90deg, #880303 12.03%, #f02d2d 90.05%);
     color: #f1f1f1;
     font-weight: 550;
     font-size: 18px;
@@ -147,3 +159,9 @@ body {
     box-shadow: #00000040 0px 0px 7px;
 }
 
+.buttons {
+    margin-top: 25px;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
