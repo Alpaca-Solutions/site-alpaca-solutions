@@ -171,6 +171,7 @@ hr {
   height: 85%;
   background-color: #fff;
   border: solid 2px;
+  display: flex;
 }
 
 .campos {
@@ -305,4 +306,20 @@ hr {
   background-color: white;
   border: solid 1px;
   border-radius: 5px;
+}
+
+.alertas img {
+  width: 40px;
+  height: 40px;
+  align-self: center;
+
+}
+
+.spans_alertas {
+  height: 100%;
+  width: 70%;
+  flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
 }
