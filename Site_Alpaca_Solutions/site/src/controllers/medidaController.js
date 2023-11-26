@@ -41,8 +41,29 @@ function buscarMedidasEmTempoReal(req, res) {
     });
 }
 
+function busca_dados_rede(req, res) {
+
+
+
+    console.log(`Recuperando medidas em tempo real`);
+
+    medidaModel.busca_dados_rede().then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+
 module.exports = {
     buscarUltimasMedidas,
-    buscarMedidasEmTempoReal
+    buscarMedidasEmTempoReal,
+    busca_dados_rede
 
 }

@@ -38,12 +38,13 @@ function autenticar(req, res) {
     }
   }
 
-  function cadastrar(req, res) {
+  function cadastrarUsuario(req, res) {
     var nome = req.body.nomeServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
     var tipoAcesso = req.body.tipoAcessoServer;
-    var nivelAcesso = req.body.nivelAcesso;
+    var nivelAcesso = req.body.nivelAcessoServer;
+    var fk_usuario = req.body.idUsuarioServer
   
     usuarioModel
       .cadastrarUsuario(
@@ -52,6 +53,7 @@ function autenticar(req, res) {
         senha,
         tipoAcesso,
         nivelAcesso,
+        fk_usuario
       )
       .then((resultado) => {
         res.status(201).json(resultado);
@@ -62,5 +64,5 @@ function autenticar(req, res) {
   }
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrarUsuario
 }

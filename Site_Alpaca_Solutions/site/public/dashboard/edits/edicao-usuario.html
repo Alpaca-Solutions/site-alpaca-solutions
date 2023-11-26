@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edição de Usuários</title>
-    <link rel="stylesheet" href="../css/cadastro-usuario.css">
-    <link rel="shortcut icon" href="../assets/icon/icon_alpaca.png" type="image/x-icon">
+    <link rel="stylesheet" href="../../css/editar-usuario.css">
+    <link rel="shortcut icon" href="../../assets/icon/icon_alpaca.png" type="image/x-icon">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
-<body>
+<body onload="preencherDados()">
     <div class="corpo">
         <div class="header">
             <div class="boasVindas">
                 <div class="voltar">
-                    <img src="../assets/icon/seta-esquerda.png" alt="" width="25px" onclick="funcVoltar()">
+                    <img src="../../assets/icon/seta-esquerda.png" alt="" width="25px" onclick="funcVoltar()">
                 </div>
                 <div class="textoBoasVindas">
                     <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
@@ -34,7 +34,22 @@
             </div>
             <div class="grade">
                 <div class="campos">
-                    
+                    Nome: <input type="text" id="nome">
+                    Email: <input type="text" id="email">
+                    Nova senha: <input type="password" id="senha">
+                    <select name="" id="tipoAcesso">
+                        <option value="Operador">Operador</option>
+                        <option value="Adm">Administrador</option>
+                    </select>
+                    <select name="" id="nivelAcesso">
+                        <option value="n1">N1</option>
+                        <option value="n2">N2</option>
+                        <option value="n3">N3</option>
+                    </select>
+                    <div class="buttons">
+                        <button onclick="excluirMaquina()" class="excluir">Excluir</button>
+                        <button onclick="atualizarMaquina()" class="atualizar">Atualizar</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -45,6 +60,14 @@
 
 function funcVoltar() {
     window.history.back()
+}
+
+function preencherDados() {
+    nome.value = "nome1";
+    email.value = "email01@gmail.com";
+    senha.value = "urubu100";
+    tipoAcesso.value = "Operador";
+    nivelAcesso.value = "n1";
 }
 
 </script>

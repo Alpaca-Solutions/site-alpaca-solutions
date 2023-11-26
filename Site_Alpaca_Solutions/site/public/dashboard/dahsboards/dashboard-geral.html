@@ -9,7 +9,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 
-<body>
+<body onload="obter_dados_grafico()">
     <div class="corpo">
         <div class="header">
             <div class="boasVindas">
@@ -35,40 +35,32 @@
             </div>
             <div class="graficos">
                 <div class="cards_superiores">
-                    <div class="titulos_cards_sup">
-                        <h1>RAM</h1>
-                        <h2>104455</h2>
-                    </div>
-                    <div class="titulos_cards_sup">
-                        <h1>DADOS REDE</h1>
-                        <h2>348756</h2>
-                    </div>
-                    <div class="titulos_cards_sup">
-                        <h1>DISCO</h1>
-                        <h2>39</h2>
-                    </div>
-                    <div class="titulos_cards_sup">
-                        <h1>CPU</h1>
-                        <h2>49</h2>
-                    </div>
+                    <div class="alertas"><div class="spans_alertas"><span>Máquina: <span id="span_maquina"></span></span><span id="span_alerta"></span></div><img src="../../assets/imgs/aviso (1).png" alt=""></div>
+                    <div class="alertas"><div class="spans_alertas"><span>Máquina: <span id="span_maquina"></span></span><span id="span_alerta"></span></div><img src="../../assets/imgs/aviso (1).png" alt=""></div>
+                    <div class="alertas"><div class="spans_alertas"><span>Máquina: <span id="span_maquina"></span></span><span id="span_alerta"></span></div><img src="../../assets/imgs/aviso (1).png" alt=""></div>
+                    <div class="alertas"><div class="spans_alertas"><span>Máquina: <span id="span_maquina"></span></span><span id="span_alerta"></span></div><img src="../../assets/imgs/aviso (1).png" alt=""></div>
                 </div>
                 <hr>
                 <div class="graficos_gerais">
-                    <div class="gerais">
-                        <!-- <h1>MEMÓRIA RAM</h1> -->
-                        <div id="chart_div1" class="chart"></div>
-                    </div>
-                    <div class="gerais">
-                        <!-- <h1>CAPTURA DE DADOS DE REDE</h1> -->
-                        <div id="chart_div2" class="chart"></div>
-                    </div>
-                    <div class="gerais">
-                        <!-- <h1>DISCO</h1> -->
-                        <div id="chart_div3" class="chart"></div>
-                    </div>
-                    <div class="gerais">
-                        <!-- <h1>CPU</h1> -->
-                        <div id="chart_div4" class="chart"></div>
+                    <div class="campos_box">
+                        <div class="listas_users">
+                            <div class="titulos">
+                                <div class="titulo">Nome</div>
+                                <div class="titulo">CPU</div>
+                                <div class="titulo">Disco</div>
+                                <div class="titulo">Memória</div>
+                                <div class="titulo">Rede</div>
+                            </div>
+                            <div class="dados">
+                                <div class="linha_dados">
+                                    <div class="nome" id="nome"></div>
+                                    <div class="cpu" id="cpu"></div>
+                                    <div class="disco" id="disco"></div>
+                                    <div class="memoria" id="memoria"></div>
+                                    <div class="rede" id="rede"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -78,85 +70,76 @@
 
 </html>
 <script>
-    google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(drawCharts);
-
-    function drawCharts() {
-        var data1 = google.visualization.arrayToDataTable([
-        ['Hora', 'Mb/s', 'Mb/s', 'Mb/s'],
-        ['21:20', 14455, 20000, 9000],
-        ['21:40', 68802, 25000, 1000],
-        ['22:00', 66844, 22000, 9000],
-        ['22:20', 49929, 21000, 17000],
-        ['22:40', 34871, 22000, 1000],
-    ]);
-
-        var data2 = google.visualization.arrayToDataTable([
-        ['Hora', 'Enviados', 'Enviados', 'Enviados'],
-        ['21:20', 548756, 520000, 550000],
-        ['21:40', 948756, 950000, 980000],
-        ['22:00', 348756, 350000, 490000],
-        ['22:20', 948756, 880000, 770000],
-        ['22:40', 348756, 360000, 390000],
-    ]);
-
-        var data3 = google.visualization.arrayToDataTable([
-        ['Qtd', '%', '%', '%'],
-        ['21:20', 29, 15, 25],
-        ['21:40', 30, 14, 22],
-        ['22:00', 29, 16, 26],
-        ['22:20', 31, 18, 28],
-        ['22:40', 31, 19, 29],
-    ]);
-
-        var data4 = google.visualization.arrayToDataTable([
-        ['Qtd', '%', '%', '%'],
-        ['21:20', 49, 30, 40],
-        ['21:40', 50, 28, 38],
-        ['22:00', 29, 33, 43],
-        ['22:20', 29, 32, 42],
-        ['22:40', 28, 31, 41],
-    ]);
-
-        // Opções para os gráficos
-        var options = {
-            title: 'USO DE MEMÓRIA RAM',
-            curveType: 'function',
-            legend: { position: 'bottom' }
-        };
-
-        var options2 = {
-            title: 'CAPTURA DE DADOS DE REDE',
-            curveType: 'function',
-            legend: { position: 'bottom' }
-        };
-
-        var options3 = {
-            title: 'USO DE DISCO',
-            curveType: 'function',
-            legend: { position: 'bottom' }
-        };
-
-        var options4 = {
-            title: 'USO DE CPU',
-            curveType: 'function',
-            legend: { position: 'bottom' }
-        };
-
-        // Elementos HTML onde os gráficos serão exibidos
-        var chart1 = new google.visualization.LineChart(document.getElementById('chart_div1'));
-        var chart2 = new google.visualization.LineChart(document.getElementById('chart_div2'));
-        var chart3 = new google.visualization.LineChart(document.getElementById('chart_div3'));
-        var chart4 = new google.visualization.LineChart(document.getElementById('chart_div4'));
-
-        chart1.draw(data1, options);
-        chart2.draw(data2, options2);
-        chart3.draw(data3, options3);
-        chart4.draw(data4, options4);
-    }
 
     function funcVoltar() {
     window.history.back()
     }
+
+
+    function obter_dados_grafico() {
+        redirectEdit();
+        redirectEdit();
+        console.log('Função obter_dados_grafico foi chamada.');
+    
+        // Define uma função para buscar os dados e plotar o gráfico
+        function buscarDadosEPlotar() {
+            fetch(`/medidas/busca_dados_rede`, { cache: 'no-store' }).then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                        resposta.reverse();
+    
+                        plotar_grafico_rede(resposta);
+                    });
+                } else {
+                    console.error('Nenhum dado encontrado ou erro na API');
+                }
+            })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+        }
+    
+        // Define a função para buscar os dados e plotar o gráfico inicialmente
+        buscarDadosEPlotar();
+    
+        // Define um intervalo para chamar a função a cada 3 segundos
+        setInterval(buscarDadosEPlotar, 3000);
+    }
+    function plotar_grafico_rede(dados) {
+        var data2 = new google.visualization.DataTable();
+        data2.addColumn('string', 'Hora');
+        data2.addColumn('number', 'Enviados');
+        data2.addColumn('number', 'Recebidos');
+        data2.addColumn('number', 'Enviados');
+    
+        for (const dados_api of dados) {
+           
+            data2.addRow(['21:20', parseFloat(dados_api.byte_enviado), parseFloat(dados_api.byte_recebido), parseFloat(dados_api.byte_enviado)]);
+           
+            
+        }
+    
+        const options2 = {
+            title: 'CAPTURA DE DADOS DE REDE',
+            curveType: 'function',
+            legend: { position: 'bottom' }
+        };
+    
+        var chart2 = new google.visualization.LineChart(document.getElementById('chart_div2'));
+        chart2.draw(data2, options2);
+    }
+
+    
+
+    function redirectEdit() {
+    for (i = 0; i <= 15; i++) {
+        nome.innerHTML += `<div class="campo" id="nome${i}">instancia ${i}</div>`
+        cpu.innerHTML += `<div class="campo" id="campo_cpu${i}">${i + i + i}%</div>`
+        disco.innerHTML += `<div class="campo" id="campo_disco${i}">${i + i}%</div>`
+        memoria.innerHTML += `<div class="campo" id="campo_memoria${i}">${i + 10}%</div>`
+        rede.innerHTML += `<div class="campo" id="campo_rede${i}">1${i}0mbps</div>`
+    }
+}
 
 </script>

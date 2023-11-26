@@ -7,8 +7,8 @@ router.get("/listar", function (req, res) {
     avisoController.listar(req, res);
 });
 
-router.get("/listar/:idUsuario", function (req, res) {
-    avisoController.listarPorUsuario(req, res);
+router.get("/listar_usuarios/:idUsuario", function (req, res) {
+    avisoController.listar_usuarios(req, res);
 });
 
 router.get("/pesquisar/:descricao", function (req, res) {

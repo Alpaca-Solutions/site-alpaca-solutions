@@ -1,11 +1,9 @@
-/* pagina mural */
-
 * {
     font-family: "Roboto Condensed", sans-serif;
     margin: 0px;
-  }
-  
-  .menu-lateral {
+}
+
+.menu-lateral {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -13,51 +11,39 @@
     width: 17%;
     height: 100%;
     background-color: #08115f;
-  }
+}
 
-  .opcoes {
+.opcoes {
     height: 60%;
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-  }
+}
 
-  .sair {
+.sair {
     display: flex;
     flex-direction: column;
     height: 25%;
     justify-content: center;
     width: 100%;
-  }
-  
-  .menu-lateral a {
+}
+
+.menu-lateral a {
     color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
-  }
+}
 
-  .header {
+.header {
     height: 8%;
     width: 100%;
     margin: 0
-  }
-  
-  .graficos {
-    margin: 0;
-    height: 100%;
-    width: 83%;
-    display: flex;
-    position: relative;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
-    overflow: hidden;
-  }
+}
 
-  .listaMenu {
+.listaMenu {
     background-color: #0f0a3f;
     width: 85%;
     height: 50px;
@@ -65,100 +51,119 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  
-  body {
+}
+
+body {
     background-color: #f1f1f1;
     height: 100vh;
-  }
+}
 
-  .corpo {
+.corpo {
     display: flex;
     flex-direction: column;
     height: 100%;
     width: 100%;
-  }
-  
-  .boasVindas {
+}
+
+.boasVindas {
     display: flex;
     justify-content: space-between;
     align-items: end;
     background-color: #ffffff;
     height: 100%;
-  }
-  
-  .textoBoasVindas {
+}
+
+.textoBoasVindas {
     height: 100%;
     width: 180px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-  }
-  
-  .boasVindas img {
+}
+
+.boasVindas img {
     cursor: pointer;
-  }
-  
-  .voltar {
+}
+
+.voltar {
     width: 100px;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
+}
 
-  .content {
+.content {
     height: 100%;
     display: flex;
-  }
+}
 
-  .chart-container {
+.grade {
+    width: 83%;
+    height: 100%;
     display: flex;
-    width: 90%;
-    justify-content: start;
-  }
-
-  .chart {
-    width: 25%;
-    height: 70%;
-    margin-right: 10px;
-  }
-
-  #line-chart {
-    width: 90%;
-    height: 45%;
-  }
-  
-  .list-machine {
-    width: 25%;
-    height: 200px;
-    background-color: #ffffff;
-    overflow-y: scroll;
-    border: solid 1px;
-    border-right: none;
-  }
-
-  .list-machine p {
-    display: flex;
-    justify-content: center;
     align-items: center;
-    font-size: large;
-    height: 35px;
-    border-top: solid 1px;
-    border-bottom: solid 1px;
+    justify-content: center;
+}
 
-  }
-
-  .graficos ::-webkit-scrollbar {
-    background-color: transparent;
-    border-left: 2px solid black;
-    width: 5px;
-  }
-  
-  .graficos ::-webkit-scrollbar-thumb {
-    background-color: white;
-    border: solid 1px;
+.campos {
+    box-shadow: #00000040 1px 1px 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 80%;
+    height: 90%;
     border-radius: 5px;
-  }
-  
-  /* Estilos para cards superiores */
+}
+
+.campos input {
+    border: none;
+    width: 40%;
+    height: 25px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    box-shadow: #00000040 0px 0px 7px;
+}
+
+.atualizar {
+    width: 150px;
+    border: none;
+    background: linear-gradient(90deg, #0e0388 12.03%, #2d6af0 90.05%);
+    color: #f1f1f1;
+    font-weight: 550;
+    font-size: 18px;
+    height: 45px;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+.campos select {
+    border: none;
+    width: 40%;
+    height: 25px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    box-shadow: #00000040 0px 0px 7px;
+}
+
+.campos1, .campos2 {
+    display: flex;
+    width: 50%;
+    height: 80%;
+    align-items: center;
+    flex-direction: column;
+    font-size: 20px;
+}
+
+.excluir {
+    width: 150px;
+    border: none;
+    background: linear-gradient(90deg, #880303 12.03%, #f02d2d 90.05%);
+    color: #f1f1f1;
+    font-weight: 550;
+    font-size: 18px;
+    height: 45px;
+    cursor: pointer;
+    border-radius: 15px;
+}

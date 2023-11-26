@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Máquinas</title>
-    <link rel="stylesheet" href="../../css/cadastro-maquina.css">
+    <link rel="stylesheet" href="../../css/lista-maquina.css">
     <link rel="shortcut icon" href="../../assets/icon/icon_alpaca.png" type="image/x-icon">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
-<body>
+<body onload="redirectEdit()">
     <div class="corpo">
         <div class="header">
             <div class="boasVindas">
@@ -34,7 +34,29 @@
             </div>
             <div class="grade">
                 <div class="campos">
-                    
+                    <div class="campos_box">
+                        <a href="../cadastros/cadastro-maquina.html"><button>+ Cadastrar nova máquina</button></a>
+                        <div class="listas_maquina">
+                            <div class="titulos">
+                                <div class="titulo">Nome Instancia</div>
+                                <div class="titulo">IP</div>
+                                <div class="titulo">Sistema Operacional</div>
+                                <div class="titulo">Status Servidor</div>
+                                <div class="titulo">Unidade (Instituição)</div>
+                                <div class="titulo">Editar</div>
+                            </div>
+                            <div class="dados">
+                                <div class="linha_dados">
+                                    <div class="nome_instancia" id="nome_instancia"></div>
+                                    <div class="ip" id="ip"></div>
+                                    <div class="sistema_operacional" id="sistema_operacional"></div>
+                                    <div class="status_servidor" id="status_servidor"></div>
+                                    <div class="unidade" id="unidade"></div>
+                                    <div class="acoes" id="acoes"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -44,7 +66,18 @@
 <script>
 
 function funcVoltar() {
-    window.history.back()
+    window.history.back();
+}
+
+function redirectEdit() {
+    for (i = 0; i <= 15; i++) {
+        nome_instancia.innerHTML += `<div class="campo" id="nome${i}">instancia ${i}</div>`
+        ip.innerHTML += `<div class="campo" id="campo_ip${i}">${i + i + i}</div>`
+        sistema_operacional.innerHTML += `<div class="campo" id="campo_so${i}">Ubuntu</div>`
+        status_servidor.innerHTML += `<div class="campo" id="campo_status${i}">Ativo</div>`
+        unidade.innerHTML += `<div class="campo" id="campo_unidade${i}">SPTECH</div>`
+        acoes.innerHTML += `<div class="campo" id="campo_acoes${i}"><a href="../edits/edicao-maquina.html"><img src="../../assets/imgs/configuracoes.png" alt="" style="width: 30px;"></a></div>`
+    }
 }
 
 </script>

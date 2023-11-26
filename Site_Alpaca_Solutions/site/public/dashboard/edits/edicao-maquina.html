@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edição de Máquinas</title>
-    <link rel="stylesheet" href="../css/cadastro-maquina.css">
-    <link rel="shortcut icon" href="../assets/icon/icon_alpaca.png" type="image/x-icon">
+    <link rel="stylesheet" href="../../css/editar-maquina.css">
+    <link rel="shortcut icon" href="../../assets/icon/icon_alpaca.png" type="image/x-icon">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
-<body>
+<body onload="preencherDados()">
     <div class="corpo">
         <div class="header">
             <div class="boasVindas">
                 <div class="voltar">
-                    <img src="../assets/icon/seta-esquerda.png" alt="" width="25px" onclick="funcVoltar()">
+                    <img src="../../assets/icon/seta-esquerda.png" alt="" width="25px" onclick="funcVoltar()">
                 </div>
                 <div class="textoBoasVindas">
                     <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
@@ -34,7 +34,51 @@
             </div>
             <div class="grade">
                 <div class="campos">
+                    <div class="campos1">
+                        Nome do servidor: <input type="text" id="NomeServidor">
+                        Servidor ativo: <input type="checkbox" id="statusServidor">
+                        Nome da unidade: <input type="text" id="nomeUnidade">
+                        Rua: <input type="text" id="rua">
+                    </div>
                     
+                    <div class="campos2">
+                        Bairro: <input type="text" id="bairro">
+                        Estado: <select name="estado" id="estado" class="estadoSelect">
+                            <option selected disabled="">Selecione seu estado</option>
+                            <option value="AC">AC</option>
+                            <option value="AL">AL</option>
+                            <option value="AP">AP</option>
+                            <option value="AM">AM</option>
+                            <option value="BA">BA</option>
+                            <option value="CE">CE</option>
+                            <option value="DF">DF</option>
+                            <option value="ES">ES</option>
+                            <option value="GO">GO</option>
+                            <option value="MA">MA</option>
+                            <option value="MT">MT</option>
+                            <option value="MS">MS</option>
+                            <option value="MG">MG</option>
+                            <option value="PA">PA</option>
+                            <option value="PB">PB</option>
+                            <option value="PR">PR</option>
+                            <option value="PE">PE</option>
+                            <option value="PI">PI</option>
+                            <option value="RJ">RJ</option>
+                            <option value="RN">RN</option>
+                            <option value="RS">RS</option>
+                            <option value="RO">RO</option>
+                            <option value="RR">RR</option>
+                            <option value="SC">SC</option>
+                            <option value="SP">SP</option>
+                            <option value="SE">SE</option>
+                            <option value="TO">TO</option>
+                        </select>
+                        CEP: <input type="text" id="cep" maxlength="8">
+                        Cidade: <input type="text" id="cidade">
+                        Número: <input type="text" id="numero">
+                    </div>
+                    <button onclick="excluirMaquina()" class="excluir">Excluir</button>
+                    <button onclick="atualizarMaquina()" class="atualizar">Atualizar</button>
                 </div>
             </div>
         </div>
@@ -45,6 +89,21 @@
 
 function funcVoltar() {
     window.history.back()
+}
+
+function preencherDados() {
+    NomeServidor.value = "nome1";
+    ipServidor.value = "1231456";
+    sistemaOperacional.value = "Ubuntu";
+    statusServidor.checked = true;
+
+    nomeUnidade.value = "unidade 1";
+    rua.value = "ruaditum";
+    bairro.value = "bairraditum";
+    estado.value = "SP";
+    cep.value = "12345678";
+    cidade.value = "Cidaditum";
+    numero.value = "1552";
 }
 
 </script>

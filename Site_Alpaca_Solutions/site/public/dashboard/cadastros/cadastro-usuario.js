@@ -1,12 +1,13 @@
 function cadastrarUsuario(){
 
-    const emailVar = document.getElementById("email").value;
-    const senhaVar = document.getElementById("senha").value;
-    const nomeVar= document.getElementById("nome").value;
-    const tipoAcessoVar= document.getElementById("tipoAcesso").value;
-    const nivelAcessoVar= 1;
+    const idVar = sessionStorage.ID_USUARIO;
+    const emailVar = email.value
+    const senhaVar = senha.value
+    const nomeVar = nome.value
+    const tipoAcessoVar = tipoAcesso.value
+    const nivelAcessoVar =  nivelAcesso.value
 
-    fetch("/usuarios/cadastrar", {
+    fetch("/usuarios/cadastrarUsuario", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -19,6 +20,7 @@ function cadastrarUsuario(){
           senhaServer: senhaVar,
           tipoAcessoServer: tipoAcessoVar, 
           nivelAcessoServer: nivelAcessoVar,
+          idUsuarioServer: idVar
         }),
       })
         .then(function (resposta) {
@@ -26,7 +28,7 @@ function cadastrarUsuario(){
     
           if (resposta.ok) {
             setTimeout(() => {
-              window.location = "login.html";
+              window.location = "cadastro-usuario.html";
             }, 2000);
           } else {
             alert("Erro ao realizar cadastro!");
