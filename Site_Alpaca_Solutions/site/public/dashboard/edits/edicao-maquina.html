@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="shortcut icon" href="../../assets/icon/icon_alpaca.png" type="image/x-icon">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
+
 <body onload="preencherDados()">
     <div class="corpo">
         <div class="header">
@@ -23,24 +25,33 @@
         <div class="content">
             <div class="menu-lateral">
                 <div class="opcoes">
-                    <a href="../dahsboards/dashboard-geral.html"><div class="listaMenu">DASHBOARD</div></a>
-                    <a href="../dahsboards/dashboard-especifico.html"><div class="listaMenu">DASH DETALHES</div></a>
-                    <a href="../listas/lista-maquina.html"><div class="listaMenu">MÁQUINAS</div></a>
-                    <a href="../listas/lista-usuario.html"><div class="listaMenu">USUÁRIOS</div></a>
+                    <a href="../dahsboards/dashboard-geral.html">
+                        <div class="listaMenu">DASHBOARD</div>
+                    </a>
+                    <a href="../dahsboards/dashboard-especifico.html">
+                        <div class="listaMenu">DASH DETALHES</div>
+                    </a>
+                    <a href="../listas/lista-maquina.html">
+                        <div class="listaMenu">MÁQUINAS</div>
+                    </a>
+                    <a href="../listas/lista-usuario.html">
+                        <div class="listaMenu">USUÁRIOS</div>
+                    </a>
                 </div>
                 <div class="sair">
-                    <a href="../../index.html"><div id="leave" class="listaMenu">SAIR</div></a>
+                    <a href="../../index.html">
+                        <div id="leave" class="listaMenu">SAIR</div>
+                    </a>
                 </div>
             </div>
             <div class="grade">
                 <div class="campos">
                     <div class="campos1">
-                        Nome do servidor: <input type="text" id="NomeServidor">
-                        Servidor ativo: <input type="checkbox" id="statusServidor">
-                        Nome da unidade: <input type="text" id="nomeUnidade">
+                        Nome do Maquina: <input type="text" id="NomeMaquina">                        
+                        Nome da unidade: <input type="text" id="nomeInstituicao">
                         Rua: <input type="text" id="rua">
                     </div>
-                    
+
                     <div class="campos2">
                         Bairro: <input type="text" id="bairro">
                         Estado: <select name="estado" id="estado" class="estadoSelect">
@@ -86,24 +97,172 @@
 </body>
 
 <script>
+    const b_usuario = document.getElementById("b_usuario");
+b_usuario.innerHTML = sessionStorage.Nome;
 
-function funcVoltar() {
-    window.history.back()
-}
+    function funcVoltar() {
+        window.history.back()
+    }
 
-function preencherDados() {
-    NomeServidor.value = "nome1";
-    ipServidor.value = "1231456";
-    sistemaOperacional.value = "Ubuntu";
-    statusServidor.checked = true;
+    function preencherDados() {
+        const idMaquina = window.location.hash.substring(1);
 
-    nomeUnidade.value = "unidade 1";
-    rua.value = "ruaditum";
-    bairro.value = "bairraditum";
-    estado.value = "SP";
-    cep.value = "12345678";
-    cidade.value = "Cidaditum";
-    numero.value = "1552";
-}
+        fetch(`/avisos/listarMaquina/${idMaquina}`)
+            .then(function (resposta) {
+                console.log("ESTOU NO THEN DO entrar()!");
+
+                if (resposta.ok) {
+                    console.log("Os dados são " + resposta);
+
+                    resposta
+                        .json()
+                        .then(jsonArray => {
+                            if (jsonArray && jsonArray.length > 0) {
+                                const json = jsonArray[0];
+                                console.log(json);
+                                console.log(JSON.stringify(json));
+
+                                sessionStorage.NomeMaquina = json.NomeMaquina;
+                                sessionStorage.ipMaquina = json.ipMaquina;
+                                sessionStorage.sistemaOperacional = json.sistemaOperacional;
+                                sessionStorage.nomeInstituicao = json.nomeInstituicao;
+
+                                sessionStorage.rua = json.rua;
+                                sessionStorage.bairro = json.bairro;
+                                sessionStorage.estado = json.estado;
+                                sessionStorage.cep = json.cep;
+                                sessionStorage.cidade = json.cidade;
+                                sessionStorage.numero = json.numero;
+
+                                sessionStorage.fkEndereco = json.fkEndereco;
+                                sessionStorage.fkUnidade = json.fKUnidade;
+                                sessionStorage.fkEmpresaMaquina = json.fkEmpresaMaquina;
+
+                                // Preencha os campos com os dados recuperados
+                                document.getElementById("NomeMaquina").value = sessionStorage.NomeMaquina;
+                                document.getElementById("nomeInstituicao").value = sessionStorage.nomeInstituicao;
+                                document.getElementById("rua").value = sessionStorage.rua;
+                                document.getElementById("bairro").value = sessionStorage.bairro;
+                                document.getElementById("estado").value = sessionStorage.estado;
+                                document.getElementById("cep").value = sessionStorage.cep;
+                                document.getElementById("cidade").value = sessionStorage.cidade;
+                                document.getElementById("numero").value = sessionStorage.numero;
+
+                            } else {
+                                console.error("JSON inválido ou vazio.");
+                            }
+                        })
+                        .catch(erro => {
+                            console.error("Erro ao processar o JSON:", erro);
+                        });
+                } else {
+                    console.log("Houve um erro ao tentar realizar o login!");
+
+                    resposta.text().then(texto => {
+                        console.error(texto);
+                        // Trate o erro aqui de acordo com suas necessidades
+                    });
+                }
+            })
+            .catch(function (erro) {
+                console.log(erro);
+            });
+
+        return false;
+    }
+
+    function excluirMaquina() {
+        const idMaquina = window.location.hash.substring(1);
+
+        fetch(`/avisos/deletarMaquina/${idMaquina}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    console.log("Máquina excluída com sucesso!");
+                    alert("A máquina foi excluída com sucesso");
+
+                    setTimeout(function () {
+                        window.location = "../listas/lista-maquina.html";
+                    }, 1000);
+                } else {
+                    console.log("Houve um erro ao excluir a máquina!");
+
+                    resposta.text().then(texto => {
+                        console.error(texto);
+                        // Trate o erro aqui de acordo com suas necessidades
+                    });
+                }
+            })
+            .catch(function (erro) {
+                console.log(erro);
+            });
+
+        return false;
+    }
+
+    function atualizarMaquina() {
+        const idMaquina = window.location.hash.substring(1);
+
+        // Obtenha os valores atualizados dos campos
+        const nomeMaquinaAtualizado = document.getElementById("NomeMaquina").value;
+        const nomeInstituicaoAtualizado = document.getElementById("nomeInstituicao").value;
+        const ruaAtualizada = document.getElementById("rua").value;
+        const bairroAtualizado = document.getElementById("bairro").value;
+        const estadoAtualizado = document.getElementById("estado").value;
+        const cepAtualizado = document.getElementById("cep").value;
+        const cidadeAtualizada = document.getElementById("cidade").value;
+        const numeroAtualizado = document.getElementById("numero").value;
+        const  fkEndereco = sessionStorage.fkEndereco
+        const fkUnidade = sessionStorage.fkUnidade
+
+        // Crie um objeto com os dados atualizados
+        const dadosAtualizados = {
+            NomeMaquina: nomeMaquinaAtualizado,
+            nomeInstituicao: nomeInstituicaoAtualizado,
+            rua: ruaAtualizada,
+            bairro: bairroAtualizado,
+            estado: estadoAtualizado,
+            cep: cepAtualizado,
+            cidade: cidadeAtualizada,
+            numero: numeroAtualizado,
+            fkEndereco : fkEndereco,
+            fkUnidade : fkUnidade
+        };
+
+        fetch(`/avisos/atualizarMaquina/${idMaquina}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dadosAtualizados)
+        })
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    console.log("Dados da máquina atualizados comsucesso!");
+
+                    alert("A máquina foi atualizada com sucesso");
+
+                    setTimeout(function () {
+                        window.location = "../listas/lista-maquina.html";
+                    }, 1000);
+                } else {
+                    console.log("Houve um erro ao atualizar a máquina!");
+
+                    resposta.text().then(texto => {
+                        console.error(texto);
+                        // Trate o erro aqui de acordo com suas necessidades
+                    });
+                }
+            })
+            .catch(function (erro) {
+                console.log(erro);
+            });
+
+        return false;
+    }
 
 </script>

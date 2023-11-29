@@ -199,61 +199,112 @@
 // }
 
 function cadastrar() {
-    //Recupere o valor da nova input pelo nome do id
-    // Agora vá para o método fetch logo abaixo
-  
-    // tabela Usuario 
-    const emailVar = document.getElementById("input_email").value;
-    const senhaVar = document.getElementById("input_senha").value;
-    const confirmacaoSenhaVar = document.getElementById("confirmacao_senha_input").value;
-  
-    //tabela empresa
-    const nomeFantasiaVar = document.getElementById("input_nomeFantasia").value;
-    const razaoSocialVar = document.getElementById("input_razaoSocial").value;
-    const cnpjVar = document.getElementById("input_cnpj").value;
-  
-    //tabela endereço
-    const ruaVar = document.getElementById("input_rua").value;
-    const bairroVar = document.getElementById("input_bairro").value;
-    const estadoVar = document.getElementById("input_estado").value;
-    const cepVar = document.getElementById("input_cep").value;
-    const cidadeVar = document.getElementById("input_cidade").value;
-    const numeroVar = document.getElementById("input_numero").value;
-  
-    fetch("/empresas/cadastrar", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        // crie um atributo que recebe o valor recuperado aqui
-        // Agora vá para o arquivo routes/usuario.js
-        nomeFantasiaServer: nomeFantasiaVar,
-        emailServer: emailVar,
-        senhaServer: senhaVar,
-        razaoSocialServer: razaoSocialVar,
-        cnpjServer: cnpjVar,
-        ruaServer: ruaVar,
-        bairroServer: bairroVar,
-        estadoServer: estadoVar,
-        cepServer: cepVar,
-        cidadeServer: cidadeVar,
-        numeroServer: numeroVar,
-        telefoneServer: numeroVar,
-      }),
+  //Recupere o valor da nova input pelo nome do id
+  // Agora vá para o método fetch logo abaixo
+
+  // tabela Usuario 
+  const emailVar = document.getElementById("input_email").value;
+  const senhaVar = document.getElementById("input_senha").value;
+  const confirmacaoSenhaVar = document.getElementById("confirmacao_senha_input").value;
+
+  //tabela empresa
+  const nomeFantasiaVar = document.getElementById("input_nomeFantasia").value;
+  const razaoSocialVar = document.getElementById("input_razaoSocial").value;
+  const cnpjVar = document.getElementById("input_cnpj").value;
+
+  //tabela endereço
+  const ruaVar = document.getElementById("input_rua").value;
+  const bairroVar = document.getElementById("input_bairro").value;
+  const estadoVar = document.getElementById("input_estado").value;
+  const cepVar = document.getElementById("input_cep").value;
+  const cidadeVar = document.getElementById("input_cidade").value;
+  const numeroVar = document.getElementById("input_numero").value;
+
+  fetch("/empresas/cadastrar", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      // crie um atributo que recebe o valor recuperado aqui
+      // Agora vá para o arquivo routes/usuario.js
+      nomeFantasiaServer: nomeFantasiaVar,
+      emailServer: emailVar,
+      senhaServer: senhaVar,
+      razaoSocialServer: razaoSocialVar,
+      cnpjServer: cnpjVar,
+      ruaServer: ruaVar,
+      bairroServer: bairroVar,
+      estadoServer: estadoVar,
+      cepServer: cepVar,
+      cidadeServer: cidadeVar,
+      numeroServer: numeroVar,
+      telefoneServer: numeroVar,
+    }),
+  })
+    .then(function (resposta) {
+      console.log("resposta: ", resposta);
+
+      if (resposta.ok) {
+        setTimeout(() => {
+          window.location = "login.html";
+        }, 2000);
+      } else {
+        alert("Erro ao realizar cadastro!");
+      }
     })
-      .then(function (resposta) {
-        console.log("resposta: ", resposta);
-  
-        if (resposta.ok) {
-          setTimeout(() => {
-            window.location = "login.html";
-          }, 2000);
-        } else {
-          alert("Erro ao realizar cadastro!");
-        }
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-      });
-  }
+    .catch(function (resposta) {
+      console.log(`#ERRO: ${resposta}`);
+    });
+}
+
+function atualizarEmpresa(idEmpresa) {
+  //Recupere os valores dos campos de entrada para atualizar
+  const emailVar = document.getElementById("email").value;
+  const senhaVar = document.getElementById("senha").value;
+
+  const nomeFantasiaVar = document.getElementById("nomeFantasia").value;
+  const razaoSocialVar = document.getElementById("razaoSocial").value;
+  const cnpjVar = document.getElementById("cnpj").value;
+
+  const ruaVar = document.getElementById("rua").value;
+  const bairroVar = document.getElementById("bairro").value;
+  const estadoVar = document.getElementById("estado").value;
+  const cepVar = document.getElementById("cep").value;
+  const cidadeVar = document.getElementById("cidade").value;
+  const numeroVar = document.getElementById("numero").value;
+
+  fetch(`/empresas/${idEmpresa}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      emailServer: emailVar,
+      senhaServer: senhaVar,
+      nomeFantasiaServer: nomeFantasiaVar,
+      razaoSocialServer: razaoSocialVar,
+      cnpjServer: cnpjVar,
+      ruaServer: ruaVar,
+      bairroServer: bairroVar,
+      estadoServer: estadoVar,
+      cepServer: cepVar,
+      cidadeServer: cidadeVar,
+      numeroServer: numeroVar,
+    }),
+  })
+    .then(function (resposta) {
+      console.log("Resposta: ", resposta);
+
+      if (resposta.ok) {
+        setTimeout(() => {
+          window.location = "pagina_de_redirecionamento.html";
+        }, 2000);
+      } else {
+        alert("Erro ao atualizar empresa!");
+      }
+    })
+    .catch(function (erro) {
+      console.log(`#ERRO: ${erro}`);
+    });
+}
