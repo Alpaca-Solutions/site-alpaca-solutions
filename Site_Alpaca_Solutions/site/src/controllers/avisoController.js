@@ -17,8 +17,8 @@ function listar(req, res) {
 
 function listar_usuarios(req, res) {
 
-    var idUsuario = req.params.idUsuario
-    avisoModel.listar_usuarios(idUsuario).then(function (resultado) {
+    var idEmpresa = req.params.idEmpresa
+    avisoModel.listar_usuarios(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -31,8 +31,117 @@ function listar_usuarios(req, res) {
     });
 }
 
+function listarUsuario(req, res) {
 
+    var idUsuario = req.params.idUsuario
+    avisoModel.listarUsuario(idUsuario).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
 
+function listar_Maquinas(req, res) {
+
+    var fkEmpresa = req.params.idEmpresa
+    avisoModel.listar_Maquinas(fkEmpresa).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function listarMaquina(req, res) {
+
+    var idMaquina = req.params.idMaquina
+    avisoModel.listarMaquina(idMaquina).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function deletarMaquina(req, res) {
+    var idMaquina = req.params.idMaquina
+    avisoModel.deletarMaquina(idMaquina)
+    .then(
+        function (resultado) {
+            res.json(resultado);
+        }
+    )
+    .catch(
+        function (erro) {
+            console.log(erro);
+            console.log("Houve um erro ao realizar o post: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        }
+    );
+}
+
+function atualizarMaquina(req, res) {
+    var idMaquina = req.params.idMaquina
+    var dadosAtualizados = req.body;
+
+  avisoModel.atualizarMaquina(idMaquina, dadosAtualizados)
+    .then(function (resultado) {
+      res.json(resultado);
+    })
+    .catch(function (erro) {
+      console.log(erro);
+      console.log("Houve um erro ao realizar a atualização: ", erro.sqlMessage);
+      res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function deletarUsuario(req, res) {
+    var idUsuario = req.params.idUsuario
+    avisoModel.deletarUsuario(idUsuario)
+    .then(
+        function (resultado) {
+            res.json(resultado);
+        }
+    )
+    .catch(
+        function (erro) {
+            console.log(erro);
+            console.log("Houve um erro ao realizar o post: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        }
+    );
+}
+
+function atualizarUsuario(req, res) {
+    var idUsuario = req.params.idUsuario
+    var dadosAtualizados = req.body;
+
+  avisoModel.atualizarUsuario(idUsuario, dadosAtualizados)
+    .then(function (resultado) {
+      res.json(resultado);
+    })
+    .catch(function (erro) {
+      console.log(erro);
+      console.log("Houve um erro ao realizar a atualização: ", erro.sqlMessage);
+      res.status(500).json(erro.sqlMessage);
+    });
+}
 
 function listarPorUsuario(req, res) {
     var idUsuario = req.params.idUsuario;
@@ -153,6 +262,12 @@ module.exports = {
     publicar,
     editar,
     deletar,
-    listar_usuarios
-
+    listar_usuarios,
+    listarUsuario,
+    deletarUsuario,
+    atualizarUsuario,
+    listarMaquina,
+    atualizarMaquina,
+    deletarMaquina, 
+    listar_Maquinas
 }

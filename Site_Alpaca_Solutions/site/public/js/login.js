@@ -71,62 +71,123 @@ function validar_senha(){
 }
 
 function entrar() {
-
-
     var emailVar = input_email.value;
     var senhaVar = input_senha.value;
-    
+  
     if (emailVar == "" || senhaVar == "") {
-        cardErro.style.display = "block"
-        alert(`Mensagem de erro para todos os campos em branco`);
-        finalizarAguardar();
-        return false;
+      cardErro.style.display = "block";
+      alert("Mensagem de erro para todos os campos em branco");
+      return false;
     }
-    
+  
     console.log("FORM LOGIN: ", emailVar);
     console.log("FORM SENHA: ", senhaVar);
-    
+  
     fetch("/usuarios/autenticar", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            emailServer: emailVar,
-            senhaServer: senhaVar
-        })
-    }).then(function (resposta) {
-        console.log("ESTOU NO THEN DO entrar()!")
-    
-        if (resposta.ok) {
-            console.log(resposta);
-    
-            resposta.json().then(json => {
-                console.log(json);
-                console.log(JSON.stringify(json));
-    
-                sessionStorage.EMAIL_USUARIO = json.email;
-                sessionStorage.NOME_USUARIO = json.nome;
-                sessionStorage.ID_USUARIO = json.id;
-    
-                setTimeout(function () {
-                        window.location = "../dashboard/dahsboards/dashboard-geral.html";
-                }, 1000); // apenas para exibir o loading
-            });
-    
-        } else {
-    
-            console.log("Houve um erro ao tentar realizar o login!");
-    
-            resposta.text().then(texto => {
-                console.error(texto);
-                finalizarAguardar(texto);
-            });
-        }
-    
-    }).catch(function (erro) {
-        console.log(erro);
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        emailServer: emailVar,
+        senhaServer: senhaVar
+      })
     })
-    
+      .then(function (resposta) {
+        console.log("ESTOU NO THEN DO entrar()!");
+  
+        if (resposta.ok) {
+          console.log("Os dados é " + resposta);
+
+          resposta.json().then(json => {
+              console.log(json);
+              console.log(JSON.stringify(json));
+  
+            sessionStorage.Email = json.email;
+            sessionStorage.Nome = json.nome;
+            sessionStorage.idUsuario = json.idUsuario;
+            sessionStorage.fkEmpresaUsuario = json.fkEmpresaUsuario;
+
+
+            setTimeout(function () {
+              window.location = "../dashboard/dahsboards/dashboard-geral.html";
+            }, 1000); // apenas para exibir o loading
+          });
+        } else {
+          console.log("Houve um erro ao tentar realizar o login!");
+  
+          resposta.text().then(texto => {
+            console.error(texto);
+            // Trate o erro aqui de acordo com suas necessidades
+          });
+        }
+      })
+      .catch(function (erro) {
+        console.log(erro);
+      });
+  
     return false;
-    }
+  }
+
+// function entrar() {
+
+
+//     var emailVar = input_email.value;
+//     var senhaVar = input_senha.value;
+    
+//     if (emailVar == "" || senhaVar == "") {
+//         cardErro.style.display = "block"
+//         alert(`Mensagem de erro para todos os campos em branco`);
+//         finalizarAguardar();
+//         return false;
+//     }
+    
+//     console.log("FORM LOGIN: ", emailVar);
+//     console.log("FORM SENHA: ", senhaVar);
+    
+//     fetch("/usuarios/autenticar", {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json"
+//         },
+//         body: JSON.stringify({
+//             emailServer: emailVar,
+//             senhaServer: senhaVar
+//         })
+//     }).then(function (resposta) {
+//         console.log("ESTOU NO THEN DO entrar()!")
+    
+//         if (resposta.ok) {
+//             console.log(resposta);
+        
+//             resposta.json().then(json => {
+//                 console.log(json);
+//                 console.log(JSON.stringify(json));
+    
+//                 sessionStorage.EMAIL_USUARIO = json.email;
+//                 sessionStorage.NOME_USUARIO = json.nomeFantasia;
+//                 sessionStorage.ID_USUARIO = json.fkEmpresaUsuario;
+    
+
+    
+//                 setTimeout(function () {
+//                         window.location = "../dashboard/dahsboards/dashboard-geral.html";
+//                 }, 1000); // apenas para exibir o loading
+//             });
+    
+//         } else {
+    
+//             console.log("Houve um erro ao tentar realizar o login!");
+    
+//             resposta.text().then(texto => {
+//                 console.error(texto);
+//                 finalizarAguardar(texto);
+//             });
+//         }
+    
+//     }).catch(function (erro) {
+//         console.log(erro);
+//     })
+    
+//     return false;
+//     }

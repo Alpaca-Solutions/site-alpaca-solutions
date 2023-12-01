@@ -60,6 +60,8 @@
 </body>
 </html>
 <script>
+    const b_usuario = document.getElementById("b_usuario");
+b_usuario.innerHTML = sessionStorage.Nome;
    google.charts.load('current', { 'packages': ['corechart'] });
 google.charts.setOnLoadCallback(drawCharts);
 
