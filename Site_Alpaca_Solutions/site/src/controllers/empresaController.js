@@ -39,12 +39,64 @@ function cadastrar(req, res) {
     });
 }
 
+// CRUD DA EMPRESA
+
+function recuperarEmpresaCompleta(req, res) {
+  var id = req.params.id;
+
+  empresaModel
+    .recuperarEmpresaCompletaPorId(id)
+    .then((resultado) => {
+      if (resultado.length > 0) {
+        res.status(200).json(resultado);
+      } else {
+        res.status(404).json({ mensagem: 'Empresa não encontrada' });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({ mensagem: 'Erro ao recuperar empresa', error: error });
+    });
+}
+
+function atualizarEmpresaCompleta(req, res) {
+  var id = req.params.id;
+  var empresaData = req.body.empresaData;
+  var enderecoData = req.body.enderecoData;
+  var telefoneData = req.body.telefoneData;
+  var usuarioData = req.body.usuarioData;
+
+  empresaModel
+    .atualizarEmpresaCompletaPorId(id, empresaData, enderecoData, telefoneData, usuarioData)
+    .then((resultado) => {
+      res.status(200).json({ mensagem: 'Empresa atualizada com sucesso' });
+    })
+    .catch((error) => {
+      res.status(500).json({ mensagem: 'Erro ao atualizar empresa', error: error });
+    });
+}
+
+function excluirEmpresaCompleta(req, res) {
+  var id = req.params.id;
+
+  empresaModel
+    .excluirEmpresaCompletaPorId(id)
+    .then((resultado) => {
+      res.status(200).json({ mensagem: 'Empresa excluída com sucesso' });
+    })
+    .catch((error) => {
+      res.status(500).json({ mensagem: 'Erro ao excluir empresa', error: error });
+    });
+}
+
+// FIM
+
+
+
+
 function cadastrarMaquina(req, res) {
 
   var ipServidor = req.body.ipServidorServer;
   var sistemaOperacional = req.body.sistemaOperacionalServer;
-  var tipoInstancia = req.body.tipoInstanciaServer;
-  var statusServidor = req.body.statusServidorServer;
   var NomeServidor = req.body.NomeServidorServer;
   var nomeUnidade = req.body.NomeUnidadeServer;
 
@@ -59,8 +111,6 @@ function cadastrarMaquina(req, res) {
     .cadastrarMaquinas(
       ipServidor,
       sistemaOperacional,
-      tipoInstancia,
-      statusServidor,
       NomeServidor,
       nomeUnidade,
       rua,
@@ -83,5 +133,8 @@ function cadastrarMaquina(req, res) {
 
 module.exports = {
   cadastrar,
-  cadastrarMaquina
+  recuperarEmpresaCompleta,
+  atualizarEmpresaCompleta,
+  excluirEmpresaCompleta,
+  cadastrarMaquina,
 };

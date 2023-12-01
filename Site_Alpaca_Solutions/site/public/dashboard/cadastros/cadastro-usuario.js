@@ -21,15 +21,18 @@ function cadastrarUsuario(){
           tipoAcessoServer: tipoAcessoVar, 
           nivelAcessoServer: nivelAcessoVar,
           idUsuarioServer: idVar
+          
         }),
       })
         .then(function (resposta) {
           console.log("resposta: ", resposta);
     
           if (resposta.ok) {
-            setTimeout(() => {
-              window.location = "cadastro-usuario.html";
-            }, 2000);
+            alert("O usuário foi cadastrado com sucesso!")
+
+            setTimeout(function () {
+                  window.location = "../listas/lista-usuario.html";
+                }, 1000);
           } else {
             alert("Erro ao realizar cadastro!");
           }

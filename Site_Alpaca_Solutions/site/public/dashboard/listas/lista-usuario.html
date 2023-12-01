@@ -62,18 +62,18 @@
 </body>
 
 <script>
+const b_usuario = document.getElementById("b_usuario");
+b_usuario.innerHTML = sessionStorage.Nome;
 
 function funcVoltar() {
     window.history.back()
 }
 
 function obterDados_usuarios() {
-    redirectEdit();
-    redirectEdit();
-    var idUsuario = sessionStorage.ID_USUARIO;
-    console.log("ID do Usuário:", idUsuario);
+    var idEmpresa = sessionStorage.fkEmpresaUsuario;
+    console.log("ID do Usuário:", idEmpresa);
 
-    fetch(`/avisos/listar_usuarios/${idUsuario}`, { cache: 'no-store' })
+    fetch(`/avisos/listar_usuarios/${idEmpresa}`, { cache: 'no-store' })
         .then(function (response) {
             if (!response.ok) {
                 console.error('Erro na API:', response.status, response.statusText);
@@ -92,50 +92,34 @@ function obterDados_usuarios() {
         })
         .then(function (resposta) {
             if (resposta !== null) {
-                const containerDados = document.getElementById("linha_dados");
+                const nome = document.getElementById("nome");
+                const email = document.getElementById("email");
+                const tipo_acesso = document.getElementById("tipo_acesso");
+                const nivel_acesso = document.getElementById("nivel_acesso");
+                const acoes = document.getElementById("acoes");
 
                 // Limpar qualquer conteúdo existente
-                containerDados.innerHTML = "";
+                nome.innerHTML = "";
+                email.innerHTML = "";
+                tipo_acesso.innerHTML = "";
+                nivel_acesso.innerHTML = "";
+                acoes.innerHTML = "";
 
-                resposta.forEach(dados_banco => {
-                    // Criar div para cada propriedade dos dados
-                    const divNome = document.createElement("div");
-                    const divEmail = document.createElement("div");
-                    const divTipoAcesso = document.createElement("div");
-                    const divNivelAcesso = document.createElement("div");
-                    const divAcoes = document.createElement("div");
+                resposta.forEach((dados_banco, i) => {
+                    const idUsuario = dados_banco.idUsuario;
 
-                    // Preencher os elementos div com os dados reais
-                    divNome.textContent = dados_banco.nome || dados_banco.nome_fantasia;
-                    divEmail.textContent = dados_banco.email;
-                    divTipoAcesso.textContent = dados_banco.tipo_acesso;
-                    divNivelAcesso.textContent = dados_banco.nivel_acesso;
-
-                    // Adicionar botões ou outras ações conforme necessário
-                    divAcoes.innerHTML = `<a href="../edits/edicao-usuario.html"><img src="../../assets/imgs/configuracoes.png" alt="" style="width: 30px;"></a>`;
-
-                    // Adicionar os elementos div ao contêiner
-                    containerDados.appendChild(divNome);
-                    containerDados.appendChild(divEmail);
-                    containerDados.appendChild(divTipoAcesso);
-                    containerDados.appendChild(divNivelAcesso);
-                    containerDados.appendChild(divAcoes);
+                    // Preencher cada div com os dados correspondentes
+                    nome.innerHTML += `<div class="campo" id="nome${i}">${dados_banco.nome || dados_banco.nome_fantasia}</div>`;
+                    email.innerHTML += `<div class="campo" id="campo_email${i}">${dados_banco.email}</div>`;
+                    tipo_acesso.innerHTML += `<div class="campo" id="campo_tipo_acesso${i}">${dados_banco.tipoAcesso}</div>`;
+                    nivel_acesso.innerHTML += `<div class="campo" id="campo_nivel_acesso${i}">${dados_banco.nivelAcesso}</div>`;
+                    acoes.innerHTML += `<div class="campo" id="campo_acoes${i}"><a href="../edits/edicao-usuario.html#${idUsuario}"><img src="../../assets/imgs/configuracoes.png" alt="" style="width: 30px;"></a></div>`;
                 });
             }
         })
         .catch(function (error) {
             console.error(`Erro na obtenção dos dados para gráfico: ${error.message}`);
         });
-
-    function redirectEdit() {
-        for (i = 0; i <= 15; i++) {
-        nome.innerHTML += `<div class="campo" id="nome${i}">instancia ${i}</div>`
-        email.innerHTML += `<div class="campo" id="campo_cpu${i}">${i + i + i}%</div>`
-        tipo_acesso.innerHTML += `<div class="campo" id="campo_disco${i}">${i + i}%</div>`
-        nivel_acesso.innerHTML += `<div class="campo" id="campo_memoria${i}">${i + 10}%</div>`
-        acoes.innerHTML += `<div class="campo" id="campo_acoes${i}"><a href="../edits/edicao-usuario.html"><img src="../../assets/imgs/configuracoes.png" alt="" style="width: 30px;"></a></div>`
-        }
-    }
 }
 
 </script>

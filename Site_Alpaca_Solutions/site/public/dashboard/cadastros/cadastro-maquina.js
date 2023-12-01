@@ -3,8 +3,7 @@ function cadastrarMaquina() {
     const NomeServidor = document.getElementById("NomeServidor").value;
     const ipServidor = document.getElementById("ipServidor").value;
     const sistemaOperacional = document.getElementById("sistemaOperacional").value;
-    const tipoInstancia = document.getElementById("tipoInstancia").value;
-    const statusServidor = document.getElementById("statusServidor").value;
+  
   
     // cadastrar na Unidade
     const NomeUnidade = document.getElementById("nomeUnidade").value;
@@ -25,8 +24,6 @@ function cadastrarMaquina() {
       body: JSON.stringify({
         ipServidorServer: ipServidor,
         sistemaOperacionalServer: sistemaOperacional,
-        tipoInstanciaServer: tipoInstancia,
-        statusServidorServer: statusServidor,
         NomeServidorServer: NomeServidor,
         nomeUnidadeServer: NomeUnidade,
         ruaServer: rua,
@@ -41,9 +38,11 @@ function cadastrarMaquina() {
         console.log("resposta: ", resposta);
   
         if (resposta.ok) {
-          setTimeout(() => {
-            window.location = "login.html";
-          }, 2000);
+          alert("O maquina foi cadastro com sucesso")
+
+          setTimeout(function () {
+                window.location = "../listas/lista-maquina.html";
+              }, 1000);
         } else {
           alert("Erro ao realizar cadastro!");
         }

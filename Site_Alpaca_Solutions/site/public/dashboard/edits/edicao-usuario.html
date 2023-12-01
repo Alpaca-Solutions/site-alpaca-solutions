@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="shortcut icon" href="../../assets/icon/icon_alpaca.png" type="image/x-icon">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
+
 <body onload="preencherDados()">
     <div class="corpo">
         <div class="header">
@@ -23,32 +25,43 @@
         <div class="content">
             <div class="menu-lateral">
                 <div class="opcoes">
-                    <a href="../dahsboards/dashboard-geral.html"><div class="listaMenu">DASHBOARD</div></a>
-                    <a href="../dahsboards/dashboard-especifico.html"><div class="listaMenu">DASH DETALHES</div></a>
-                    <a href="../listas/lista-maquina.html"><div class="listaMenu">MÁQUINAS</div></a>
-                    <a href="../listas/lista-usuario.html"><div class="listaMenu">USUÁRIOS</div></a>
+                    <a href="../dahsboards/dashboard-geral.html">
+                        <div class="listaMenu">DASHBOARD</div>
+                    </a>
+                    <a href="../dahsboards/dashboard-especifico.html">
+                        <div class="listaMenu">DASH DETALHES</div>
+                    </a>
+                    <a href="../listas/lista-maquina.html">
+                        <div class="listaMenu">MÁQUINAS</div>
+                    </a>
+                    <a href="../listas/lista-usuario.html">
+                        <div class="listaMenu">USUÁRIOS</div>
+                    </a>
                 </div>
                 <div class="sair">
-                    <a href="../../index.html"><div id="leave" class="listaMenu">SAIR</div></a>
+                    <a href="../../index.html">
+                        <div id="leave" class="listaMenu">SAIR</div>
+                    </a>
                 </div>
             </div>
             <div class="grade">
                 <div class="campos">
                     Nome: <input type="text" id="nome">
                     Email: <input type="text" id="email">
-                    Nova senha: <input type="password" id="senha">
+                    <samp>Selecione o tipo de acesso</samp>
                     <select name="" id="tipoAcesso">
-                        <option value="Operador">Operador</option>
-                        <option value="Adm">Administrador</option>
+                        <option value="2">Operador</option>
+                        <option value="1">Administrador</option>
                     </select>
+                    <samp>Selecione o Nível de acesso a dashboard</samp>
                     <select name="" id="nivelAcesso">
-                        <option value="n1">N1</option>
-                        <option value="n2">N2</option>
-                        <option value="n3">N3</option>
+                        <option value="1">N1</option>
+                        <option value="2">N2</option>
+                        <option value="3">N3</option>
                     </select>
                     <div class="buttons">
-                        <button onclick="excluirMaquina()" class="excluir">Excluir</button>
-                        <button onclick="atualizarMaquina()" class="atualizar">Atualizar</button>
+                        <button onclick="excluirUsuario()" class="excluir">Excluir</button>
+                        <button onclick="atualizarUsuario()" class="atualizar">Atualizar</button>
                     </div>
                 </div>
             </div>
@@ -57,17 +70,150 @@
 </body>
 
 <script>
+  const b_usuario = document.getElementById("b_usuario");
+b_usuario.innerHTML = sessionStorage.Nome;
 
-function funcVoltar() {
-    window.history.back()
+function funcVoltar(){
+        window.history.back()
+    }
+
+function preencherDados(){
+        const idUsuario = window.location.hash.substring(1);
+
+        fetch(`/avisos/listarUsuario/${idUsuario}`)
+            .then(function (resposta) {
+                console.log("ESTOU NO THEN DO entrar()!");
+
+                if (resposta.ok) {
+                    console.log("Os dados são " + resposta);
+
+                    resposta
+                        .json()
+                        .then(jsonArray => {
+                            if (jsonArray && jsonArray.length > 0) {
+                                const json = jsonArray[0];
+                                console.log(json);
+                                console.log(JSON.stringify(json));
+
+                                sessionStorage.Email = json.email;
+                                sessionStorage.Nome = json.nome;
+                                sessionStorage.idUsuario = json.idUsuario;
+                                sessionStorage.fkEmpresaUsuario = json.fkEmpresaUsuario;
+                                sessionStorage.tipoAcesso = json.tipoAcesso;
+                                sessionStorage.nivelAcesso = json.nivelAcesso;
+
+                                // Preencha os campos com os dados recuperados
+                                nome.value = sessionStorage.Nome;
+                                email.value = sessionStorage.Email;
+                                tipoAcesso.value = sessionStorage.tipoAcesso;
+                                nivelAcesso.value = sessionStorage.nivelAcesso;
+
+                            } else {
+                                console.error("JSON inválido ou vazio.");
+                            }
+                        })
+                        .catch(erro => {
+                            console.error("Erro ao processar o JSON:", erro);
+                        });
+                } else {
+                    console.log("Houve um erro ao tentar realizar o login!");
+
+                    resposta.text().then(texto => {
+                        console.error(texto);
+                        // Trate o erro aqui de acordo com suas necessidades
+                    });
+                }
+            })
+            .catch(function (erro) {
+                console.log(erro);
+            });
+
+        return false;
+    }
+
+function excluirUsuario(){
+
+        const idUsuario = window.location.hash.substring(1);
+
+        fetch(`/avisos/deletarUsuario/${idUsuario}`, {
+            method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(function (resposta) {
+      if (resposta.ok) {
+        console.log("Dados do usuário atualizados com sucesso!");
+        alert("O Usuario foi excluido com sucesso")
+
+        setTimeout(function () {
+              window.location = "../listas/lista-usuario.html";
+            }, 1000);
+        // Lide com a resposta de sucesso aqui, se necessário
+      } else {
+        console.log("Houve um erro ao atualizar o usuário!");
+
+        resposta.text().then(texto => {
+          console.error(texto);
+          // Trate o erro aqui de acordo com suas necessidades
+        });
+      }
+    })
+    .catch(function (erro) {
+      console.log(erro);
+    });
+
+  return false;
 }
 
-function preencherDados() {
-    nome.value = "nome1";
-    email.value = "email01@gmail.com";
-    senha.value = "urubu100";
-    tipoAcesso.value = "Operador";
-    nivelAcesso.value = "n1";
+function atualizarUsuario(){
+  const idUsuario = window.location.hash.substring(1);
+
+  // Obtenha os valores atualizados dos campos
+  const nomeAtualizado = nome.value;
+  const emailAtualizado = email.value;
+  const tipoAcessoAtualizado = tipoAcesso.value;
+  const nivelAcessoAtualizado = nivelAcesso.value;
+
+  // Crie um objeto com os dados atualizados
+  const dadosAtualizados = {
+    nome: nomeAtualizado,
+    email: emailAtualizado,
+    tipoAcesso: tipoAcessoAtualizado,
+    nivelAcesso: nivelAcessoAtualizado
+  };
+
+  fetch(`/avisos/atualizarUsuario/${idUsuario}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(dadosAtualizados)
+  })
+    .then(function (resposta) {
+      if (resposta.ok) {
+        console.log("Dados do usuário atualizados com sucesso!");
+
+        alert("O Usuario foi atualizado com sucesso")
+
+        setTimeout(function () {
+              window.location = "../listas/lista-usuario.html";
+            }, 1000);
+
+      } else {
+        console.log("Houve um erro ao atualizar o usuário!");
+
+        resposta.text().then(texto => {
+          console.error(texto);
+          // Trate o erro aqui de acordo com suas necessidades
+        });
+      }
+    })
+    .catch(function (erro) {
+      console.log(erro);
+    });
+
+  return false;
 }
 
 </script>
