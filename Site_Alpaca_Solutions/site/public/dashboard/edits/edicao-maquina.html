@@ -37,6 +37,9 @@
                     <a href="../listas/lista-usuario.html">
                         <div class="listaMenu">USUÁRIOS</div>
                     </a>
+                    <a href="../edits/edicao-empresa..html">
+                        <div class="listaMenu">EMPRESA</div>
+                    </a>
                 </div>
                 <div class="sair">
                     <a href="../../index.html">
@@ -47,9 +50,8 @@
             <div class="grade">
                 <div class="campos">
                     <div class="campos1">
-                        Nome do servidor: <input type="text" id="NomeServidor">
-                        Servidor ativo: <input type="checkbox" id="statusServidor" style="width: 25px;">
-                        Nome da unidade: <input type="text" id="nomeUnidade">
+                        Nome do Maquina: <input type="text" id="NomeMaquina">
+                        Nome da unidade: <input type="text" id="nomeInstituicao">
                         Rua: <input type="text" id="rua">
                     </div>
 
@@ -99,7 +101,7 @@
 
 <script>
     const b_usuario = document.getElementById("b_usuario");
-b_usuario.innerHTML = sessionStorage.Nome;
+    b_usuario.innerHTML = sessionStorage.NomeUsuarioLogin;
 
     function funcVoltar() {
         window.history.back()
@@ -217,7 +219,7 @@ b_usuario.innerHTML = sessionStorage.Nome;
         const cepAtualizado = document.getElementById("cep").value;
         const cidadeAtualizada = document.getElementById("cidade").value;
         const numeroAtualizado = document.getElementById("numero").value;
-        const  fkEndereco = sessionStorage.fkEndereco
+        const fkEndereco = sessionStorage.fkEndereco
         const fkUnidade = sessionStorage.fkUnidade
 
         // Crie um objeto com os dados atualizados
@@ -230,8 +232,8 @@ b_usuario.innerHTML = sessionStorage.Nome;
             cep: cepAtualizado,
             cidade: cidadeAtualizada,
             numero: numeroAtualizado,
-            fkEndereco : fkEndereco,
-            fkUnidade : fkUnidade
+            fkEndereco: fkEndereco,
+            fkUnidade: fkUnidade
         };
 
         fetch(`/avisos/atualizarMaquina/${idMaquina}`, {

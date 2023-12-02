@@ -8,17 +8,19 @@ router.post("/cadastrar", function (req, res) {
     empresaController.cadastrar(req, res);
 })
 
-// CRUD da empresa
+// CRUD da empresa 
 
+router.get("/listarEmpresa/:idEmpresa", function (req, res) {
+  empresaController.listarEmpresa(req, res);
+});
 
-// Rota para recuperar uma empresa pelo ID
-router.get('/:id', empresaController.recuperarEmpresaCompleta);
+// router.put("/deletarEmpresa/:idEmpresa", function (req, res) {
+//   empresaController.deletarEmpresa(req, res);
+// });
 
-// Rota para atualizar uma empresa pelo ID
-router.put('/:id', empresaController.atualizarEmpresaCompleta);
-
-// Rota para excluir uma empresa pelo ID
-router.delete('/:id', empresaController.excluirEmpresaCompleta);
+router.put("/atualizarEmpresa/:idEmpresa", function (req, res) {
+  empresaController.atualizarEmpresa(req, res);
+});
 
 router.post("/cadastrarMaquina", function (req, res) {
     empresaController.cadastrarMaquina(req, res);

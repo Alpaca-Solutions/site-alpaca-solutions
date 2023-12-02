@@ -37,6 +37,9 @@
                     <a href="../listas/lista-usuario.html">
                         <div class="listaMenu">USUÁRIOS</div>
                     </a>
+                    <a href="../edits/edicao-empresa..html">
+                      <div class="listaMenu">EMPRESA</div>
+                  </a>
                 </div>
                 <div class="sair">
                     <a href="../../index.html">
@@ -71,7 +74,7 @@
 
 <script>
   const b_usuario = document.getElementById("b_usuario");
-b_usuario.innerHTML = sessionStorage.Nome;
+b_usuario.innerHTML = sessionStorage.NomeUsuarioLogin;
 
 function funcVoltar(){
         window.history.back()

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="../../css/dashboards.css">
+    <link rel="stylesheet" href="../../css/dashboard-teste.css">
     <link rel="shortcut icon" href="../../assets/icon/icon_alpaca.png" type="image/x-icon">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
@@ -17,131 +18,175 @@
                     <img src="../../assets/icon/seta-esquerda.png" alt="" width="25px" onclick="funcVoltar()">
                 </div>
                 <div class="textoBoasVindas">
-                    <h3>Olá, <span id="b_usuario">usuário</span>!</h3><a href="../edits/edicao-empresa..html"><img src="../../assets/imgs/configuracoes.png" alt="" style="width: 30px;"></a>
+                    <h3>Olá, <span id="b_usuario">usuário</span>!</h3><a href="../edits/edicao-empresa..html"><img
+                            src="../../assets/imgs/configuracoes.png" alt="" style="width: 30px;"></a>
                 </div>
-            </div>                                          
+            </div>
         </div>
         <div class="content">
             <div class="menu-lateral">
                 <div class="opcoes">
-                    <a href="../dahsboards/dashboard-geral.html"><div class="listaMenu">DASHBOARD</div></a>
-                    <a href="../dahsboards/dashboard-especifico.html"><div class="listaMenu">DASH DETALHES</div></a>
-                    <a href="../listas/lista-maquina.html"><div class="listaMenu">MÁQUINAS</div></a>
-                    <a href="../listas/lista-usuario.html"><div class="listaMenu">USUÁRIOS</div></a>
+                    <a href="../dahsboards/dashboard-geral.html">
+                        <div class="listaMenu">DASHBOARD</div>
+                    </a>
+                    <a href="../dahsboards/dashboard-especifico.html">
+                        <div class="listaMenu">DASH DETALHES</div>
+                    </a>
+                    <a href="../listas/lista-maquina.html">
+                        <div class="listaMenu">MÁQUINAS</div>
+                    </a>
+                    <a href="../listas/lista-usuario.html">
+                        <div class="listaMenu">USUÁRIOS</div>
+                    </a>
+                    <a href="../edits/edicao-empresa..html">
+                        <div class="listaMenu">EMPRESA</div>
+                    </a>
                 </div>
                 <div class="sair">
-                    <a href="../../index.html"><div id="leave" class="listaMenu">SAIR</div></a>
+                    <a href="../../index.html">
+                        <div id="leave" class="listaMenu">SAIR</div>
+                    </a>
                 </div>
             </div>
             <div class="graficos">
+                <!-- começa -->
                 <div class="cards_superiores">
-                    <div class="alertas"><div class="spans_alertas"><span>Máquina: <span id="span_maquina"></span></span><span id="span_alerta"></span></div><img src="../../assets/imgs/aviso (1).png" alt=""></div>
-                    <div class="alertas"><div class="spans_alertas"><span>Máquina: <span id="span_maquina"></span></span><span id="span_alerta"></span></div><img src="../../assets/imgs/aviso (1).png" alt=""></div>
-                    <div class="alertas"><div class="spans_alertas"><span>Máquina: <span id="span_maquina"></span></span><span id="span_alerta"></span></div><img src="../../assets/imgs/aviso (1).png" alt=""></div>
-                    <div class="alertas"><div class="spans_alertas"><span>Máquina: <span id="span_maquina"></span></span><span id="span_alerta"></span></div><img src="../../assets/imgs/aviso (1).png" alt=""></div>
+
+                    <div class="titulos_cards1">
+                        <h1>RAM</h1>
+                        <h2>104455</h2>
+                    </div>
+
+                    <div class="titulos_cards1">
+                        <h1>DADOS REDE</h1>
+                        <h2>348756</h2>
+                    </div>
+                    <div class="titulos_cards1">
+                        <h1>DISCO</h1>
+                        <h2>39</h2>
+                    </div>
+
+                    <div class="titulos_cards1">
+                        <h1>CPU</h1>
+                        <h2>49</h2>
+                    </div>
+
                 </div>
-                <hr>
-                <div class="graficos_gerais">
-                    <div class="campos_box">
-                        <div class="listas_users">
-                            <div class="titulos">
-                                <div class="titulo">Nome</div>
-                                <div class="titulo">CPU</div>
-                                <div class="titulo">Disco</div>
-                                <div class="titulo">Memória</div>
-                                <div class="titulo">Rede</div>
-                            </div>
-                            <div class="dados">
-                                <div class="linha_dados">
-                                    <div class="nome" id="nome"></div>
-                                    <div class="cpu" id="cpu"></div>
-                                    <div class="disco" id="disco"></div>
-                                    <div class="memoria" id="memoria"></div>
-                                    <div class="rede" id="rede"></div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="cards_inferior">
+                <div class="lado-direito">
+                    <div class="grafico-card2">
+                        <!-- <h1>MEMÓRIA RAM</h1> -->
+                        <div id="chart_div1" class="grafico-card"></div>
+                    </div>
+
+                    <div class="grafico-car2">
+                        <!-- <h1>CAPTURA DE DADOS DE REDE</h1> -->
+                        <div id="chart_div2" class="grafico-card"></div>
                     </div>
                 </div>
+
+                <div class="lado-esquerdo">
+
+                    <div class="grafico-card2">
+                        <!-- <h1>DISCO</h1> -->
+                        <div class="grafico-card" id="chart_div3" ></div>
+                    </div>
+                    <div class="grafico-card2">
+                        <!-- <h1>CPU</h1> -->
+                        <div class="grafico-card" id="chart_div4" ></div>
+                    </div>
+                </div>
+            </div>
+                <!-- termina -->
             </div>
         </div>
     </div>
 </body>
 
 </html>
+
 <script>
     const b_usuario = document.getElementById("b_usuario");
-b_usuario.innerHTML = sessionStorage.Nome;
+    b_usuario.innerHTML = sessionStorage.NomeUsuarioLogin;
 
     function funcVoltar() {
-    window.history.back()
+        window.history.back()
     }
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawCharts);
 
+    function drawCharts() {
+        var data1 = google.visualization.arrayToDataTable([
+            ['Hora', 'Mb/s'],
+            ['21:20', 104455],
+            ['21:40', 68802],
+            ['22:00', 66844],
+            ['22:20', 499929],
+            ['22:40', 34871],
+        ]);
 
-    function obter_dados_grafico() {
-        redirectEdit();
-        redirectEdit();
-        console.log('Função obter_dados_grafico foi chamada.');
-    
-        // Define uma função para buscar os dados e plotar o gráfico
-        function buscarDadosEPlotar() {
-            fetch(`/medidas/busca_dados_rede`, { cache: 'no-store' }).then(function (response) {
-                if (response.ok) {
-                    response.json().then(function (resposta) {
-                        console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
-                        resposta.reverse();
-    
-                        plotar_grafico_rede(resposta);
-                    });
-                } else {
-                    console.error('Nenhum dado encontrado ou erro na API');
-                }
-            })
-            .catch(function (error) {
-                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-            });
-        }
-    
-        // Define a função para buscar os dados e plotar o gráfico inicialmente
-        buscarDadosEPlotar();
-    
-        // Define um intervalo para chamar a função a cada 3 segundos
-        setInterval(buscarDadosEPlotar, 3000);
-    }
-    function plotar_grafico_rede(dados) {
-        var data2 = new google.visualization.DataTable();
-        data2.addColumn('string', 'Hora');
-        data2.addColumn('number', 'Enviados');
-        data2.addColumn('number', 'Recebidos');
-        data2.addColumn('number', 'Enviados');
-    
-        for (const dados_api of dados) {
-           
-            data2.addRow(['21:20', parseFloat(dados_api.byte_enviado), parseFloat(dados_api.byte_recebido), parseFloat(dados_api.byte_enviado)]);
-           
-            
-        }
-    
-        const options2 = {
+        var data2 = google.visualization.arrayToDataTable([
+            ['Hora', 'Enviados'],
+            ['21:20', 548756],
+            ['21:40', 948756],
+            ['22:00', 348756],
+            ['22:20', 948756],
+            ['22:40', 348756],
+
+        ]);
+
+        var data3 = google.visualization.arrayToDataTable([
+            ['Qtd', '%'],
+            ['21:20', 29],
+            ['21:40', 30],
+            ['22:00', 29],
+            ['22:20', 31],
+            ['22:40', 31],
+        ]);
+
+        var data4 = google.visualization.arrayToDataTable([
+            ['Qtd', '%'],
+            ['21:20', 49],
+            ['21:40', 50],
+            ['22:00', 29],
+            ['22:20', 29],
+            ['22:40', 28],
+        ]);
+
+        // Opções para os gráficos
+        var options = {
+            title: 'MEMÓRIA RAM',
+            curveType: 'function',
+            legend: { position: 'bottom' }
+        };
+
+        var options2 = {
             title: 'CAPTURA DE DADOS DE REDE',
             curveType: 'function',
             legend: { position: 'bottom' }
         };
-    
+
+        var options3 = {
+            title: 'DISCO',
+            curveType: 'function',
+            legend: { position: 'bottom' }
+        };
+
+        var options4 = {
+            title: 'CPU',
+            curveType: 'function',
+            legend: { position: 'bottom' }
+        };
+
+        // Elementos HTML onde os gráficos serão exibidos
+        var chart1 = new google.visualization.LineChart(document.getElementById('chart_div1'));
         var chart2 = new google.visualization.LineChart(document.getElementById('chart_div2'));
+        var chart3 = new google.visualization.LineChart(document.getElementById('chart_div3'));
+        var chart4 = new google.visualization.LineChart(document.getElementById('chart_div4'));
+
+        chart1.draw(data1, options);
         chart2.draw(data2, options2);
+        chart3.draw(data3, options3);
+        chart4.draw(data4, options4);
     }
-
-    
-
-    function redirectEdit() {
-    for (i = 0; i <= 15; i++) {
-        nome.innerHTML += `<div class="campo" id="nome${i}">instancia ${i}</div>`
-        cpu.innerHTML += `<div class="campo" id="campo_cpu${i}">${i + i + i}%</div>`
-        disco.innerHTML += `<div class="campo" id="campo_disco${i}">${i + i}%</div>`
-        memoria.innerHTML += `<div class="campo" id="campo_memoria${i}">${i + 10}%</div>`
-        rede.innerHTML += `<div class="campo" id="campo_rede${i}">1${i}0mbps</div>`
-    }
-}
-
 </script>

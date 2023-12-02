@@ -1,0 +1,146 @@
+/* pagina mural */
+* {
+    font-family: "Roboto Condensed", sans-serif;
+    margin: 0px;
+  }
+  
+  .menu-lateral {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 17%;
+    height: 100%;
+    background-color: #08115f;
+  }
+  
+  .opcoes {
+    height: 60%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+  
+  .sair {
+    display: flex;
+    flex-direction: column;
+    height: 25%;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  body {
+    background-color: #f1f1f1;
+    height: 100vh;
+  }
+  
+  .corpo {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .content {
+    height: 100%;
+    display: flex;
+  }
+  
+  .boasVindas {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    height: 100%;
+  }
+  
+  .textoBoasVindas {
+    height: 100%;
+    width: 180px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .boasVindas img {
+    cursor: pointer;
+  }
+  
+  .header {
+    height: 8%;
+    width: 100%;
+    margin: 0;
+  }
+  
+  .listaMenu {
+    background-color: #0f0a3f;
+    width: 85%;
+    height: 50px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .menu-lateral a {
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+  }
+
+  /* Estilos para cards superiores */
+  .cards_superiores {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: rgb(255, 255, 255);
+    width: 90%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    border-radius: 6px;
+  }
+  
+  .titulos_cards1 {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    width: 23%;
+    text-align: center;
+  }
+  
+  .titulos_cards1 h1 {
+    font-size: 20px;
+  }
+  
+  .titulos_cards1 h2 {
+    font-size: 30px;
+    color: #060143;
+  }
+  
+  .graficos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+    width: 85%; 
+  }
+
+  .cards_inferior{
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-evenly;
+    height: 80vh;
+    width: 80vw;
+  }
+  .lado-direito{
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+  }
+
+  .grafico-card{
+    display: flex;
+    border-radius: 10px;
+    margin-top: 10px;
+  }

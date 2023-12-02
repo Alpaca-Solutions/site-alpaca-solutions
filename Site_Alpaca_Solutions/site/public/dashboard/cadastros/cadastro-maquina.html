@@ -37,6 +37,9 @@
                     <a href="../listas/lista-usuario.html">
                         <div class="listaMenu">USUÁRIOS</div>
                     </a>
+                    <a href="../edits/edicao-empresa..html">
+                        <div class="listaMenu">EMPRESA</div>
+                    </a>
                 </div>
                 <div class="sair">
                     <a href="../../index.html">
@@ -47,10 +50,9 @@
             <div class="grade">
                 <div class="campos">
                     <div class="campos1">
-                        Nome do servidor: <input type="text" id="NomeServidor">
-                        IP do servidor: <input type="text" id="ipServidor">
+                        Nome do Maquina: <input type="text" id="NomeMaquina">
+                        IP do Maquina: <input type="text" id="ipMaquina">
                         Sistema Operacional: <input type="text" id="sistemaOperacional">
-                        Servidor ativo: <input type="checkbox" id="statusServidor">
                     </div>
 
                     <div class="campos2">
@@ -105,6 +107,6 @@
     }
 
 const b_usuario = document.getElementById("b_usuario");
-b_usuario.innerHTML = sessionStorage.Nome;
+b_usuario.innerHTML = sessionStorage.NomeUsuarioLogin;
 
 </script>

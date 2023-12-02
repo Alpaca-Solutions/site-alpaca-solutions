@@ -39,53 +39,54 @@ function cadastrar(req, res) {
     });
 }
 
-// CRUD DA EMPRESA
+// CRUD DA EMPRESA 
 
-function recuperarEmpresaCompleta(req, res) {
-  var id = req.params.id;
+function listarEmpresa(req, res) {
 
-  empresaModel
-    .recuperarEmpresaCompletaPorId(id)
-    .then((resultado) => {
+  var idEmpresa = req.params.idEmpresa
+   empresaModel.listarEmpresa(idEmpresa).then(function (resultado) {
       if (resultado.length > 0) {
-        res.status(200).json(resultado);
+          res.status(200).json(resultado);
       } else {
-        res.status(404).json({ mensagem: 'Empresa não encontrada' });
+          res.status(204).send("Nenhum resultado encontrado!")
       }
-    })
-    .catch((error) => {
-      res.status(500).json({ mensagem: 'Erro ao recuperar empresa', error: error });
-    });
+  }).catch(function (erro) {
+      console.log(erro);
+      console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
+      res.status(500).json(erro.sqlMessage);
+  });
 }
 
-function atualizarEmpresaCompleta(req, res) {
-  var id = req.params.id;
-  var empresaData = req.body.empresaData;
-  var enderecoData = req.body.enderecoData;
-  var telefoneData = req.body.telefoneData;
-  var usuarioData = req.body.usuarioData;
+// function deletarEmpresa(req, res) {
+//   var idEmpresa = req.params.idEmpresa
+//    empresaModel.deletarEmpresa(idEmpresa)
+//   .then(
+//       function (resultado) {
+//           res.json(resultado);
+//       }
+//   )
+//   .catch(
+//       function (erro) {
+//           console.log(erro);
+//           console.log("Houve um erro ao realizar o post: ", erro.sqlMessage);
+//           res.status(500).json(erro.sqlMessage);
+//       }
+//   );
+// }
 
-  empresaModel
-    .atualizarEmpresaCompletaPorId(id, empresaData, enderecoData, telefoneData, usuarioData)
-    .then((resultado) => {
-      res.status(200).json({ mensagem: 'Empresa atualizada com sucesso' });
-    })
-    .catch((error) => {
-      res.status(500).json({ mensagem: 'Erro ao atualizar empresa', error: error });
-    });
-}
+function atualizarEmpresa(req, res) {
+  var idEmpresa = req.params.idEmpresa
+  var dadosAtualizados = req.body;
 
-function excluirEmpresaCompleta(req, res) {
-  var id = req.params.id;
-
-  empresaModel
-    .excluirEmpresaCompletaPorId(id)
-    .then((resultado) => {
-      res.status(200).json({ mensagem: 'Empresa excluída com sucesso' });
-    })
-    .catch((error) => {
-      res.status(500).json({ mensagem: 'Erro ao excluir empresa', error: error });
-    });
+ empresaModel.atualizarEmpresa(idEmpresa, dadosAtualizados)
+  .then(function (resultado) {
+    res.json(resultado);
+  })
+  .catch(function (erro) {
+    console.log(erro);
+    console.log("Houve um erro ao realizar a atualização: ", erro.sqlMessage);
+    res.status(500).json(erro.sqlMessage);
+  });
 }
 
 // FIM
@@ -95,10 +96,10 @@ function excluirEmpresaCompleta(req, res) {
 
 function cadastrarMaquina(req, res) {
 
-  var ipServidor = req.body.ipServidorServer;
+  var ipMaquina = req.body.ipMaquinaServer;
   var sistemaOperacional = req.body.sistemaOperacionalServer;
-  var NomeServidor = req.body.NomeServidorServer;
-  var nomeUnidade = req.body.NomeUnidadeServer;
+  var NomeMaquina = req.body.NomeMaquinaServer;
+  var nomeUnidade = req.body.nomeUnidadeServer;
 
   var rua = req.body.ruaServer;
   var bairro = req.body.bairroServer;
@@ -109,16 +110,16 @@ function cadastrarMaquina(req, res) {
 
     empresaModel
     .cadastrarMaquinas(
-      ipServidor,
-      sistemaOperacional,
-      NomeServidor,
-      nomeUnidade,
-      rua,
-      bairro,
+      cep, 
+      rua, 
+      numero, 
+      bairro,  
+      cidade, 
       estado,
-      cep,
-      cidade,
-      numero,
+      nomeUnidade,
+      ipMaquina,
+      sistemaOperacional,
+      NomeMaquina
     )
     .then((resultado) => {
       res.status(201).json(resultado);
@@ -133,8 +134,7 @@ function cadastrarMaquina(req, res) {
 
 module.exports = {
   cadastrar,
-  recuperarEmpresaCompleta,
-  atualizarEmpresaCompleta,
-  excluirEmpresaCompleta,
+  listarEmpresa,
+  atualizarEmpresa,
   cadastrarMaquina,
 };

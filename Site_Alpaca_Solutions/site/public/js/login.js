@@ -104,9 +104,10 @@ function entrar() {
               console.log(JSON.stringify(json));
   
             sessionStorage.Email = json.email;
-            sessionStorage.Nome = json.nome;
+            sessionStorage.NomeUsuarioLogin = json.nome;
             sessionStorage.idUsuario = json.idUsuario;
             sessionStorage.fkEmpresaUsuario = json.fkEmpresaUsuario;
+            sessionStorage.idEmpresaLogin = json.idEmpresa;
 
 
             setTimeout(function () {

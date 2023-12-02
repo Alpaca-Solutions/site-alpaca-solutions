@@ -132,97 +132,69 @@ function cadastrarUsuario(nomeFantasia, email, senha, fkClienteUsuario) {
 }
 // CRUD DA EMPRESA:
 
-function recuperarEmpresaCompletaPorId(id) {
-  return new Promise((resolve, reject) => {
-    console.log(`Recuperando empresa completa com ID ${id}`);
+function listarEmpresa(idEmpresa) {
+  var instrucao = `
+  SELECT *
+  FROM Endereco
+  JOIN Empresa ON Empresa.fk_endereco = Endereco.idEndereco
+  JOIN Telefone ON Telefone.fkEmpresa = Empresa.idEmpresa
+  JOIN Usuario ON Usuario.fkEmpresaUsuario = Empresa.idEmpresa
+  WHERE idEmpresa = ${idEmpresa} LIMIT 1;
+  `;
 
-    db.query(
-      `SELECT * FROM Endereco
-      JOIN Empresa ON Empresa.fk_endereco = Endereco.idEndereco
-      JOIN Telefone ON Telefone.fkEmpresa = Empresa.idEmpresa
-      JOIN Usuario ON Usuario.fkEmpresaUsuario = Empresa.idEmpresa 
-      WHERE Usuario.ativo = true AND idEmpresa = ?;`,
-      [id],
-      (error, resultado) => {
-        if (error) {
-          console.error(`Erro ao recuperar empresa: ${error}`);
-          reject(error);
-        } else {
-          console.log(`Empresa recuperada com sucesso`);
-          resolve(resultado);
-        }
-      }
-    );
-  });
+  console.log("Executando a instrução SQL: \n" + instrucao);
+  return database.executar(instrucao);
 }
+function atualizarEmpresa(idEmpresa, dadosAtualizados) {
+  var instrucao1 = `UPDATE Empresa
+                    SET nomeFantasia = '${dadosAtualizados.nomeFantasia}',
+                        razaoSocial = '${dadosAtualizados.razaoSocial}',
+                        cnpj = '${dadosAtualizados.cnpj}'
+                    WHERE idEmpresa = ${idEmpresa}`;
 
-function atualizarEmpresaCompletaPorId( id, nomeFantasia, razaoSocial, cnpj, rua, bairro, estado, cep, cidade, numero, email, senha, telefone) {
-  return new Promise((resolve, reject) => {
-    console.log(`Atualizando empresa completa com ID ${id}`);
+  var instrucao2 = `UPDATE Endereco
+                    SET cep = '${dadosAtualizados.cep}',
+                        rua = '${dadosAtualizados.rua}',
+                        numero = '${dadosAtualizados.numero}',
+                        bairro = '${dadosAtualizados.bairro}',
+                        cidade = '${dadosAtualizados.cidade}',
+                        estado = '${dadosAtualizados.estado}'
+                    WHERE idEndereco = ${dadosAtualizados.idEndereco}`;
 
-    db.transaction(async (conn) => {
-      try {
-        await conn.query('UPDATE Endereco SET cep = ?, rua = ?, numero = ?, bairro = ?, cidade = ?, estado = ?, ativo = true WHERE id_endereco = ?;', [cep, rua, numero, bairro,  cidade, estado, id]);
-        await conn.query('UPDATE Empresa SET nomefantasia = ?, razaoSocial = ?, cnpj = ?, ativo = true, fk_endereco = 1 WHERE id_empresa = ?;', [nomeFantasia, razaoSocial, cnpj, id]);
-        await conn.query('UPDATE Telefone SET numero = ?, tipo = "Celular", ativo = true WHERE id_telefone = ?;', [telefone, id]);
-        await conn.query('UPDATE Usuario SET email = ?, senha = ? WHERE fkEmpresaUsuario = ?;', [email, senha, id]);
+  
+  console.log("Executando a instrução SQL 1: \n" + instrucao1);
+  console.log("Executando a instrução SQL 2: \n" + instrucao2);
 
-        console.log(`Em presa atualizada com sucesso`);
-        resolve(true);
-      } catch (error) {
-        console.error(`Erro ao atualizar empresa: ${error}`);
-        reject(error);
-      }
-    });
-  });
-}
-
-function excluirEmpresaCompletaPorId(id) {
-  return new Promise((resolve, reject) => {
-    console.log(`Excluindo empresa completa com ID ${id}`);
-
-    db.transaction(async (conn) => {
-      try {
-        await conn.query('UPDATE Usuario SET ativo = false WHERE fkEmpresaUsuario = ?', [id]);
-        await conn.query('UPDATE Telefone SET ativo = false WHERE fkEmpresa = ?', [id]);
-        await conn.query('UPDATE Endereco SET ativo = false WHERE idEndereco = ?', [id]);
-        await conn.query('UPDATE Empresa SET ativo = false WHERE idEmpresa = ?', [id]);
-
-        console.log(`Empresa excluída com sucesso`);
-        resolve(true);
-      } catch (error) {
-        console.error(`Erro ao excluir empresa: ${error}`);
-        reject(error);
-      }
-    });
-  });
+  return Promise.all([
+      database.executar(instrucao1),
+      database.executar(instrucao2)
+  ]);
 }
 
 // fim
 
-
 // Cadastrando Maquinas
 async function cadastrarMaquinas(
-  ipServidor,
-  sistemaOperacional,
-  NomeServidor,
-  nomeUnidade,
-  rua,
-  bairro,
+  cep, 
+  rua, 
+  numero, 
+  bairro,  
+  cidade, 
   estado,
-  cep,
-  cidade,
-  numero
+  nomeUnidade,
+  ipMaquina,
+  sistemaOperacional,
+  NomeMaquina
 ) {
   try {
     // Inserir o endereço
     var insertEndereco = await cadastrarEnderecoMaquina(
-      rua,
-      bairro,
-      estado,
-      cep,
-      cidade,
-      numero
+      cep, 
+      rua, 
+      numero, 
+      bairro,  
+      cidade, 
+      estado
     );
 
     // Inserir a Unidade
@@ -233,8 +205,8 @@ async function cadastrarMaquinas(
 
     // Inserir a máquina
     var insertMaquina = await cadastrarMaquina(
-      NomeServidor,
-      ipServidor,
+      NomeMaquina,
+      ipMaquina,
       sistemaOperacional,
       insertUnidade.insertId
     );
@@ -282,11 +254,11 @@ function cadastrarUnidade(nomeUnidade, fkEndereco) {
   });
 }
 
-function cadastrarMaquina(NomeServidor, ipServidor, sistemaOperacional, fkUnidade) {
+function cadastrarMaquina(NomeMaquina, ipMaquina, sistemaOperacional, fkUnidade) {
   return new Promise((resolve, reject) => {
     var query = `
       INSERT INTO Maquina(NomeMaquina, ipMaquina, sistemaOperacional, statusMaquina, ativo, fkEmpresaMaquina, fkUnidade)
-      VALUES('${NomeServidor}', '${ipServidor}', '${sistemaOperacional}', true, true, '1', ${fkUnidade});
+      VALUES('${NomeMaquina}', '${ipMaquina}', '${sistemaOperacional}', true, true, '1', ${fkUnidade});
     `;
 
     console.log("Executando a instrução SQL: \n" + query);
@@ -307,10 +279,9 @@ module.exports = {
   cadastrarEndereco,
   cadastrarTelefone,
   cadastrarUsuario,
-  recuperarEmpresaCompletaPorId,
-  atualizarEmpresaCompletaPorId,
-  excluirEmpresaCompletaPorId,
   cadastrarMaquinas,
+  atualizarEmpresa,
+  listarEmpresa,
   cadastrarEnderecoMaquina,
   cadastrarUnidade,
   cadastrarMaquina
