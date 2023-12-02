@@ -82,7 +82,7 @@
   .boasVindas {
     display: flex;
     justify-content: space-between;
-    align-items: end;
+
     background-color: #ffffff;
     height: 100%;
   }
@@ -92,7 +92,7 @@
     width: 180px;
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
+
   }
   
   .boasVindas img {

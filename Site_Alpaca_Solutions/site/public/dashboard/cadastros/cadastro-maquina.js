@@ -1,7 +1,7 @@
 function cadastrarMaquina() {
     // cadastrar na tabela maquina
-    const NomeServidor = document.getElementById("NomeServidor").value;
-    const ipServidor = document.getElementById("ipServidor").value;
+    const NomeMaquina = document.getElementById("NomeMaquina").value;
+    const ipMaquina = document.getElementById("ipMaquina").value;
     const sistemaOperacional = document.getElementById("sistemaOperacional").value;
   
   
@@ -22,9 +22,9 @@ function cadastrarMaquina() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        ipServidorServer: ipServidor,
+        ipMaquinaServer: ipMaquina,
         sistemaOperacionalServer: sistemaOperacional,
-        NomeServidorServer: NomeServidor,
+        NomeMaquinaServer: NomeMaquina,
         nomeUnidadeServer: NomeUnidade,
         ruaServer: rua,
         bairroServer: bairro,
