@@ -4,6 +4,9 @@
     margin: 0px;
   }
   
+  .voltar{
+    margin-left: 15px;
+  }
   .menu-lateral {
     display: flex;
     flex-direction: column;
@@ -43,7 +46,7 @@
   }
   
   .content {
-    height: 100%;
+    height: 93%;
     display: flex;
   }
   
@@ -93,20 +96,29 @@
   /* Estilos para cards superiores */
   .cards_superiores {
     display: flex;
-    justify-content: space-between;
     padding: 20px;
     background-color: rgb(255, 255, 255);
     width: 90%;
     padding-top: 1%;
     padding-bottom: 1%;
     border-radius: 6px;
+
   }
-  
+
+  .metricas{
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    justify-items: center;
+    align-items: center;
+  }
   .titulos_cards1 {
     background-color: #fff;
     border: 1px solid #ddd;
     width: 23%;
+    height: 100px;
     text-align: center;
+    align-self: center;
   }
   
   .titulos_cards1 h1 {
@@ -118,20 +130,57 @@
     color: #060143;
   }
   
+  .list-machine {
+    width: 20%;
+    max-height: 125px; /* Defina o tamanho máximo desejado aqui */
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto; /* Adiciona uma barra de rolagem horizontal quando o conteúdo excede a largura máxima */
+    overflow-y: auto; /* Adiciona uma barra de rolagem vertical quando o conteúdo excede a altura máxima */
+  }
+  
+  .list-machine h4 {
+    position: sticky;
+    top: 0;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 6px;
+    font-size: 20px;
+  }
+  
+  .list-machine p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    height: 34px;
+    border: 1px solid #ddd;
+  }
+  
+  .list-machine::-webkit-scrollbar {
+    width: 0;
+    background-color: transparent;
+  }
+
+
   .graficos {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 10px;
-    width: 85%; 
+    width: 85%;
   }
 
   .cards_inferior{
-    padding-top: 10px;
+    padding-top: 0px;
     display: flex;
     justify-content: space-evenly;
-    height: 80vh;
+    height: 80%;
     width: 80vw;
+
   }
   .lado-direito{
     display: flex;
@@ -143,4 +192,6 @@
     display: flex;
     border-radius: 10px;
     margin-top: 10px;
+    max-height: 35vh;
+    max-width: 35vw;
   }

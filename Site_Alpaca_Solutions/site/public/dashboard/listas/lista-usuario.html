@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="shortcut icon" href="../../assets/icon/icon_alpaca.png" type="image/x-icon">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
+
 <body onload="obterDados_usuarios()">
     <div class="corpo">
         <div class="header">
@@ -16,23 +18,34 @@
                     <img src="../../assets/icon/seta-esquerda.png" alt="" width="25px" onclick="funcVoltar()">
                 </div>
                 <div class="textoBoasVindas">
-                    <h3>Olá, <span id="b_usuario">usuário</span>!</h3><a href="../edits/edicao-empresa..html"><img src="../../assets/imgs/configuracoes.png" alt="" style="width: 30px;"></a>
+                    <h3>Olá, <span id="b_usuario">usuário</span>!</h3><a href="../edits/edicao-empresa..html"><img
+                            src="../../assets/imgs/configuracoes.png" alt="" style="width: 30px;"></a>
                 </div>
             </div>
         </div>
         <div class="content">
             <div class="menu-lateral">
                 <div class="opcoes">
-                    <a href="../dahsboards/dashboard-geral.html"><div class="listaMenu">DASHBOARD</div></a>
-                    <a href="../dahsboards/dashboard-especifico.html"><div class="listaMenu">DASH DETALHES</div></a>
-                    <a href="../listas/lista-maquina.html"><div class="listaMenu">MÁQUINAS</div></a>
-                    <a href="../listas/lista-usuario.html"><div class="listaMenu">USUÁRIOS</div></a>
+                    <a href="../dahsboards/dashboard-geral.html">
+                        <div class="listaMenu">DASHBOARD</div>
+                    </a>
+                    <a href="../dahsboards/dashboard-especifico.html">
+                        <div class="listaMenu">DASH DETALHES</div>
+                    </a>
+                    <a href="../listas/lista-maquina.html">
+                        <div class="listaMenu">MÁQUINAS</div>
+                    </a>
+                    <a href="../listas/lista-usuario.html">
+                        <div class="listaMenu">USUÁRIOS</div>
+                    </a>
                     <a href="../edits/edicao-empresa..html">
                         <div class="listaMenu">EMPRESA</div>
                     </a>
                 </div>
                 <div class="sair">
-                    <a href="../../index.html"><div id="leave" class="listaMenu">SAIR</div></a>
+                    <a href="../../index.html">
+                        <div id="leave" class="listaMenu">SAIR</div>
+                    </a>
                 </div>
             </div>
             <div class="grade">
@@ -45,7 +58,7 @@
                                 <div class="titulo">Email</div>
                                 <div class="titulo">Tipo de acesso</div>
                                 <div class="titulo">Nível de acesso</div>
-                                <div class="titulo">Editar</div>
+                                <div class="titulo" id="editar">Editar</div>
                             </div>
                             <div class="dados">
                                 <div class="linha_dados" id="linha_dados">
@@ -65,65 +78,84 @@
 </body>
 
 <script>
-const b_usuario = document.getElementById("b_usuario");
-b_usuario.innerHTML = sessionStorage.NomeUsuarioLogin;
+    const b_usuario = document.getElementById("b_usuario");
+    b_usuario.innerHTML = sessionStorage.NomeUsuarioLogin;
 
-function funcVoltar() {
-    window.history.back()
-}
+    function funcVoltar() {
+        window.history.back()
+    }
 
-function obterDados_usuarios() {
-    var idEmpresa = sessionStorage.fkEmpresaUsuario;
-    console.log("ID do Usuário:", idEmpresa);
+    function obterDados_usuarios() {
+        var idEmpresa = sessionStorage.fkEmpresaUsuario;
+        console.log("ID do Usuário:", idEmpresa);
 
-    fetch(`/avisos/listar_usuarios/${idEmpresa}`, { cache: 'no-store' })
-        .then(function (response) {
-            if (!response.ok) {
-                console.error('Erro na API:', response.status, response.statusText);
-                throw new Error('Erro na API');
-            }
+        fetch(`/avisos/listar_usuarios/${idEmpresa}`, { cache: 'no-store' })
+            .then(function (response) {
+                if (!response.ok) {
+                    console.error('Erro na API:', response.status, response.statusText);
+                    throw new Error('Erro na API');
+                }
 
-            // Verificar se o corpo da resposta está vazio
-            const contentLength = response.headers.get('content-length');
-            if (contentLength && contentLength === '0') {
-                console.log('Nenhum dado encontrado na resposta.');
-                return null;
-            }
+                // Verificar se o corpo da resposta está vazio
+                const contentLength = response.headers.get('content-length');
+                if (contentLength && contentLength === '0') {
+                    console.log('Nenhum dado encontrado na resposta.');
+                    return null;
+                }
 
-            // Tentar analisar o corpo da resposta como JSON
-            return response.json();
-        })
-        .then(function (resposta) {
-            if (resposta !== null) {
-                const nome = document.getElementById("nome");
-                const email = document.getElementById("email");
-                const tipo_acesso = document.getElementById("tipo_acesso");
-                const nivel_acesso = document.getElementById("nivel_acesso");
-                const acoes = document.getElementById("acoes");
+                // Tentar analisar o corpo da resposta como JSON
+                return response.json();
+            })
+            .then(function (resposta) {
+                if (resposta !== null) {
+                    const nome = document.getElementById("nome");
+                    const email = document.getElementById("email");
+                    const tipo_acesso = document.getElementById("tipo_acesso");
+                    const nivel_acesso = document.getElementById("nivel_acesso");
+                    const acoes = document.getElementById("acoes");
 
-                // Limpar qualquer conteúdo existente
-                nome.innerHTML = "";
-                email.innerHTML = "";
-                tipo_acesso.innerHTML = "";
-                nivel_acesso.innerHTML = "";
-                acoes.innerHTML = "";
+                    // Limpar qualquer conteúdo existente
+                    nome.innerHTML = "";
+                    email.innerHTML = "";
+                    tipo_acesso.innerHTML = "";
+                    nivel_acesso.innerHTML = "";
+                    acoes.innerHTML = "";
 
-                resposta.forEach((dados_banco, i) => {
-                    const idUsuario = dados_banco.idUsuario;
+                    resposta.forEach((dados_banco, i) => {
+                        const idUsuario = dados_banco.idUsuario;
 
-                    // Preencher cada div com os dados correspondentes
-                    nome.innerHTML += `<div class="campo" id="nome${i}">${dados_banco.nome || dados_banco.nome_fantasia}</div>`;
-                    email.innerHTML += `<div class="campo" id="campo_email${i}">${dados_banco.email}</div>`;
-                    tipo_acesso.innerHTML += `<div class="campo" id="campo_tipo_acesso${i}">${dados_banco.tipoAcesso}</div>`;
-                    nivel_acesso.innerHTML += `<div class="campo" id="campo_nivel_acesso${i}">${dados_banco.nivelAcesso}</div>`;
-                    acoes.innerHTML += `<div class="campo" id="campo_acoes${i}"><a href="../edits/edicao-usuario.html#${idUsuario}"><img src="../../assets/imgs/configuracoes.png" alt="" style="width: 30px;"></a></div>`;
-                });
-            }
-        })
-        .catch(function (error) {
-            console.error(`Erro na obtenção dos dados para gráfico: ${error.message}`);
-        });
-}
+                        // Preencher cada div com os dados correspondentes
+                        nome.innerHTML += `<div class="campo" id="nome${i}">${dados_banco.nome || dados_banco.nome_fantasia}</div>`;
+                        email.innerHTML += `<div class="campo" id="campo_email${i}">${dados_banco.email}</div>`;
+
+                        if (dados_banco.tipoAcesso == 1) {
+                            tipo_acesso.innerHTML += `<div class="campo" id="campo_tipo_acesso${i}">Administrador</div>`;
+                        } else {
+                            tipo_acesso.innerHTML += `<div class="campo" id="campo_tipo_acesso${i}">Operador</div>`;
+                        }
+                        if (dados_banco.nivelAcesso == 1) {
+                            nivel_acesso.innerHTML += `<div class="campo" id="campo_nivel_acesso${i}">N3</div>`;
+                        } else if (dados_banco.nivelAcesso == 2) {
+                            nivel_acesso.innerHTML += `<div class="campo" id="campo_nivel_acesso${i}">N2</div>`;
+                        } else {
+                            nivel_acesso.innerHTML += `<div class="campo" id="campo_nivel_acesso${i}">N1</div>`;
+                        }
+
+                        if (sessionStorage.tipoAcessoLogin == 1) {
+                            acoes.innerHTML += `<div class="campo" id="campo_acoes${i}"><a href="../edits/edicao-usuario.html#${idUsuario}"><img src="../../assets/imgs/configuracoes.png" alt="" style="width: 30px;"></a></div>`;
+                        } else {
+        
+                           acoes.innerHTML += `<div class="campo" id="campo_acoes${i}">Sem acesso</div>`;
+                        }
+
+                    });
+                }
+            })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados para gráfico: ${error.message}`);
+            });
+    }
 
 </script>
+
 </html>

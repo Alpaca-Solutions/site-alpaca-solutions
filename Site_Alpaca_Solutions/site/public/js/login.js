@@ -108,8 +108,9 @@ function entrar() {
             sessionStorage.idUsuario = json.idUsuario;
             sessionStorage.fkEmpresaUsuario = json.fkEmpresaUsuario;
             sessionStorage.idEmpresaLogin = json.idEmpresa;
-
-
+            sessionStorage.tipoAcessoLogin = json.tipoAcesso;
+            sessionStorage.idUsuarioLogin = json.idUsuario;
+            
             setTimeout(function () {
               window.location = "../dashboard/dahsboards/dashboard-geral.html";
             }, 1000); // apenas para exibir o loading

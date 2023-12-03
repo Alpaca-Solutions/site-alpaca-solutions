@@ -130,23 +130,38 @@
   }
   
   .list-machine {
-    width: 25%;
-    height: 200px;
+    width: 300px;
+    max-height: 199px; /* Defina o tamanho máximo desejado aqui */
     background-color: #ffffff;
-    overflow-y: scroll;
-    border: solid 1px;
-    border-right: none;
+    border: 1px solid #ddd;
+    margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto; /* Adiciona uma barra de rolagem horizontal quando o conteúdo excede a largura máxima */
+    overflow-y: auto; /* Adiciona uma barra de rolagem vertical quando o conteúdo excede a altura máxima */
   }
-
+  
+  .list-machine h4 {
+    position: sticky;
+    top: 0;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 6px;
+    font-size: 20px;
+  }
+  
   .list-machine p {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: large;
-    height: 35px;
-    border-top: solid 1px;
-    border-bottom: solid 1px;
-
+    font-size: 20px;
+    height: 34px;
+    border: 1px solid #ddd;
+  }
+  
+  .list-machine::-webkit-scrollbar {
+    width: 0;
+    background-color: transparent;
   }
 
   .graficos ::-webkit-scrollbar {
