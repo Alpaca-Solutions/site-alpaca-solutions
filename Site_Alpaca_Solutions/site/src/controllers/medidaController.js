@@ -41,13 +41,13 @@ function buscarMedidasEmTempoReal(req, res) {
     });
 }
 
-function busca_dados_rede(req, res) {
+function buscarRede(req, res) {
 
 
 
     console.log(`Recuperando medidas em tempo real`);
 
-    medidaModel.busca_dados_rede().then(function (resultado) {
+    medidaModel.buscarRede().then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -60,10 +60,68 @@ function busca_dados_rede(req, res) {
     });
 }
 
+function buscarMemoria(req, res) {
 
+
+
+    console.log(`Recuperando medidas em tempo real`);
+
+    medidaModel.buscarMemoria().then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function buscarDisco(req, res) {
+
+
+
+    console.log(`Recuperando medidas em tempo real`);
+
+    medidaModel.buscarDisco().then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function buscarCPU(req, res) {
+
+
+
+    console.log(`Recuperando medidas em tempo real`);
+
+    medidaModel.buscarCPU().then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
 module.exports = {
     buscarUltimasMedidas,
     buscarMedidasEmTempoReal,
-    busca_dados_rede
+    buscarRede,
+    buscarMemoria,
+    buscarDisco,
+    buscarCPU
 
 }

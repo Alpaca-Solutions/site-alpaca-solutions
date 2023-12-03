@@ -12,9 +12,23 @@ router.get("/tempo-real/:idAquario", function (req, res) {
 })
 
 
-router.get("/busca_dados_rede", function (req, res) {
-    medidaController.busca_dados_rede(req, res);
+router.get("/buscarRede", function (req, res) {
+    medidaController.buscarRede(req, res);
 })
+
+router.get("/buscarMemoria", function (req, res) {
+    medidaController.buscarMemoria(req, res);
+})
+router.get("/buscarDisco", function (req, res) {
+    medidaController.buscarDisco(req, res);
+})
+
+router.get("/buscarCPU", function (req, res) {
+    medidaController.buscarCPU(req, res);
+})
+
+
+
 
 
 module.exports = router;

@@ -1,276 +1,393 @@
-CREATE DATABASE AlpacaDB;
+CREATE DATABASE IF NOT EXISTS AlpacaDB;
+-- DROP DATABASE AlpacaDB;
 USE AlpacaDB;
--- drop database AlpacaDB;
 
-CREATE TABLE Endereco(
-idEndereco int primary key auto_increment,
-cep varchar(8),
-rua varchar(50),
-numero varchar(50),
-bairro varchar(50),
-cidade varchar(50),
-estado varchar(50),
-ativo boolean
+CREATE TABLE Endereco (
+    idEndereco INT AUTO_INCREMENT PRIMARY KEY,
+    cep VARCHAR(8),
+    rua VARCHAR(50),
+    numero VARCHAR(50),
+    bairro VARCHAR(50),
+    cidade VARCHAR(50),
+    estado VARCHAR(50),
+    ativo BOOLEAN
 );
 
-CREATE TABLE Empresa(
-idEmpresa int primary key auto_increment,
-nomeFantasia varchar(45),
-razaoSocial varchar(45),
-cnpj varchar(14),
-ativo boolean,
-fk_endereco int,
-constraint fk_endereco foreign key (fk_endereco)
-references Endereco(idEndereco)
+CREATE TABLE Empresa (
+    idEmpresa INT AUTO_INCREMENT PRIMARY KEY,
+    nomeFantasia VARCHAR(45),
+    razaoSocial VARCHAR(45),
+    email VARCHAR(50),
+    senha VARCHAR(50),
+    cnpj VARCHAR(14),
+    ativo BOOLEAN,
+    fk_endereco INT,
+    CONSTRAINT fk_endereco FOREIGN KEY (fk_endereco)
+    REFERENCES Endereco(idEndereco)
 );
 
-CREATE TABLE Telefone(
-idTelefone int primary key auto_increment,
-numero char(11),
-tipo varchar(45),
-ativo boolean,
-fkEmpresa int,
-constraint fkEmpresa foreign key (fkEmpresa)
-references Empresa(idEmpresa)
+CREATE TABLE Telefone (
+    idTelefone INT AUTO_INCREMENT PRIMARY KEY,
+    numero CHAR(11),
+    tipo VARCHAR(45),
+    ativo BOOLEAN,
+    fkEmpresa INT,
+    CONSTRAINT fkEmpresa_Telefone FOREIGN KEY (fkEmpresa)
+    REFERENCES Empresa(idEmpresa)
 );
 
-CREATE TABLE Usuario(
-idUsuario int primary key auto_increment,
-nome varchar(50),
-email varchar(50),
-senha varchar(50),
-tipoAcesso varchar(20),
-nivelAcesso varchar(20),
-ativo boolean,
-fkEmpresaUsuario int,
-constraint fkEmpresaUsuario foreign key (fkEmpresaUsuario)
-references Empresa(idEmpresa)
+CREATE TABLE Usuario (
+    idUsuario INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(50),
+    email VARCHAR(50),
+    senha VARCHAR(50),
+    tipoAcesso VARCHAR(20),
+    nivelAcesso VARCHAR(20),
+    ativo BOOLEAN,
+    fkEmpresa INT,
+    CONSTRAINT fkEmpresa_Usuario FOREIGN KEY (fkEmpresa)
+    REFERENCES Empresa(idEmpresa)
 );
 
-CREATE TABLE Unidade(
-idUnidade int primary key auto_increment,
-nomeInstituicao varchar(45),
-ativo boolean,
-fkEndereco int,
-constraint fkEndereco foreign key (fkEndereco) references Endereco(idEndereco)
+CREATE TABLE Unidade (
+    idUnidade INT AUTO_INCREMENT PRIMARY KEY,
+    nomeInstituicao VARCHAR(45),
+    ativo BOOLEAN,
+    fkEndereco INT,
+    CONSTRAINT fkEndereco_Unidade FOREIGN KEY (fkEndereco)
+    REFERENCES Endereco(idEndereco)
 );
 
-CREATE TABLE Maquina(
-idMaquina int primary key auto_increment,
-NomeMaquina varchar(50) not null,
-ipMaquina varchar(45),
-sistemaOperacional varchar(45),
-statusMaquina boolean,
-ativo boolean,
-fkEmpresaMaquina int,
-fKUnidade int,
-constraint fkEmpresaMaquina foreign key (fkEmpresaMaquina)
-references Empresa(idEmpresa),
-constraint fkUnidade foreign key (fKUnidade)
-references Unidade(idUnidade)
+CREATE TABLE Maquina (
+    idMaquina INT AUTO_INCREMENT PRIMARY KEY,
+    hostname VARCHAR(50) NOT NULL,
+    ipMaquina VARCHAR(45),
+    sistemaOperacional VARCHAR(45),
+    statusMaquina BOOLEAN,
+    fkEmpresa INT,
+    fKUnidade INT,
+    CONSTRAINT fkEmpresa_Maquina FOREIGN KEY (fkEmpresa)
+    REFERENCES Empresa(idEmpresa),
+    CONSTRAINT fkUnidade_Maquina FOREIGN KEY (fKUnidade)
+    REFERENCES Unidade(idUnidade)
 );
 
 CREATE TABLE TipoComponente (
-  idTipoComponente INT PRIMARY KEY auto_increment,
-  Cpu_ VARCHAR(20),
-  DiscoRigido VARCHAR(45),
-  Memoria VARCHAR(45),
-  Rede VARCHAR(45)
+    idTipoComponente INT AUTO_INCREMENT PRIMARY KEY,
+    nomeTipo VARCHAR(60),
+    tipoComponente VARCHAR(60)
+);
+SELECT idTipoComponente, nomeTipo
+FROM TipoComponente
+WHERE nomeTipo IN ('Memoria Usada', 'Memoria em Uso', 'Memoria Disponível', 'Percentual de uso do Disco', 'Tamanho do Disco', 'Tamanho Disponível', 'Percentual de Uso do Processador', 'Bytes Recebidos', 'Bytes Enviados')
+GROUP BY idTipoComponente, nomeTipo;
+
+SELECT idTipoComponente, nomeTipo, COUNT(*)
+FROM TipoComponente
+GROUP BY idTipoComponente, nomeTipo
+HAVING COUNT(*) > 1;
+
+DELETE t1
+FROM TipoComponente t1
+INNER JOIN TipoComponente t2
+WHERE t1.idTipoComponente > t2.idTipoComponente
+AND t1.nomeTipo = t2.nomeTipo;
+
+
+-- select pra pegar os ids de cada tipo de componente 
+SELECT idTipoComponente, nomeTipo
+FROM TipoComponente
+WHERE (nomeTipo, idTipoComponente) IN (
+    SELECT nomeTipo, MIN(idTipoComponente) AS idTipoComponente
+    FROM TipoComponente
+    WHERE nomeTipo IN ('Memoria Usada', 'Memoria em Uso', 'Memoria Disponível', 'Percentual de uso do Disco', 'Tamanho do Disco', 'Tamanho Disponível', 'Percentual de Uso do Processador', 'Bytes Recebidos', 'Bytes Enviados')
+    GROUP BY nomeTipo
 );
 
+
+
+
+
+select * from tipoComponente;
+
+ SELECT M.*, U.Tipo AS TipoUnidadeMedida, TC.nomeTipo AS NomeTipoComponente
+FROM Medicoes M
+JOIN UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
+JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+WHERE TC.nomeTipo = 'bytes recebidos';
 CREATE TABLE Config (
-  idComponentes INT PRIMARY KEY auto_increment,
-  ValorConfiguracao VARCHAR(45),
-  fkMaquina INT,
-  fkTipoComponenteID INT,
-  FOREIGN KEY (fkMaquina) REFERENCES Maquina(idMaquina),
-  FOREIGN KEY (fkTipoComponenteID) REFERENCES TipoComponente(idTipoComponente)
+    idComponentes INT AUTO_INCREMENT PRIMARY KEY,
+    ValorConfiguracao VARCHAR(80),
+    fkMaquina INT,
+    fkTipoComponenteID INT,
+    FOREIGN KEY (fkMaquina) REFERENCES Maquina(idMaquina),
+    FOREIGN KEY (fkTipoComponenteID) REFERENCES TipoComponente(idTipoComponente)
 );
 
 CREATE TABLE UnidadeMedida (
-  idParametros INT PRIMARY KEY auto_increment,
-  Tipo VARCHAR(45),
-  Valor VARCHAR(45),
-  fkMaquina INT,
-  FOREIGN KEY (fkMaquina) REFERENCES Maquina(idMaquina)
+    idParametros INT AUTO_INCREMENT PRIMARY KEY,
+    Tipo CHAR(10),
+    fkMaquina INT,
+    FOREIGN KEY (fkMaquina) REFERENCES Maquina(idMaquina)
 );
 
+INSERT INTO UnidadeMedida(Tipo) VALUES
+('GB'),
+('MB'),
+('KB');
+
 CREATE TABLE Medicoes (
-  idMedicoes INT PRIMARY KEY auto_increment,
-  valor DECIMAL(10,2),
-  data_hora_leitura DATETIME,
-  id_computador INT,
-  fkTipoComponenteID INT,
-  fkUnidadeMedidaID INT,
-  FOREIGN KEY (fkTipoComponenteID) REFERENCES TipoComponente(idTipoComponente),
-  FOREIGN KEY (fkUnidadeMedidaID) REFERENCES UnidadeMedida(idParametros)
+    idMedicoes INT AUTO_INCREMENT PRIMARY KEY,
+    valor DECIMAL(10,2),
+    data_hora_leitura DATETIME,
+    id_computador INT,
+    fkTipoComponenteID INT,
+    fkUnidadeMedidaID INT,
+    FOREIGN KEY (fkTipoComponenteID) REFERENCES TipoComponente(idTipoComponente),
+    FOREIGN KEY (fkUnidadeMedidaID) REFERENCES UnidadeMedida(idParametros)
 );
 
 CREATE TABLE MetricasAlertas (
-  idMetricasAlertas INT PRIMARY KEY auto_increment,
-  TipoComponente VARCHAR(45),
-  maximo VARCHAR(45),
-  mensagemAlerta VARCHAR(45),
-  minimo VARCHAR(45),
-  dhHoraAlerta DATETIME,
-  fkUnidadeMedida INT,
-  fkTipoComponente INT,
-  fkConfiguracao INT,
-  FOREIGN KEY (fkUnidadeMedida) REFERENCES UnidadeMedida(idParametros),
-  FOREIGN KEY (fkTipoComponente) REFERENCES TipoComponente(idTipoComponente),
-  FOREIGN KEY (fkConfiguracao) REFERENCES Config(idComponentes)
+    idMetricasAlertas INT AUTO_INCREMENT PRIMARY KEY,
+    TipoComponente VARCHAR(45),
+    maximo VARCHAR(45),
+    mensagemAlerta VARCHAR(150),
+    minimo VARCHAR(45),
+    dhHoraAlerta DATETIME,
+    fkUnidadeMedida INT,
+    fkTipoComponente INT,
+    fkConfiguracao INT,
+    FOREIGN KEY (fkUnidadeMedida) REFERENCES UnidadeMedida(idParametros),
+    FOREIGN KEY (fkTipoComponente) REFERENCES TipoComponente(idTipoComponente),
+    FOREIGN KEY (fkConfiguracao) REFERENCES Config(idComponentes)
 );
 
--- inserts:
--- CADASTRANDO EMPRESA:
+select * from maquina;
 
-INSERT INTO Endereco (cep, rua, numero, bairro,  cidade, estado, ativo)
-VALUES ('01414001', 'Rua Haddock Lobo', '595', 'Cerqueira César', 'São Paulo', 'SP', true);
+INSERT INTO Endereco (rua, bairro, estado, cep, cidade, numero)
+VALUES ('Rua Exemplo', 'Bairro Exemplo', 'Estado Exemplo', '12345678', 'Cidade Exemplo', '123');
 
-INSERT INTO Empresa (nomefantasia, razaoSocial, cnpj, ativo, fk_endereco)
-VALUES ('São Paulo Tech School', 'SPTech School', '40186572000121', true, 1);
 
-INSERT INTO Telefone (numero, tipo, ativo, fkEmpresa)
-VALUES ('11940634991', 'Fixo', true, 1);
-      
-INSERT INTO Usuario (nome, email, senha, tipoAcesso, nivelAcesso, ativo, fkEmpresaUsuario)
-VALUES ('SPTech School','sptech.matriz@sptech.school', '123123', '1', '1', true, 1);
+INSERT INTO Empresa (nome_fantasia, razao_social, cnpj,email , senha ,  fk_endereco)
+VALUES ('Nome Fantasia Exemplo', 'Razão Social Exemplo', '12345678901234','ewerton@gmail.com' , 12345,  1);
 
--- CADASTRANDO MAQUINA 
-INSERT INTO Endereco (cep, rua, numero, bairro,  cidade, estado, ativo)
-VALUES ('01414001', 'Rua Haddock Lobo', '595', 'Cerqueira César', 'São Paulo', 'SP', true);
 
-INSERT INTO Unidade (nomeInstituicao, ativo, fkEndereco)
-VALUES('SPtech Paulista', true, 1); 
+select * from unidade;
 
-INSERT INTO Maquina(NomeMaquina, ipMaquina, sistemaOperacional, statusMaquina, ativo, fkEmpresaMaquina, fkUnidade)
-VALUES('Unidade Paulista', '55.554.778-77', 'Linux', true, true, 1, 1);
-      
--- CADASTRANDO USUARIOS 
-INSERT INTO Usuario (nome, email, senha, tipoAcesso, nivelAcesso, ativo, fkEmpresaUsuario)
-VALUES ('Gabrielli Gallione','gabrielli.fogaca@sptech.school', '123123', 1, 1, true, 1);
 
-INSERT INTO Usuario (nome, email, senha, tipoAcesso, nivelAcesso, ativo, fkEmpresaUsuario)
-VALUES ('Sophia Amaral','sophia.silva@sptech.school', '123123', 1, 1, true, 1);
+SELECT 
+    Empresa.idEmpresa as id,
+    Empresa.nomeFantasia as nome,
+    Empresa.email,
+    Empresa.senha,
+    Empresa.cnpj,
+    Empresa.ativo,
+    Endereco.*
+FROM Empresa
+JOIN Endereco ON Empresa.fk_endereco = Endereco.idEndereco
+WHERE Empresa.email = 'ewerton@gmail.com' AND Empresa.senha = '12345' AND Empresa.ativo = true
+UNION
+SELECT 
+    Usuario.idUsuario as id,
+    Usuario.nome,
+    Usuario.email,
+    Usuario.senha,
+    NULL as cnpj,
+    Usuario.ativo,
+    Endereco.*
+FROM Usuario
+JOIN Empresa ON Usuario.fkEmpresaUsuario = Empresa.idEmpresa
+JOIN Endereco ON Empresa.fk_endereco = Endereco.idEndereco
+WHERE Usuario.email = 'ewerton@gmail.com' AND Usuario.senha = '12345' AND Usuario.ativo = true;
 
-INSERT INTO Usuario (nome, email, senha, tipoAcesso, nivelAcesso, ativo, fkEmpresaUsuario)
-VALUES ('Anna Matos','anna.matos@sptech.school', '123123', 1, 1, true, 1);
+select * from empresa;
 
-INSERT INTO Usuario (nome, email, senha, tipoAcesso, nivelAcesso, ativo, fkEmpresaUsuario)
-VALUES ('Ewerton Lima','ewerton.lima860@sptech.school', '123123', 1, 1, true, 1);
+update empresa set ativo = true where idempresa = 1;
 
-INSERT INTO Usuario (nome, email, senha, tipoAcesso, nivelAcesso, ativo, fkEmpresaUsuario)
-VALUES ('João Victor','joao.silva850@sptech.school', '123123', 1, 1, true, 1);
 
-INSERT INTO Usuario (nome, email, senha, tipoAcesso, nivelAcesso, ativo, fkEmpresaUsuario)
-VALUES ('Erick Roberto','erick.ribeiro@sptech.school', '123123', 1, 1, true, 1);
 
--- selects: 
+SELECT M.*, U.Tipo AS TipoUnidadeMedida, TC.nomeTipo AS NomeTipoComponente
+FROM Medicoes M
+JOIN UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
+JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+WHERE TC.nomeTipo = 'Percentual de Uso do Processador';
 
-SELECT * FROM Endereco
-      JOIN Empresa ON Empresa.fk_endereco = Endereco.idEndereco
-      JOIN Telefone ON Telefone.fkEmpresa = Empresa.idEmpresa
-      JOIN Usuario ON Usuario.fkEmpresaUsuario = Empresa.idEmpresa 
-      WHERE Usuario.ativo = true AND idEmpresa = 1;
+select * from tipoComponente;
 
-SELECT * FROM Endereco
-JOIN Empresa ON Empresa.fk_endereco = Endereco.idEndereco
-JOIN Telefone ON Telefone.fkEmpresa = Empresa.idEmpresa
-JOIN Usuario ON Usuario.fkEmpresaUsuario = Empresa.idEmpresa
-WHERE email = 'sptech.matriz@gmail' AND senha = '123123'  AND Usuario.ativo = true;
+
+
+SELECT idTipoComponente, nomeTipo
+FROM TipoComponente
+WHERE (nomeTipo, idTipoComponente) IN ( 
+    SELECT nomeTipo, MIN(idTipoComponente) AS idTipoComponente
+    FROM TipoComponente
+    WHERE nomeTipo IN ('Memoria Usada', 'Memoria em Uso', 'Memoria Disponível', 'Percentual de uso do Disco', 'Tamanho do Disco', 'Tamanho Disponível', 'Percentual de Uso do Processador', 'Bytes Recebidos', 'Bytes Enviados', 'Percentual de Memoria')
+    GROUP BY nomeTipo
+);
+
+
+SELECT 
+    M.*, 
+    U.Tipo AS TipoUnidadeMedida, 
+    TC.nomeTipo AS NomeTipoComponente
+FROM 
+    Medicoes M
+JOIN 
+    UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
+JOIN 
+    TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+WHERE 
+    TC.nomeTipo IN ('Memoria Usada', 'Memoria Disponivel');
+    
+    SELECT
+    AVG(CASE WHEN TC.nomeTipo = 'Memoria Usada' THEN M.valor END) AS media_memoria_usada,
+    AVG(CASE WHEN TC.nomeTipo = 'Memoria Disponivel' THEN M.valor END) AS media_memoria_disponivel
+FROM
+    Medicoes M
+JOIN
+    UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
+JOIN
+    TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+WHERE
+    TC.nomeTipo IN ('Memoria Usada', 'Memoria Disponivel');
+
+
+
+SELECT
+    AVG(CASE WHEN TC.nomeTipo = 'Memoria Usada' THEN M.valor END) AS media_memoria_usada,
+    AVG(CASE WHEN TC.nomeTipo = 'Memoria Disponivel' THEN M.valor END) AS media_memoria_disponivel
+FROM
+    Medicoes M
+JOIN
+    UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
+JOIN
+    TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+WHERE
+    TC.nomeTipo IN ('Memoria Usada', 'Memoria Disponivel');
+
+
+SELECT
+    ROUND(AVG(CASE WHEN TC.nomeTipo = 'Memoria Usada' THEN M.valor END), 2) AS media_memoria_usada,
+    ROUND(AVG(CASE WHEN TC.nomeTipo = 'Memoria Disponivel' THEN M.valor END), 2) AS media_memoria_disponivel
+FROM
+    Medicoes M
+JOIN
+    UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
+JOIN
+    TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+WHERE
+    TC.nomeTipo IN ('Memoria Usada', 'Memoria Disponivel');
+    
+    
+    
+    
+    SELECT
+    ROUND(AVG(CASE WHEN TC.nomeTipo = 'Memoria Usada' THEN M.valor END), 2) AS media_memoria_usada,
+    ROUND(AVG(CASE WHEN TC.nomeTipo = 'Memoria Disponivel' THEN M.valor END), 2) AS media_memoria_disponivel,
+    ROUND(AVG(CASE WHEN TC.nomeTipo IN ('Memoria Usada', 'Memoria Disponivel') THEN M.valor END), 2) AS media_porcentagem
+FROM
+    Medicoes M
+JOIN
+    UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
+JOIN
+    TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+WHERE
+    TC.nomeTipo IN ('Memoria Usada', 'Memoria Disponivel');
+    
+    
+    SELECT
+    ROUND(AVG(CASE WHEN TC.nomeTipo = 'Memoria Usada' THEN (M.valor / (SELECT MAX(valor) FROM Medicoes WHERE TC.nomeTipo = 'Memoria Disponivel')) * 100 END), 2) AS media_memoria_usada,
+    ROUND(AVG(CASE WHEN TC.nomeTipo = 'Memoria Disponivel' THEN (M.valor / (SELECT MAX(valor) FROM Medicoes WHERE TC.nomeTipo = 'Memoria Disponivel')) * 100 END), 2) AS media_memoria_disponivel
+FROM
+    Medicoes M
+JOIN
+    TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+WHERE
+    TC.nomeTipo IN ('Memoria Usada', 'Memoria Disponivel');
+    
+    SELECT * FROM TipoComponente;
+    
+  
+  select * from config;
+  Insert into tipoComponente (nomeTipo , tipoComponente)values
+    ('Percentual de Memoria' , 'Memoria');
+
+insert into Config values
+(null , 'ConfiguraçãoMediaMemoria' );
+
+
+
+
+    
+    
+    select * from tipoComponente;
+ 
+ 
+ 
+SELECT *
+FROM Endereco
+JOIN Unidade ON Unidade.fkEndereco = Endereco.idEndereco
+JOIN Maquina ON Maquina.fKUnidade = Unidade.idUnidade 
+WHERE Maquina.ativo = true AND fkEmpresaMaquina = 1;
 
 SELECT *
 FROM Endereco
 JOIN Unidade ON Unidade.fkEndereco = Endereco.idEndereco
 JOIN Maquina ON Maquina.fKUnidade = Unidade.idUnidade 
-WHERE Maquina.ativo = true AND idMaquina = 1;
+WHERE Maquina.statusMaquina = 1 AND Maquina.fkEmpresa = 1;
 
--- CRUD
+  
+  select * from maquina;
+  
+  
+  
+  SELECT DISTINCT Maquina.idMaquina ,Maquina.hostname
+FROM Maquina
+JOIN Medicoes ON Medicoes.id_computador = Maquina.idMaquina
+JOIN TipoComponente ON TipoComponente.idTipoComponente = Medicoes.fkTipoComponenteID
+WHERE (TipoComponente.nomeTipo = 'Percentual de Uso do Processador' AND Medicoes.valor > 80)
+   OR (TipoComponente.nomeTipo IN ('Memoria Usada', 'Percentual de Memoria') AND Medicoes.valor > 80)
+   OR (TipoComponente.nomeTipo IN ('Bytes Recebidos', 'Bytes Enviados') AND Medicoes.valor > 1000);
+   
+   
+SELECT DISTINCT Maquina.idmaquina, Maquina.hostname
+FROM Maquina
+JOIN Medicoes ON Medicoes.id_computador = Maquina.idMaquina
+JOIN TipoComponente ON TipoComponente.idTipoComponente = Medicoes.fkTipoComponenteID
+JOIN Empresa ON Empresa.idEmpresa = Maquina.fkEmpresa
+WHERE Empresa.idEmpresa = 1
+  AND (
+    (TipoComponente.nomeTipo = 'Percentual de Uso do Processador' AND Medicoes.valor > 80)
+    OR (TipoComponente.nomeTipo IN ('Memoria Usada', 'Percentual de Memoria') AND Medicoes.valor > 80)
+    OR (TipoComponente.nomeTipo IN ('Bytes Recebidos', 'Bytes Enviados') AND Medicoes.valor > 1000)
+  );
+  
+SELECT distinct idMaquina, Maquina.hostname
+FROM Maquina
+JOIN Empresa ON Maquina.fkEmpresa = Empresa.idEmpresa
+WHERE Empresa.idEmpresa = 1;
 
--- UPDAT
--- Atualização da tabela Endereco
-UPDATE Endereco
-SET cep = '01414001',
-    rua = 'Rua Haddock Lobo',
-    numero = '595',
-    bairro = 'Cerqueira César',
-    cidade = 'São Paulo',
-    estado = 'SP',
-    ativo = true
-WHERE id_endereco = 1;
+SELECT *
+FROM Maquina
+WHERE (idMaquina, hostname) IN (
+    SELECT idMaquina, hostname
+    FROM Maquina
+    GROUP BY idMaquina, hostname
+    HAVING COUNT(*) > 1
+);
 
--- Atualização da tabela Empresa
-UPDATE Empresa SET nomefantasia = 'São Paulo Tech School',
-    razaoSocial = 'SPTech School',
-    cnpj = '40186572000121',
-    ativo = true,
-    fk_endereco = 1
-WHERE id_empresa = 1;
+DELETE m1
+FROM Maquina m1, Maquina m2
+WHERE m1.idMaquina > m2.idMaquina
+  AND m1.hostname = m2.hostname;
 
--- Atualização da tabela Telefone
-UPDATE Telefone SET numero = '11940634991',
-    tipo = 'Fixo',
-    ativo = true,
-    fkEmpresa = 1
-WHERE id_telefone = 1;
 
--- Atualização da tabela Usuario
-UPDATE Usuario SET nome = 'SPTech School',
-    email = 'sptech.matriz@sptech.school',
-    senha = '123123',
-    tipoAcesso = '1',
-    nivelAcesso = '1',
-    ativo = true,
-    fkEmpresaUsuario = 1
-WHERE id_usuario = 1; 
 
--- UPDAE MAQUINA
+select * from maquina;
 
--- Atualização da tabela Endereco
-UPDATE Endereco
-SET cep = '01414001',
-    rua = 'Rua Haddock Lobo',
-    numero = '595',
-    bairro = 'Cerqueira César',
-    cidade = 'São Paulo',
-    estado = 'SP',
-    ativo = false
-WHERE idEndereco = 1;
 
--- Atualização da tabela Unidade
-UPDATE Unidade
-SET nomeInstituicao = 'SPtech Paulista',
-    ativo = false,
-    fkEndereco = 1
-WHERE idUnidade = 1;
+insert into maquina values(null , 'maquinaana', '172.168,18.1' ,'Linux' , 1 , 1 , 1);
 
--- Atualização da tabela Maquina
-UPDATE Maquina
-SET NomeMaquina = 'Unidade Paulista',
-    ipMaquina = '55.554.778-77',
-    sistemaOperacional = 'Linux',
-    statusMaquina = true,
-    ativo = false,
-    fkEmpresaMaquina = 1,
-    fkUnidade = 1
-WHERE idMaquina = 1;
 
--- DELETE 
--- DELETE DA tabela Endereco
-UPDATE Endereco SET ativo = false WHERE idEndereco = 1;
 
--- DELETE DA tabela Empresa
-UPDATE Empresa SET ativo = false WHERE idEmpresa = 1;
 
--- DELETE DA tabela Telefone
-UPDATE Telefone SET ativo = false WHERE idTelefone = 1;
-
--- DELETE DA tabela Usuario
-UPDATE Usuario SET ativo = false WHERE idUsuario = 1;
-
--- DELETE DA tabela Maquina
-UPDATE Maquina SET ativo = false WHERE fkEmpresaMaquina = 1;
-
--- OUTROS UPDATES
--- DELETE DA tabela Unidade
-UPDATE Unidade SET ativo = false WHERE idUnidade = 1;

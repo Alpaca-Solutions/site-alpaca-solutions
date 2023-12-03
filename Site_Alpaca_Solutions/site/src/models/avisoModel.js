@@ -63,11 +63,10 @@ function atualizarUsuario(idUsuario, dadosAtualizados) {
 
 function listar_Maquinas(fkEmpresa) {
     var instrucao = `
-    SELECT *
-FROM Endereco
-JOIN Unidade ON Unidade.fkEndereco = Endereco.idEndereco
-JOIN Maquina ON Maquina.fKUnidade = Unidade.idUnidade 
-WHERE Maquina.ativo = true AND fkEmpresaMaquina = ${fkEmpresa};
+    SELECT MAX(idMaquina) AS idMaquina, TRIM(hostname) AS hostname
+    FROM Maquina
+    WHERE fkempresa = 1
+    GROUP BY TRIM(hostname);
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucao);
