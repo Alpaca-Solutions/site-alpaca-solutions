@@ -10,7 +10,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 
-<body onload="obter_dados_grafico()">
+<body onload="obterDadosMaquinas()">
     <div class="corpo">
         <div class="header">
             <div class="boasVindas">
@@ -18,8 +18,11 @@
                     <img src="../../assets/icon/seta-esquerda.png" alt="" width="25px" onclick="funcVoltar()">
                 </div>
                 <div class="textoBoasVindas">
-                    <h3>Olá, <span id="b_usuario">usuário</span>!</h3><a href="../edits/edicao-empresa..html"><img
-                            src="../../assets/imgs/configuracoes.png" alt="" style="width: 30px;"></a>
+                    <h3>Olá, <span id="b_usuario">usuário</span>!</h3><a id="linkEdicaoUsuario"
+                        href="../edits/edicao-usuario.html#">
+                        <img src="../../assets/imgs/configuracoes.png" alt="" style="width: 30px;">
+                    </a>
+                    </a>
                 </div>
             </div>
         </div>
@@ -51,52 +54,65 @@
             <div class="graficos">
                 <!-- começa -->
                 <div class="cards_superiores">
+                    <div class="metricas">
+                        <div class="titulos_cards1">
+                            <h1>RAM</h1>
+                            <h2>80%</h2>
+                            <p>Porcentagem média de uso de RAM</p>
+                        </div>
 
-                    <div class="titulos_cards1">
-                        <h1>RAM</h1>
-                        <h2>104455</h2>
-                    </div>
+                        <div class="titulos_cards1">
+                            <h1>DADOS REDE</h1>
+                            <h2>10 Mbps</h2>
+                            <p>Velocidade de download</p>
+                        </div>
+                        <div class="titulos_cards1">
+                            <h1>DISCO</h1>
+                            <h2>50%</h2>
+                            <p>Uso médio do disco</p>
+                        </div>
 
-                    <div class="titulos_cards1">
-                        <h1>DADOS REDE</h1>
-                        <h2>348756</h2>
+                        <div class="titulos_cards1">
+                            <h1>CPU</h1>
+                            <h2>50%</h2>
+                            <p>Uso médio da CPU</p>
+                        </div>
                     </div>
-                    <div class="titulos_cards1">
-                        <h1>DISCO</h1>
-                        <h2>39</h2>
-                    </div>
-
-                    <div class="titulos_cards1">
-                        <h1>CPU</h1>
-                        <h2>49</h2>
+                    <div class="list-machine">
+                        <h4>Máquinas em alerta:</h4>
+                        <p onclick="">nome_da_maquina</p>
+                        <p onclick="">nome_da_maquina</p>
+                        <p onclick="">nome_da_maquina</p>
+                        <p onclick="">nome_da_maquina</p>
+                        <p onclick="">nome_da_maqu</p>
+                        <p onclick="">nome_da_maquina</p>
                     </div>
 
                 </div>
                 <div class="cards_inferior">
-                <div class="lado-direito">
-                    <div class="grafico-card2">
-                        <!-- <h1>MEMÓRIA RAM</h1> -->
-                        <div id="chart_div1" class="grafico-card"></div>
+                    <div class="lado-direito">
+                        <div class="grafico-card2">
+                            <!-- <h1>MEMÓRIA RAM</h1> -->
+                            <div id="chart_div1" class="grafico-card"></div>
+                        </div>
+
+                        <div class="grafico-car2">
+                            <!-- <h1>CAPTURA DE DADOS DE REDE</h1> -->
+                            <div id="chart_div2" class="grafico-card"></div>
+                        </div>
                     </div>
 
-                    <div class="grafico-car2">
-                        <!-- <h1>CAPTURA DE DADOS DE REDE</h1> -->
-                        <div id="chart_div2" class="grafico-card"></div>
+                    <div class="lado-esquerdo">
+                        <div class="grafico-card2">
+                            <!-- <h1>DISCO</h1> -->
+                            <div class="grafico-card" id="chart_div3"></div>
+                        </div>
+                        <div class="grafico-card2">
+                            <!-- <h1>CPU</h1> -->
+                            <div class="grafico-card" id="chart_div4"></div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="lado-esquerdo">
-
-                    <div class="grafico-card2">
-                        <!-- <h1>DISCO</h1> -->
-                        <div class="grafico-card" id="chart_div3" ></div>
-                    </div>
-                    <div class="grafico-card2">
-                        <!-- <h1>CPU</h1> -->
-                        <div class="grafico-card" id="chart_div4" ></div>
-                    </div>
-                </div>
-            </div>
                 <!-- termina -->
             </div>
         </div>
@@ -109,9 +125,15 @@
     const b_usuario = document.getElementById("b_usuario");
     b_usuario.innerHTML = sessionStorage.NomeUsuarioLogin;
 
+    var linkEdicaoUsuario = document.getElementById("linkEdicaoUsuario");
+    linkEdicaoUsuario.href += sessionStorage.idUsuarioLogin;
+
     function funcVoltar() {
         window.history.back()
     }
+
+    // gráficos:
+
     google.charts.load('current', { 'packages': ['corechart'] });
     google.charts.setOnLoadCallback(drawCharts);
 
@@ -132,7 +154,6 @@
             ['22:00', 348756],
             ['22:20', 948756],
             ['22:40', 348756],
-
         ]);
 
         var data3 = google.visualization.arrayToDataTable([
@@ -153,29 +174,44 @@
             ['22:40', 28],
         ]);
 
+        // Função para obter a cor com base no valor
+        function getLineColor(value) {
+            if (value >= 80000) {
+                return 'red'; // vermelho
+            } else if (value >= 60000) {
+                return 'orange'; // laranja
+            } else {
+                return 'green'; // verde
+            }
+        }
+
         // Opções para os gráficos
         var options = {
-            title: 'MEMÓRIA RAM',
+            title: 'USO DA MEMÓRIA RAM',
             curveType: 'function',
-            legend: { position: 'bottom' }
+            legend: { position: 'bottom' },
+            colors: [getLineColor(104455)]
         };
 
         var options2 = {
-            title: 'CAPTURA DE DADOS DE REDE',
+            title: 'MÉDIA DA CAPTURA DE DADOS DE REDE',
             curveType: 'function',
-            legend: { position: 'bottom' }
+            legend: { position: 'bottom' },
+            colors: [getLineColor(548756)]
         };
 
         var options3 = {
-            title: 'DISCO',
+            title: 'Uso do DISCO',
             curveType: 'function',
-            legend: { position: 'bottom' }
+            legend: { position: 'bottom' },
+            colors: [getLineColor(29)]
         };
 
         var options4 = {
-            title: 'CPU',
+            title: 'USO DA CPU',
             curveType: 'function',
-            legend: { position: 'bottom' }
+            legend: { position: 'bottom' },
+            colors: [getLineColor(49)]
         };
 
         // Elementos HTML onde os gráficos serão exibidos
@@ -184,9 +220,97 @@
         var chart3 = new google.visualization.LineChart(document.getElementById('chart_div3'));
         var chart4 = new google.visualization.LineChart(document.getElementById('chart_div4'));
 
-        chart1.draw(data1, options);
-        chart2.draw(data2, options2);
-        chart3.draw(data3, options3);
-        chart4.draw(data4, options4);
+        var chartOptions = {
+            width: 500, // Defina o valor desejado para a largura do gráfico
+            height: 240 // Defina o valor desejado para a altura do gráfico
+        };
+        chart1.draw(data1, Object.assign({}, options, chartOptions));
+        chart2.draw(data2, Object.assign({}, options2, chartOptions));
+        chart3.draw(data3, Object.assign({}, options3, chartOptions));
+        chart4.draw(data4, Object.assign({}, options4, chartOptions));
     }
+
+    // Lista de maquinas:
+
+    function obterDadosMaquinas() {
+        var idEmpresa = sessionStorage.fkEmpresaUsuario;
+        console.log("ID do Usuário:", idEmpresa);
+
+        fetch(`/avisos/listar_maquinas/${idEmpresa}`, { cache: 'no-store' })
+            .then(function (response) {
+                if (!response.ok) {
+                    console.error('Erro na API:', response.status, response.statusText);
+                    throw new Error('Erro na API');
+                }
+
+                // Verificar se o corpo da resposta está vazio
+                const contentLength = response.headers.get('content-length');
+                if (contentLength && contentLength === '0') {
+                    console.log('Nenhum dado encontrado na resposta.');
+                    return null;
+                }
+
+                // Tentar analisar o corpo da resposta como JSON
+                return response.json();
+            })
+            .then(function (resposta) {
+                if (resposta !== null) {
+                    const divListMachine = document.querySelector('.list-machine');
+
+                    // Limpar qualquer conteúdo existente
+                    divListMachine.innerHTML = '';
+
+                    // Adicionar a classe "list-machine" de volta à div
+                    divListMachine.classList.add('list-machine');
+
+                    // Adicionar o título "Máquinas em alerta"
+                    const titulo = document.createElement('h4');
+                    titulo.textContent = 'Máquinas em alerta:';
+                    divListMachine.appendChild(titulo);
+
+                    resposta.forEach(function (dados_banco) {
+                        const idMaquina = dados_banco.idMaquina;
+                        const nomeMaquina = dados_banco.NomeMaquina;
+
+                        // Cria um elemento <p>
+                        var linha = document.createElement('p');
+                        
+                        linha.textContent = nomeMaquina;
+
+                        if (nomeMaquina == "Servidor Paulista") {
+                            const imagem = document.createElement('img');
+                            imagem.src = '../../assets/imgs/warning.png';
+                            imagem.style.width = '45px';
+                            linha.appendChild(imagem);
+                            linha.style.color = '#FF5555';
+
+                        } else if (nomeMaquina == "Servidor tucuruvi") {
+                            const imagem = document.createElement('img');
+                            imagem.src = '../../assets/imgs/caution.png';
+                            imagem.style.width = '45px';
+                            linha.appendChild(imagem);
+                            linha.style.color = '#e68a01';
+                        }
+                        
+
+                        // Adiciona o atributo onclick ao <p> com o redirecionamento para o dashboard específico
+                        linha.setAttribute('onclick', `redirecionarDashboard(${idMaquina})`);
+
+                        // Adiciona a linha criada à div com a classe "list-machine"
+                        divListMachine.appendChild(linha);
+                    });
+                }
+            })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados para gráfico: ${error.message}`);
+            });
+    }
+
+    // Função para redirecionar para o dashboard específico com o ID da máquina como parâmetro
+
+    function redirecionarDashboard(idMaquina) {
+        // Redireciona para o dashboard específico com o ID da máquina como parâmetro na URL
+        window.location.href = `dashboard-especifico.html?idMaquina=${idMaquina}`;
+    }
+
 </script>

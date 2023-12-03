@@ -92,7 +92,7 @@
                         Cidade: <input type="text" id="cidade">
                         Número: <input type="text" id="numero">
                     </div>
-                    <button onclick="atualizarEmpresa()" class="atualizar">Atualizar</button>
+                    <button id="atualizar" onclick="atualizarEmpresa()" class="atualizar">Atualizar</button>
                 </div>
             </div>
         </div>
@@ -105,6 +105,9 @@ b_usuario.innerHTML = sessionStorage.NomeUsuarioLogin;
 
     function funcVoltar() {
         window.history.back()
+    }
+    if (sessionStorage.tipoAcessoLogin != 1){
+        document.getElementById("atualizar").style.display = 'none';
     }
 
     function preencherDados() {

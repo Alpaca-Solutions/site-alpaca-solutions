@@ -77,9 +77,10 @@ body {
     height: 100%;
     width: 180px;
     display: flex;
-    align-items: center;
-    flex-wrap: wrap;
+    align-items: center; 
 }
+
+
 
 .boasVindas img {
     cursor: pointer;

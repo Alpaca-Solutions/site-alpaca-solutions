@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 
-<body>
+<body onload="obterDadosMaquinas()">
     <div class="corpo">
         <div class="header">
             <div class="boasVindas">
@@ -55,15 +55,12 @@
                     <div id="disco-chart" class="chart"></div>
                     <div id="cpu-chart" class="chart"></div>
                     <div class="list-machine">
+                        <h4>Máquinas em alerta:</h4>
                         <p onclick="">nome_da_maquina</p>
                         <p onclick="">nome_da_maquina</p>
                         <p onclick="">nome_da_maquina</p>
                         <p onclick="">nome_da_maquina</p>
-                        <p onclick="">nome_da_maquina</p>
-                        <p onclick="">nome_da_maquina</p>
-                        <p onclick="">nome_da_maquina</p>
-                        <p onclick="">nome_da_maquina</p>
-                        <p onclick="">nome_da_maquina</p>
+                        <p onclick="">nome_da_maqu</p>
                         <p onclick="">nome_da_maquina</p>
                     </div>
                 </div>
@@ -99,9 +96,25 @@
         var options = {
             title: title,
             pieHole: 0.4,
-            colors: ['#7E57C2', '#EEEEEE'],
             legend: 'none',
+            titleTextStyle: {
+                fontSize: 18
+            },
+            width: 270,
+            height: 270,
+            pieSliceText: 'value',
+            tooltip: { textStyle: { fontSize: 16 } },
         };
+
+        var color;
+        if (value > 80) {
+            color = '#FF5555';
+        } else if (value > 70) {
+            color = '#e68a01';
+        } else {
+            color = '#74C365';
+        }
+        options.colors = [color, '#EEEEEE'];
 
         var chart = new google.visualization.PieChart(document.getElementById(containerId));
         chart.draw(data, options);
@@ -122,7 +135,6 @@
             title: 'CAPTURA DE DADOS DE REDE',
             curveType: 'function',
             legend: { position: 'bottom' },
-            colors: ['#7E57C2', '#2196F3', '#FF5722']
         };
 
         var chart = new google.visualization.LineChart(document.getElementById('line-chart'));
@@ -131,6 +143,91 @@
 
     function funcVoltar() {
         window.history.back()
+    }
+
+    function funcVoltar() {
+        window.history.back()
+    }
+
+    function obterDadosMaquinas() {
+        var idEmpresa = sessionStorage.fkEmpresaUsuario;
+        console.log("ID do Usuário:", idEmpresa);
+
+        fetch(`/avisos/listar_maquinas/${idEmpresa}`, { cache: 'no-store' })
+            .then(function (response) {
+                if (!response.ok) {
+                    console.error('Erro na API:', response.status, response.statusText);
+                    throw new Error('Erro na API');
+                }
+
+                // Verificar se o corpo da resposta está vazio
+                const contentLength = response.headers.get('content-length');
+                if (contentLength && contentLength === '0') {
+                    console.log('Nenhum dado encontrado na resposta.');
+                    return null;
+                }
+
+                // Tentar analisar o corpo da resposta como JSON
+                return response.json();
+            })
+            .then(function (resposta) {
+                if (resposta !== null) {
+                    const divListMachine = document.querySelector('.list-machine');
+
+                    // Limpar qualquer conteúdo existente
+                    divListMachine.innerHTML = '';
+
+                    // Adicionar a classe "list-machine" de volta à div
+                    divListMachine.classList.add('list-machine');
+
+                    // Adicionar o título "Máquinas em alerta"
+                    const titulo = document.createElement('h4');
+                    titulo.textContent = 'Máquinas em alerta:';
+                    divListMachine.appendChild(titulo);
+
+                    resposta.forEach(function (dados_banco) {
+                        const idMaquina = dados_banco.idMaquina;
+                        const nomeMaquina = dados_banco.NomeMaquina;
+
+                        // Cria um elemento <p>
+                        var linha = document.createElement('p');
+
+                        linha.textContent = nomeMaquina;
+
+                        if (nomeMaquina == "Servidor Paulista") {
+                            const imagem = document.createElement('img');
+                            imagem.src = '../../assets/imgs/warning.png';
+                            imagem.style.width = '45px';
+                            linha.appendChild(imagem);
+                            linha.style.color = '#FF5555';
+
+                        } else if (nomeMaquina == "Servidor tucuruvi") {
+                            const imagem = document.createElement('img');
+                            imagem.src = '../../assets/imgs/caution.png';
+                            imagem.style.width = '45px';
+                            linha.appendChild(imagem);
+                            linha.style.color = '#e68a01';
+                        }
+
+
+                        // Adiciona o atributo onclick ao <p> com o redirecionamento para o dashboard específico
+                        linha.setAttribute('onclick', `redirecionarDashboard(${idMaquina})`);
+
+                        // Adiciona a linha criada à div com a classe "list-machine"
+                        divListMachine.appendChild(linha);
+                    });
+                }
+            })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados para gráfico: ${error.message}`);
+            });
+    }
+
+    // Função para redirecionar para o dashboard específico com o ID da máquina como parâmetro
+
+    function redirecionarDashboard(idMaquina) {
+        // Redireciona para o dashboard específico com o ID da máquina como parâmetro na URL
+        window.location.href = `dashboard-especifico.html?idMaquina=${idMaquina}`;
     }
 
 </script>
