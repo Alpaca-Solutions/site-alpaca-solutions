@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 
-<body onload="obterDadosMaquinas()">
+<body onload="init(), obterDadosMaquinas()">
     <div class="corpo">
         <div class="header">
             <div class="boasVindas">
@@ -55,13 +55,7 @@
                     <div id="disco-chart" class="chart"></div>
                     <div id="cpu-chart" class="chart"></div>
                     <div class="list-machine">
-                        <h4>Máquinas em alerta:</h4>
-                        <p onclick="">nome_da_maquina</p>
-                        <p onclick="">nome_da_maquina</p>
-                        <p onclick="">nome_da_maquina</p>
-                        <p onclick="">nome_da_maquina</p>
-                        <p onclick="">nome_da_maqu</p>
-                        <p onclick="">nome_da_maquina</p>
+                        <h4>Máquinas:</h4>
                     </div>
                 </div>
                 <div id="line-chart" class="chart"></div>
@@ -78,10 +72,23 @@
     google.charts.load('current', { 'packages': ['corechart'] });
     google.charts.setOnLoadCallback(drawCharts);
 
+    function init() {
+        google.charts.load('current', { 'packages': ['corechart'] });
+
+        google.charts.setOnLoadCallback(function () {
+            drawCharts();
+            drawLineChart()
+        });
+
+        setInterval(buscarDadosRede, 5000);
+        setInterval(buscarDadosMemoria, 5000);
+        setInterval(buscarDadosDisco , 5000);
+        setInterval(buscarDadosCPU, 5000);
+        setInterval(obterDadosMaquinas , 5000);
+       
+    }
+
     function drawCharts() {
-        drawChart('memoria-chart', 'Uso da Memória', 75, 25);
-        drawChart('disco-chart', 'Uso do Disco', 95, 5);
-        drawChart('cpu-chart', 'Uso da CPU', 45, 55);
 
         drawLineChart();
     }
@@ -120,26 +127,7 @@
         chart.draw(data, options);
     }
 
-    function drawLineChart() {
-        var data = google.visualization.arrayToDataTable([
-            ['Tempo', 'Bytes Enviados Mb', 'Bytes Recebidos Mb'],
-            ['21:20', 300, 600],
-            ['21:40', 400, 710],
-            ['22:00', 299, 600],
-            ['22:20', 700, 500],
-            ['22:40', 500, 400],
-            // Adicione mais linhas de dados conforme necessário
-        ]);
 
-        var options = {
-            title: 'CAPTURA DE DADOS DE REDE',
-            curveType: 'function',
-            legend: { position: 'bottom' },
-        };
-
-        var chart = new google.visualization.LineChart(document.getElementById('line-chart'));
-        chart.draw(data, options);
-    }
 
     function funcVoltar() {
         window.history.back()
@@ -187,8 +175,9 @@
 
                     resposta.forEach(function (dados_banco) {
                         const idMaquina = dados_banco.idMaquina;
-                        const nomeMaquina = dados_banco.NomeMaquina;
+                        const nomeMaquina = dados_banco.hostname;
 
+                        console.log("Nome maquina " + idMaquina)
                         // Cria um elemento <p>
                         var linha = document.createElement('p');
 
@@ -223,6 +212,299 @@
             });
     }
 
+ // Função para buscar dados do servidor
+function buscarDadosRede() {
+    fetch(`/medidas/buscarRede`, { cache: 'no-store' })
+        .then(function (response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+        .then(function (dados) {
+            // Chama a função para desenhar o gráfico com os dados recebidos
+            drawLineChart(dados);
+        })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+        });
+}
+
+function buscarDadosMemoria(){
+    fetch(`/medidas/buscarMemoria`, { cache: 'no-store' })
+    .then(function (response) {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+    .then(function (dados) {
+        // Chama a função para desenhar o gráfico com os dados recebidos
+        plotarDadosMemoria(dados);
+    })
+    .catch(function (error) {
+        console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+    });
+}
+
+function buscarDadosDisco(){
+    fetch(`/medidas/buscarDisco`, { cache: 'no-store' })
+    .then(function (response) {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+    .then(function (dados) {
+        console.log(`Dados recebidos: ${JSON.stringify(dados)}`);
+        plotarDisco(dados)
+    })
+    .catch(function (error) {
+        console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+    });
+}
+
+function buscarDadosCPU(){
+    fetch(`/medidas/buscarCPU`, { cache: 'no-store' })
+    .then(function (response) {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+    .then(function (dados) {
+        // Chama a função para desenhar o gráfico com os dados recebidos
+
+       PlotarDadosCpu(dados)
+    })
+    .catch(function (error) {
+        console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+    });
+}
+
+
+
+function drawLineChart(dados) {
+    // Verifica se há dados antes de continuar
+    if (!dados || dados.length === 0) {
+        console.warn('Sem dados para desenhar o gráfico.');
+        return;
+    }
+
+    // Converte os dados recebidos em um formato compatível com o gráfico
+    var data = new google.visualization.DataTable();
+    data.addColumn('datetime', 'Tempo');
+    data.addColumn('number', 'Bytes Enviados Mb');
+    data.addColumn('number', 'Bytes Recebidos Mb');
+
+    // Preenche os dados na tabela
+    dados.forEach(function (registro) {
+        // Converte o valor de tempo para um objeto Date
+        var tempo = new Date(registro.data_hora_leitura);
+        var valor = parseFloat(registro.valor);
+      
+
+
+        if (registro.NomeTipoComponente === 'Bytes Enviados') {
+            data.addRow([tempo, valor, null]);
+        } else if (registro.NomeTipoComponente === 'Bytes Recebidos') {
+            data.addRow([tempo, null, valor]);
+        }
+    });
+    var options = {
+        title: 'CAPTURA DE DADOS DE REDE',
+        curveType: 'function',
+        legend: { position: 'bottom' },
+        hAxis: {
+            slantedText: true,
+            slantedTextAngle: 45,
+        },
+        vAxis: {
+            minValue: 0,
+        },
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('line-chart'));
+    chart.draw(data, options);
+}
+
+function plotarDadosMemoria(dados) {
+    // Verifica se há dados antes de continuar
+    if (!dados || dados.length === 0) {
+        console.warn('Sem dados para plotar o gráfico de memória.');
+        return;
+    }
+
+    // Converte os dados recebidos em um formato compatível com o gráfico de rosca
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Tipo de Memória');
+    data.addColumn('number', 'Valor');
+
+    var total = 100;
+    var memoriaEmUso = 0;
+
+    // Preenche os dados na tabela
+    dados.forEach(function (registro) {
+        var tipoMemoria = registro.NomeTipoComponente;
+        var valor = parseFloat(registro.valor);
+        memoriaEmUso = valor;
+
+    });
+
+    console.log(memoriaEmUso)
+    var memoriaLivre = total - memoriaEmUso;
+
+    // Adiciona a linha "Memória Livre"
+    data.addRow(['Livre', memoriaLivre]);
+
+    // Adiciona a linha "Memória em Uso"
+    data.addRow(['Uso', memoriaEmUso]);
+
+    // Configurações do gráfico de rosca
+    var options = {
+        title: 'Uso da Memória Ram',
+        pieHole: 0.4,
+        titleTextStyle: {
+            fontSize: 18
+        },
+        width: 270,
+        height: 270,
+        pieSliceText: 'value',
+        tooltip: { textStyle: { fontSize: 16 } },
+        colors: getColorPalette(memoriaEmUso)// Cores personalizadas para "Livre" e "Uso"
+    };
+
+    // Desenha o gráfico de rosca
+    var chart = new google.visualization.PieChart(document.getElementById('memoria-chart'));
+    chart.draw(data, options);
+}
+
+
+
+function plotarDisco(dados){
+    if (!dados || dados.length === 0) {
+        console.warn('Sem dados para plotar o gráfico de memória.');
+        return;
+    }
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Tipo de Disco');
+    data.addColumn('number', 'Valor');
+
+
+    var total = 100;
+    var DiscoEmUso = 0;
+    var livre = 0;
+
+    dados.forEach(function (registro) {
+        var tipoMemoria = registro.NomeTipoComponente;
+        var valor = parseFloat(registro.valor);
+        DiscoEmUso = valor;
+        livre = total - DiscoEmUso
+
+    });
+
+    data.addRow(['Livre', livre]);
+
+    // Adiciona a linha "Memória em Uso"
+    data.addRow(['Uso', DiscoEmUso]);
+
+    
+    var options = {
+        title: 'Uso do Disco',
+        pieHole: 0.4,
+        titleTextStyle: {
+            fontSize: 18
+        },
+        width: 270,
+        height: 270,
+        pieSliceText: 'value',
+        tooltip: { textStyle: { fontSize: 16 } },
+        colors: getColorPalette(DiscoEmUso)// Cores personalizadas para "Livre" e "Uso"
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('disco-chart'));
+    chart.draw(data, options);
+
+}
+
+function PlotarDadosCpu(dados){
+    if (!dados || dados.length === 0) {
+        console.warn('Sem dados para plotar o gráfico de memória.');
+        return;
+    }
+
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Tipo de CPU');
+    data.addColumn('number', 'Valor');
+
+
+    var total = 100;
+    var CpuEmUso = 0;
+    var livre = 0;
+
+    dados.forEach(function (registro) {
+        var tipoMemoria = registro.NomeTipoComponente;
+        var valor = parseFloat(registro.valor);
+        CpuEmUso = valor;
+        livre = total - CpuEmUso
+
+    });
+
+    console.log(CpuEmUso);
+    console.log(livre)
+    
+
+    
+    data.addRow(['Livre', livre]);
+
+    // Adiciona a linha "Memória em Uso"
+    data.addRow(['Uso', CpuEmUso]);
+
+
+    var options = {
+        title: 'Uso da CPU',
+        pieHole: 0.4,
+        titleTextStyle: {
+            fontSize: 18
+        },
+        width: 270,
+        height: 270,
+        pieSliceText: 'value',
+        tooltip: { textStyle: { fontSize: 16 } },
+        colors: getColorPalette(CpuEmUso)// Cores personalizadas para "Livre" e "Uso"
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('cpu-chart'));
+    chart.draw(data, options);
+
+}
+
+function getColorPalette(memoriaEmUso, DiscoEmUso, CpuEmUso) {
+    if (memoriaEmUso > 80 || DiscoEmUso > 80 || CpuEmUso > 80) {
+        return ['#FFFFFF','#FF0000'];
+    } else if (memoriaEmUso > 70 || DiscoEmUso > 70 || CpuEmUso > 70) {
+        return ['#FFFFFF', '#FFA500'];
+    } else {
+        return ['#FFFFFF','#74C365'];
+    }
+}
+
+
+
+// Define um intervalo de 5 segundos para buscar dados continuamente
+setInterval(buscarDadosRede, 5000);
+setInterval(buscarDadosMemoria, 5000);
+setInterval(buscarDadosDisco , 5000)
+setInterval(buscarDadosCPU , 5000)
+setInterval(obterDadosMaquinas , 5000);
+
+
+
+ 
     // Função para redirecionar para o dashboard específico com o ID da máquina como parâmetro
 
     function redirecionarDashboard(idMaquina) {
