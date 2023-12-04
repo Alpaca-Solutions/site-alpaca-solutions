@@ -94,20 +94,31 @@ function buscarRede(){
 
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `select byte_recebido, byte_enviado from rede;`;
+        instrucaoSql = `SELECT 
+        M.*, 
+        U.Tipo AS TipoUnidadeMedida, 
+        TC.nomeTipo AS NomeTipoComponente
+        FROM 
+        Medicoes M
+        JOIN 
+        UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
+        JOIN 
+        TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+        WHERE 
+        TC.nomeTipo IN ('bytes recebidos', 'bytes enviados');`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = ` SELECT 
         M.*, 
         U.Tipo AS TipoUnidadeMedida, 
         TC.nomeTipo AS NomeTipoComponente
-    FROM 
+        FROM 
         Medicoes M
-    JOIN 
+        JOIN 
         UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
-    JOIN 
+        JOIN 
         TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
-    WHERE 
+        WHERE 
         TC.nomeTipo IN ('bytes recebidos', 'bytes enviados');`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -125,7 +136,11 @@ function buscarMemoria(){
 
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `select byte_recebido, byte_enviado from rede;`;
+        instrucaoSql = `  SELECT *
+        FROM Medicoes AS m
+        JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
+        JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros
+        where  tipoComponente = "Memoria" AND nomeTipo ='Percentual de Memoria';`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
@@ -149,7 +164,11 @@ function buscarDisco(){
 
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `select byte_recebido, byte_enviado from rede;`;
+        instrucaoSql = `     SELECT *
+        FROM Medicoes AS m
+        JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
+        JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros 
+        where tipoComponente = "Disco" AND nomeTipo = 'Percentual de Uso do Disco';`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
@@ -175,7 +194,11 @@ function buscarCPU(){
 
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `select byte_recebido, byte_enviado from rede;`;
+        instrucaoSql = `    SELECT *
+        FROM Medicoes AS m
+        JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
+        JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros
+        where  tipoComponente = "Processador";`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
@@ -204,7 +227,18 @@ function buscarRedeId(id){
 
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `select byte_recebido, byte_enviado from rede;`;
+        instrucaoSql = ` SELECT 
+        M.*, 
+        U.Tipo AS TipoUnidadeMedida, 
+        TC.nomeTipo AS NomeTipoComponente
+    FROM 
+        Medicoes M
+    JOIN 
+        UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
+    JOIN 
+        TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+    WHERE id_computador = '3' AND  
+        TC.nomeTipo IN ('bytes recebidos', 'bytes enviados');`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = ` SELECT 
@@ -235,7 +269,11 @@ function buscarMemoriaId(id){
 
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `select byte_recebido, byte_enviado from rede;`;
+        instrucaoSql = `    SELECT *
+        FROM Medicoes AS m
+        JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
+        JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros
+        where id_computador = '3' AND  tipoComponente = "Memoria" AND nomeTipo ='Percentual de Memoria';`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
@@ -257,7 +295,11 @@ where id_computador = '3' AND  tipoComponente = "Memoria" AND nomeTipo ='Percent
 function buscarDiscoId(id){
     instrucaoSql = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `select byte_recebido, byte_enviado from rede;`;
+        instrucaoSql = `  SELECT *
+        FROM Medicoes AS m
+        JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
+        JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros 
+        where id_computador = '3' AND  tipoComponente = "Disco" AND nomeTipo = 'Percentual de Uso do Disco';`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
@@ -281,7 +323,11 @@ where id_computador = '3' AND  tipoComponente = "Disco" AND nomeTipo = 'Percentu
 function buscarCPUId(id){
     instrucaoSql = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `select byte_recebido, byte_enviado from rede;`;
+        instrucaoSql = `   SELECT *
+        FROM Medicoes AS m
+        JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
+        JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros
+        where id_computador = '3' AND   tipoComponente = "Processador";`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
