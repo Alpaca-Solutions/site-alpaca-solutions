@@ -61,6 +61,34 @@ function buscarMedidasEmTempoReal(idAquario) {
     return database.executar(instrucaoSql);
 }
 
+function buscarMedidasEmTempoReal(idAquario) {
+
+    instrucaoSql = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = `select top 1
+        dht11_temperatura as temperatura, 
+        dht11_umidade as umidade,  
+                        CONVERT(varchar, momento, 108) as momento_grafico, 
+                        fk_aquario 
+                        from medida where fk_aquario = ${idAquario} 
+                    order by id desc`;
+
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `SELECT M.*, U.Tipo AS TipoUnidadeMedida, TC.nomeTipo AS NomeTipoComponente
+        FROM Medicoes M
+        JOIN UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
+        JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+        WHERE TC.nomeTipo = 'bytes recebidos';`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 function buscarRede(){
     instrucaoSql = ''
 
@@ -101,11 +129,11 @@ function buscarMemoria(){
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
-        SELECT M.*, U.Tipo AS TipoUnidadeMedida, TC.nomeTipo AS NomeTipoComponente
-        FROM Medicoes M
-        JOIN UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
-        JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
-        WHERE TC.nomeTipo = 'Percentual de Memoria';`;
+        SELECT *
+FROM Medicoes AS m
+JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
+JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros
+where  tipoComponente = "Memoria" AND nomeTipo ='Percentual de Memoria';`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
@@ -116,36 +144,6 @@ function buscarMemoria(){
 
 
 }
-
-function buscarMedidasEmTempoReal(idAquario) {
-
-    instrucaoSql = ''
-
-    if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `select top 1
-        dht11_temperatura as temperatura, 
-        dht11_umidade as umidade,  
-                        CONVERT(varchar, momento, 108) as momento_grafico, 
-                        fk_aquario 
-                        from medida where fk_aquario = ${idAquario} 
-                    order by id desc`;
-
-    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `SELECT M.*, U.Tipo AS TipoUnidadeMedida, TC.nomeTipo AS NomeTipoComponente
-        FROM Medicoes M
-        JOIN UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
-        JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
-        WHERE TC.nomeTipo = 'bytes recebidos';`;
-    } else {
-        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
-        return
-    }
-
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
-}
-
-
 function buscarDisco(){
     instrucaoSql = ''
 
@@ -154,11 +152,13 @@ function buscarDisco(){
         instrucaoSql = `select byte_recebido, byte_enviado from rede;`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `SELECT M.*, U.Tipo AS TipoUnidadeMedida, TC.nomeTipo AS NomeTipoComponente
-        FROM Medicoes M
-        JOIN UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
-        JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
-        WHERE TC.nomeTipo = 'Percentual de Uso do Disco';`;
+        instrucaoSql = `
+        SELECT *
+FROM Medicoes AS m
+JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
+JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros 
+where tipoComponente = "Disco" AND nomeTipo = 'Percentual de Uso do Disco';
+        `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
@@ -178,11 +178,119 @@ function buscarCPU(){
         instrucaoSql = `select byte_recebido, byte_enviado from rede;`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `SELECT M.*, U.Tipo AS TipoUnidadeMedida, TC.nomeTipo AS NomeTipoComponente
-        FROM Medicoes M
-        JOIN UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
-        JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
-        WHERE TC.nomeTipo = 'Percentual de Uso do Processador';`;
+        instrucaoSql = `
+        SELECT *
+FROM Medicoes AS m
+JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
+JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros
+where  tipoComponente = "Processador";
+        `;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+
+}
+
+
+
+
+function buscarRedeId(id){
+    instrucaoSql = ''
+
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = `select byte_recebido, byte_enviado from rede;`;
+
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = ` SELECT 
+        M.*, 
+        U.Tipo AS TipoUnidadeMedida, 
+        TC.nomeTipo AS NomeTipoComponente
+    FROM 
+        Medicoes M
+    JOIN 
+        UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
+    JOIN 
+        TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+    WHERE id_computador = '3' AND  
+        TC.nomeTipo IN ('bytes recebidos', 'bytes enviados');`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+
+}
+
+function buscarMemoriaId(id){
+    instrucaoSql = ''
+
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = `select byte_recebido, byte_enviado from rede;`;
+
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `
+        SELECT *
+FROM Medicoes AS m
+JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
+JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros
+where id_computador = '3' AND  tipoComponente = "Memoria" AND nomeTipo ='Percentual de Memoria';`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+
+}
+function buscarDiscoId(id){
+    instrucaoSql = ''
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = `select byte_recebido, byte_enviado from rede;`;
+
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `
+        SELECT *
+FROM Medicoes AS m
+JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
+JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros 
+where id_computador = '3' AND  tipoComponente = "Disco" AND nomeTipo = 'Percentual de Uso do Disco';
+        `;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+
+}
+
+function buscarCPUId(id){
+    instrucaoSql = ''
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = `select byte_recebido, byte_enviado from rede;`;
+
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `
+        SELECT *
+FROM Medicoes AS m
+JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
+JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros
+where id_computador = '3' AND   tipoComponente = "Processador";
+        `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
@@ -200,5 +308,9 @@ module.exports = {
     buscarRede,
     buscarMemoria,
     buscarDisco,
-    buscarCPU
+    buscarCPU,
+    buscarRedeId,
+    buscarMemoriaId,
+    buscarDiscoId,
+    buscarCPUId
 }

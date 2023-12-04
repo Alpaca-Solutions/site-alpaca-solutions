@@ -27,6 +27,10 @@ router.get("/listar_maquinas/:idEmpresa", function (req, res) {
     avisoController.listar_Maquinas(req, res);
 });
 
+router.get("/listar_maquinasLista/:idEmpresa", function (req, res) {
+    avisoController.listar_MaquinasLista(req, res);
+});
+
 router.put("/deletarMaquina/:idMaquina", function (req, res) {
     avisoController.deletarMaquina(req, res);
 });

@@ -27,8 +27,19 @@ router.get("/buscarCPU", function (req, res) {
     medidaController.buscarCPU(req, res);
 })
 
+router.get("/buscarRedeId/:idMaquina", function (req, res) {
+    medidaController.buscarRedeId(req, res);
+})
 
+router.get("/buscarMemoriaId/:idMaquina", function (req, res) {
+    medidaController.buscarMemoriaId(req, res);
+})
+router.get("/buscarDiscoId/:idMaquina", function (req, res) {
+    medidaController.buscarDiscoId(req, res);
+})
 
-
+router.get("/buscarCPUId/:idMaquina", function (req, res) {
+    medidaController.buscarCPUId(req, res);
+})
 
 module.exports = router;

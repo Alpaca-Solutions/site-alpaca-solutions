@@ -75,7 +75,7 @@ function funcVoltar() {
 }
 
 function obterDadosMaquinas() {
-    var idEmpresa = sessionStorage.fkEmpresaUsuario;
+    var idEmpresa = sessionStorage.fkEmpresa;
     console.log("ID do Usuário:", idEmpresa);
 
     fetch(`/avisos/listar_maquinas/${idEmpresa}`, { cache: 'no-store' })
@@ -116,7 +116,7 @@ function obterDadosMaquinas() {
                     const idMaquina = dados_banco.idMaquina;
 
                     // Preencher cada div com os dados correspondentes
-                    nome_instancia.innerHTML += `<div class="campo" id="nome${i}">${dados_banco.NomeMaquina}</div>`;
+                    nome_instancia.innerHTML += `<div class="campo" id="nome${i}">${dados_banco.hostname}</div>`;
                     ip.innerHTML += `<div class="campo" id="campo_ip${i}">${dados_banco.ipMaquina}</div>`;
                     sistema_operacional.innerHTML += `<div class="campo" id="campo_so${i}">${dados_banco.sistemaOperacional}</div>`;
                     status_servidor.innerHTML += `<div class="campo" id="campo_status${i}">${dados_banco.statusMaquina === 1 ? 'Ativo' : 'Inativo'}</div>`;

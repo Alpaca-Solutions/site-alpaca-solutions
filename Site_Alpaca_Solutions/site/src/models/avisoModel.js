@@ -21,7 +21,7 @@ function listar() {
 }
 function listar_usuarios(idEmpresa) {
     var instrucao = `
-    SELECT * FROM Usuario WHERE fkEmpresaUsuario = ${idEmpresa} AND ativo = true;
+    SELECT * FROM Usuario WHERE fkEmpresa = ${idEmpresa} AND ativo = true;
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucao);
@@ -60,8 +60,20 @@ function atualizarUsuario(idUsuario, dadosAtualizados) {
     return database.executar(instrucao);
 }
 
-
 function listar_Maquinas(fkEmpresa) {
+    var instrucao = `
+    SELECT *
+FROM Endereco
+JOIN Unidade ON Unidade.fkEndereco = Endereco.idEndereco
+JOIN Maquina ON Maquina.fKUnidade = Unidade.idUnidade 
+WHERE Maquina.statusMaquina = true AND fkEmpresa = ${fkEmpresa};
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
+function listar_MaquinasLista(fkEmpresa) {
     var instrucao = `
     SELECT MAX(idMaquina) AS idMaquina, TRIM(hostname) AS hostname
     FROM Maquina
@@ -79,7 +91,7 @@ function listarMaquina(idMaquina) {
 FROM Endereco
 JOIN Unidade ON Unidade.fkEndereco = Endereco.idEndereco
 JOIN Maquina ON Maquina.fKUnidade = Unidade.idUnidade 
-WHERE Maquina.ativo = true AND idMaquina = ${idMaquina};
+WHERE Maquina.statusMaquina = true AND idMaquina = ${idMaquina};
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucao);
@@ -87,7 +99,7 @@ WHERE Maquina.ativo = true AND idMaquina = ${idMaquina};
 }
 function deletarMaquina(idMaquina) {
     var instrucao = `
-    UPDATE Maquina SET ativo = false WHERE idMaquina = ${idMaquina};
+    UPDATE Maquina SET statusMaquina = false WHERE idMaquina = ${idMaquina};
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucao);
@@ -96,7 +108,7 @@ function deletarMaquina(idMaquina) {
 
 function atualizarMaquina(idMaquina, dadosAtualizados) {
     var instrucao1 = `UPDATE Maquina
-                      SET NomeMaquina = '${dadosAtualizados.NomeMaquina}',
+                      SET hostname = '${dadosAtualizados.NomeMaquina}',
                           sistemaOperacional = '${dadosAtualizados.sistemaOperacional}'
                       WHERE idMaquina = ${idMaquina}`;
 
@@ -206,5 +218,6 @@ module.exports = {
     listarMaquina,
     deletarMaquina,
     atualizarMaquina, 
-    listar_Maquinas
+    listar_Maquinas,
+    listar_MaquinasLista
 }

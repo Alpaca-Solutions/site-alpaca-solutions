@@ -138,7 +138,7 @@ function listarEmpresa(idEmpresa) {
   FROM Endereco
   JOIN Empresa ON Empresa.fk_endereco = Endereco.idEndereco
   JOIN Telefone ON Telefone.fkEmpresa = Empresa.idEmpresa
-  JOIN Usuario ON Usuario.fkEmpresaUsuario = Empresa.idEmpresa
+  JOIN Usuario ON Usuario.fkEmpresa = Empresa.idEmpresa
   WHERE idEmpresa = ${idEmpresa} LIMIT 1;
   `;
 
@@ -257,8 +257,8 @@ function cadastrarUnidade(nomeUnidade, fkEndereco) {
 function cadastrarMaquina(NomeMaquina, ipMaquina, sistemaOperacional, fkUnidade) {
   return new Promise((resolve, reject) => {
     var query = `
-      INSERT INTO Maquina(NomeMaquina, ipMaquina, sistemaOperacional, statusMaquina, ativo, fkEmpresaMaquina, fkUnidade)
-      VALUES('${NomeMaquina}', '${ipMaquina}', '${sistemaOperacional}', true, true, '1', ${fkUnidade});
+      INSERT INTO Maquina(hostname, ipMaquina, sistemaOperacional, statusMaquina, fkEmpresa, fkUnidade)
+      VALUES('${NomeMaquina}', '${ipMaquina}', '${sistemaOperacional}', true, '1', ${fkUnidade});
     `;
 
     console.log("Executando a instrução SQL: \n" + query);

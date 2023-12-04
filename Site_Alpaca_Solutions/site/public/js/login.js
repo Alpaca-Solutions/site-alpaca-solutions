@@ -106,10 +106,11 @@ function entrar() {
             sessionStorage.Email = json.email;
             sessionStorage.NomeUsuarioLogin = json.nome;
             sessionStorage.idUsuario = json.idUsuario;
-            sessionStorage.fkEmpresaUsuario = json.fkEmpresaUsuario;
+            sessionStorage.fkEmpresa = json.fkEmpresa;
             sessionStorage.idEmpresaLogin = json.idEmpresa;
             sessionStorage.tipoAcessoLogin = json.tipoAcesso;
             sessionStorage.idUsuarioLogin = json.idUsuario;
+           
             
             setTimeout(function () {
               window.location = "../dashboard/dahsboards/dashboard-geral.html";

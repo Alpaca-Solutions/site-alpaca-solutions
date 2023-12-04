@@ -66,7 +66,9 @@
 </body>
 
 </html>
-<script>
+<script> 
+
+var id_computador = 3;
     const b_usuario = document.getElementById("b_usuario");
     b_usuario.innerHTML = sessionStorage.NomeUsuarioLogin;
     google.charts.load('current', { 'packages': ['corechart'] });
@@ -89,7 +91,6 @@
     }
 
     function drawCharts() {
-
         drawLineChart();
     }
 
@@ -127,21 +128,15 @@
         chart.draw(data, options);
     }
 
-
-
-    function funcVoltar() {
-        window.history.back()
-    }
-
     function funcVoltar() {
         window.history.back()
     }
 
     function obterDadosMaquinas() {
-        var idEmpresa = sessionStorage.fkEmpresaUsuario;
+        var idEmpresa = sessionStorage.fkEmpresa;
         console.log("ID do Usuário:", idEmpresa);
 
-        fetch(`/avisos/listar_maquinas/${idEmpresa}`, { cache: 'no-store' })
+        fetch(`/avisos/listar_maquinasLista/${idEmpresa}`, { cache: 'no-store' })
             .then(function (response) {
                 if (!response.ok) {
                     console.error('Erro na API:', response.status, response.statusText);
@@ -183,22 +178,25 @@
 
                         linha.textContent = nomeMaquina;
 
-                        if (nomeMaquina == "Servidor Paulista") {
-                            const imagem = document.createElement('img');
-                            imagem.src = '../../assets/imgs/warning.png';
-                            imagem.style.width = '45px';
-                            linha.appendChild(imagem);
-                            linha.style.color = '#FF5555';
-
-                        } else if (nomeMaquina == "Servidor tucuruvi") {
-                            const imagem = document.createElement('img');
-                            imagem.src = '../../assets/imgs/caution.png';
-                            imagem.style.width = '45px';
-                            linha.appendChild(imagem);
-                            linha.style.color = '#e68a01';
-                        }
-
-
+                        if (porcentagemCPU > 80) {
+                        const imagem = document.createElement('img');
+                        imagem.src = '../../assets/imgs/warning.png';
+                        imagem.style.width = '45px';
+                        linha.appendChild(imagem);
+                        linha.style.color = '#FF5555';
+                    } else if (porcentagemDisco > 80) {
+                        const imagem = document.createElement('img');
+                        imagem.src = '../../assets/imgs/caution.png';
+                        imagem.style.width = '45px';
+                        linha.appendChild(imagem);
+                        linha.style.color = '#e68a01';
+                    } else if (porcentagemMemoria > 80) {
+                        const imagem = document.createElement('img');
+                        imagem.src = '../../assets/imgs/info.png';
+                        imagem.style.width = '45px';
+                        linha.appendChild(imagem);
+                        linha.style.color = '#0088FF';
+                    }
                         // Adiciona o atributo onclick ao <p> com o redirecionamento para o dashboard específico
                         linha.setAttribute('onclick', `redirecionarDashboard(${idMaquina})`);
 
@@ -212,9 +210,21 @@
             });
     }
 
- // Função para buscar dados do servidor
+    function redirecionarDashboard(idMaquina) {
+        // Redireciona para o dashboard específico com o ID da máquina como parâmetro na URL
+        window.location.href = `dashboard-especifico.html?idMaquina=${idMaquina}`;
+    }
+    // Obtém a URL atual
+var url = new URL(window.location.href);
+
+// Obtém o valor do parâmetro "idMaquina" da URL
+var idMaquina = url.searchParams.get("idMaquina");
+
+
+
+
 function buscarDadosRede() {
-    fetch(`/medidas/buscarRede`, { cache: 'no-store' })
+    fetch(`/medidas/buscarRedeId/${idMaquina}`, { cache: 'no-store' })
         .then(function (response) {
             if (response.ok) {
                 return response.json();
@@ -232,7 +242,7 @@ function buscarDadosRede() {
 }
 
 function buscarDadosMemoria(){
-    fetch(`/medidas/buscarMemoria`, { cache: 'no-store' })
+    fetch(`/medidas/buscarMemoriaId/${id_computador}`, { cache: 'no-store' })
     .then(function (response) {
         if (response.ok) {
             return response.json();
@@ -250,7 +260,7 @@ function buscarDadosMemoria(){
 }
 
 function buscarDadosDisco(){
-    fetch(`/medidas/buscarDisco`, { cache: 'no-store' })
+    fetch(`/medidas/buscarDiscoId/${id_computador}`, { cache: 'no-store' })
     .then(function (response) {
         if (response.ok) {
             return response.json();
@@ -260,7 +270,7 @@ function buscarDadosDisco(){
     })
     .then(function (dados) {
         console.log(`Dados recebidos: ${JSON.stringify(dados)}`);
-        plotarDisco(dados)
+        plotarDisco(dados);
     })
     .catch(function (error) {
         console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
@@ -268,7 +278,7 @@ function buscarDadosDisco(){
 }
 
 function buscarDadosCPU(){
-    fetch(`/medidas/buscarCPU`, { cache: 'no-store' })
+    fetch(`/medidas/buscarCPUId/${id_computador}`, { cache: 'no-store' })
     .then(function (response) {
         if (response.ok) {
             return response.json();
@@ -278,15 +288,12 @@ function buscarDadosCPU(){
     })
     .then(function (dados) {
         // Chama a função para desenhar o gráfico com os dados recebidos
-
-       PlotarDadosCpu(dados)
+        PlotarDadosCpu(dados);
     })
     .catch(function (error) {
         console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
     });
 }
-
-
 
 function drawLineChart(dados) {
     // Verifica se há dados antes de continuar
@@ -294,7 +301,6 @@ function drawLineChart(dados) {
         console.warn('Sem dados para desenhar o gráfico.');
         return;
     }
-
     // Converte os dados recebidos em um formato compatível com o gráfico
     var data = new google.visualization.DataTable();
     data.addColumn('datetime', 'Tempo');
@@ -495,21 +501,12 @@ function getColorPalette(memoriaEmUso, DiscoEmUso, CpuEmUso) {
 
 
 
-// Define um intervalo de 5 segundos para buscar dados continuamente
-setInterval(buscarDadosRede, 5000);
-setInterval(buscarDadosMemoria, 5000);
-setInterval(buscarDadosDisco , 5000)
-setInterval(buscarDadosCPU , 5000)
-setInterval(obterDadosMaquinas , 5000);
 
-
-
- 
-    // Função para redirecionar para o dashboard específico com o ID da máquina como parâmetro
-
-    function redirecionarDashboard(idMaquina) {
-        // Redireciona para o dashboard específico com o ID da máquina como parâmetro na URL
-        window.location.href = `dashboard-especifico.html?idMaquina=${idMaquina}`;
-    }
+// // Define um intervalo de 5 segundos para buscar dados continuamente
+// setInterval(buscarDadosRede, 5000);
+// setInterval(buscarDadosMemoria, 5000);
+// setInterval(buscarDadosDisco , 5000)
+// setInterval(buscarDadosCPU , 5000)
+// setInterval(obterDadosMaquinas , 5000);
 
 </script>
