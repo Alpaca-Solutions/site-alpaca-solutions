@@ -2,15 +2,65 @@ var database = require("../database/config")
 
 function autenticar(email, senha) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
+   
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
     var instrucao = `
-    SELECT *
-    FROM Endereco
-    JOIN Empresa ON Empresa.fk_endereco = Endereco.idEndereco
-    JOIN Telefone ON Telefone.fkEmpresa = Empresa.idEmpresa
-    JOIN Usuario ON Usuario.fkEmpresa = Empresa.idEmpresa
-    WHERE (Usuario.email = '${email}' AND Usuario.senha = '${senha}' AND Usuario.ativo = true)
-        OR (Empresa.email = '${email}' AND Empresa.senha = '${senha}' AND Empresa.ativo = true);
+    SELECT 
+    Empresa.idEmpresa as id,
+    Empresa.nomeFantasia as nome,
+    Empresa.email,
+    Empresa.senha,
+    Empresa.cnpj,
+    Empresa.ativo,
+    Endereco.*
+FROM Empresa
+JOIN Endereco ON Empresa.fk_endereco = Endereco.idEndereco
+WHERE Empresa.email = 'ewerton@gmail.com' AND Empresa.senha = '12345' AND Empresa.ativo = 1
+UNION
+SELECT 
+    Usuario.idUsuario as id,
+    Usuario.nome,
+    Usuario.email,
+    Usuario.senha,
+    NULL as cnpj,
+    Usuario.ativo,
+    Endereco.*
+FROM Usuario
+JOIN Empresa ON Usuario.fkEmpresa = Empresa.idEmpresa
+JOIN Endereco ON Empresa.fk_endereco = Endereco.idEndereco
+WHERE Usuario.email = 'ewerton@gmail.com' AND Usuario.senha = '12345' AND Usuario.ativo = 1;
     `;
+
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucao = `    SELECT 
+        Empresa.idEmpresa as id,
+        Empresa.nomeFantasia as nome,
+        Empresa.email,
+        Empresa.senha,
+        Empresa.cnpj,
+        Empresa.ativo,
+        Endereco.*
+    FROM Empresa
+    JOIN Endereco ON Empresa.fk_endereco = Endereco.idEndereco
+    WHERE Empresa.email = 'ewerton@gmail.com' AND Empresa.senha = '12345' AND Empresa.ativo = true
+    UNION
+    SELECT 
+        Usuario.idUsuario as id,
+        Usuario.nome,
+        Usuario.email,
+        Usuario.senha,
+        NULL as cnpj,
+        Usuario.ativo,
+        Endereco.*
+    FROM Usuario
+    JOIN Empresa ON Usuario.fkEmpresa = Empresa.idEmpresa
+    JOIN Endereco ON Empresa.fk_endereco = Endereco.idEndereco
+    WHERE Usuario.email = 'ewerton@gmail.com' AND Usuario.senha = '12345' AND Usuario.ativo = true;`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
