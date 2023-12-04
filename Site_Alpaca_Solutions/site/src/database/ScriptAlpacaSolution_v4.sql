@@ -77,44 +77,7 @@ CREATE TABLE TipoComponente (
     nomeTipo VARCHAR(60),
     tipoComponente VARCHAR(60)
 );
-SELECT idTipoComponente, nomeTipo
-FROM TipoComponente
-WHERE nomeTipo IN ('Memoria Usada', 'Memoria em Uso', 'Memoria Disponível', 'Percentual de uso do Disco', 'Tamanho do Disco', 'Tamanho Disponível', 'Percentual de Uso do Processador', 'Bytes Recebidos', 'Bytes Enviados')
-GROUP BY idTipoComponente, nomeTipo;
 
-SELECT idTipoComponente, nomeTipo, COUNT(*)
-FROM TipoComponente
-GROUP BY idTipoComponente, nomeTipo
-HAVING COUNT(*) > 1;
-
-DELETE t1
-FROM TipoComponente t1
-INNER JOIN TipoComponente t2
-WHERE t1.idTipoComponente > t2.idTipoComponente
-AND t1.nomeTipo = t2.nomeTipo;
-
-
--- select pra pegar os ids de cada tipo de componente 
-SELECT idTipoComponente, nomeTipo
-FROM TipoComponente
-WHERE (nomeTipo, idTipoComponente) IN (
-    SELECT nomeTipo, MIN(idTipoComponente) AS idTipoComponente
-    FROM TipoComponente
-    WHERE nomeTipo IN ('Memoria Usada', 'Memoria em Uso', 'Memoria Disponível', 'Percentual de uso do Disco', 'Tamanho do Disco', 'Tamanho Disponível', 'Percentual de Uso do Processador', 'Bytes Recebidos', 'Bytes Enviados')
-    GROUP BY nomeTipo
-);
-
-
-
-
-
-select * from tipoComponente;
-
- SELECT M.*, U.Tipo AS TipoUnidadeMedida, TC.nomeTipo AS NomeTipoComponente
-FROM Medicoes M
-JOIN UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
-JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
-WHERE TC.nomeTipo = 'bytes recebidos';
 CREATE TABLE Config (
     idComponentes INT AUTO_INCREMENT PRIMARY KEY,
     ValorConfiguracao VARCHAR(80),
@@ -131,10 +94,6 @@ CREATE TABLE UnidadeMedida (
     FOREIGN KEY (fkMaquina) REFERENCES Maquina(idMaquina)
 );
 
-INSERT INTO UnidadeMedida(Tipo) VALUES
-('GB'),
-('MB'),
-('KB');
 
 CREATE TABLE Medicoes (
     idMedicoes INT AUTO_INCREMENT PRIMARY KEY,
@@ -144,8 +103,11 @@ CREATE TABLE Medicoes (
     fkTipoComponenteID INT,
     fkUnidadeMedidaID INT,
     FOREIGN KEY (fkTipoComponenteID) REFERENCES TipoComponente(idTipoComponente),
+    foreign key(id_computador) references maquina(idmaquina),
     FOREIGN KEY (fkUnidadeMedidaID) REFERENCES UnidadeMedida(idParametros)
 );
+
+select * from tipoComponente;
 
 CREATE TABLE MetricasAlertas (
     idMetricasAlertas INT AUTO_INCREMENT PRIMARY KEY,
@@ -162,232 +124,106 @@ CREATE TABLE MetricasAlertas (
     FOREIGN KEY (fkConfiguracao) REFERENCES Config(idComponentes)
 );
 
-select * from maquina;
+-- INSERTS:
 
-INSERT INTO Endereco (rua, bairro, estado, cep, cidade, numero)
-VALUES ('Rua Exemplo', 'Bairro Exemplo', 'Estado Exemplo', '12345678', 'Cidade Exemplo', '123');
+INSERT INTO Endereco (cep, rua, numero, bairro,  cidade, estado, ativo)
+VALUES ('01414001', 'Rua Haddock Lobo', '595', 'Cerqueira César', 'São Paulo', 'SP', true);
+
+INSERT INTO Empresa (nomefantasia, razaoSocial, cnpj, ativo, fk_endereco)
+VALUES ('São Paulo Tech School', 'SPTech School', '40186572000121', true, 1);
+
+INSERT INTO Telefone (numero, tipo, ativo, fkEmpresa)
+VALUES ('11940634991', 'Fixo', true, 1);
+      
+INSERT INTO Usuario (nome, email, senha, tipoAcesso, nivelAcesso, ativo, fkEmpresa)
+VALUES ('SPTech School','sptech.matriz@sptech.school', '123123', '1', '1', true, 1);
+
+-- Cadastra usuario:
+
+INSERT INTO Usuario (nome, email, senha, tipoAcesso, nivelAcesso, ativo, fkEmpresa)
+VALUES ('Gabrielli Gallione','gabrielli.fogaca@sptech.school', '123123', 1, 1, true, 1);
+
+INSERT INTO Usuario (nome, email, senha, tipoAcesso, nivelAcesso, ativo, fkEmpresa)
+VALUES ('Sophia Amaral','sophia.silva@sptech.school', '123123', 1, 1, true, 1);
+
+INSERT INTO Usuario (nome, email, senha, tipoAcesso, nivelAcesso, ativo, fkEmpresa)
+VALUES ('Anna Matos','anna.matos@sptech.school', '123123', 1, 1, true, 1);
+
+INSERT INTO Usuario (nome, email, senha, tipoAcesso, nivelAcesso, ativo, fkEmpresa)
+VALUES ('Ewerton Lima','ewerton.lima860@sptech.school', '123123', 1, 1, true, 1);
+
+INSERT INTO Usuario (nome, email, senha, tipoAcesso, nivelAcesso, ativo, fkEmpresa)
+VALUES ('João Victor','joao.silva850@sptech.school', '123123', 1, 1, true, 1);
+
+INSERT INTO Usuario (nome, email, senha, tipoAcesso, nivelAcesso, ativo, fkEmpresa)
+VALUES ('Erick Roberto','erick.ribeiro@sptech.school', '123123', 1, 1, true, 1);
+
+-- CADASTRANDO MAQUINA 
+INSERT INTO Endereco (cep, rua, numero, bairro,  cidade, estado, ativo)
+VALUES ('01414001', 'Rua Haddock Lobo', '595', 'Cerqueira César', 'São Paulo', 'SP', true);
+
+INSERT INTO Unidade (nomeInstituicao, ativo, fkEndereco)
+VALUES('SPtech Paulista', true, 1); 
+
+INSERT INTO Maquina(hostname, ipMaquina, sistemaOperacional, statusMaquina, fkEmpresa, fkUnidade)
+VALUES('Unidade Paulista', '55.554.778-77', 'Linux', true,  1, 1);
 
 
-INSERT INTO Empresa (nome_fantasia, razao_social, cnpj,email , senha ,  fk_endereco)
-VALUES ('Nome Fantasia Exemplo', 'Razão Social Exemplo', '12345678901234','ewerton@gmail.com' , 12345,  1);
+-- Java Funcionar:
+UPDATE Empresa SET email = "ewerton@gmail.com",
+senha = "12345"
+WHERE idEmpresa = 1;
 
+INSERT INTO UnidadeMedida(Tipo) VALUES
+('GB'),
+('MB'),
+('KB');
 
-select * from unidade;
+INSERT INTO TipoComponente (nomeTipo, tipoComponente)
+VALUES
+('Memoria Usada', 'Memoria'),
+('Memoria em Uso', 'Memoria'),
+('Memoria Disponível', 'Memoria'),
+('Percentual de Uso do Disco', 'Disco'),
+('Tamanho do Disco', 'Disco'),
+('Tamanho Disponível', 'Disco'),
+('Percentual de Uso do Processador', 'Processador'),
+('Bytes Recebidos', 'Rede'),
+('Bytes Enviados','Rede');
 
+Insert into tipoComponente (nomeTipo , tipoComponente)values
+    ('Percentual de Memoria', 'Memoria');
 
-SELECT 
-    Empresa.idEmpresa as id,
-    Empresa.nomeFantasia as nome,
-    Empresa.email,
-    Empresa.senha,
-    Empresa.cnpj,
-    Empresa.ativo,
-    Endereco.*
-FROM Empresa
-JOIN Endereco ON Empresa.fk_endereco = Endereco.idEndereco
-WHERE Empresa.email = 'ewerton@gmail.com' AND Empresa.senha = '12345' AND Empresa.ativo = true
-UNION
-SELECT 
-    Usuario.idUsuario as id,
-    Usuario.nome,
-    Usuario.email,
-    Usuario.senha,
-    NULL as cnpj,
-    Usuario.ativo,
-    Endereco.*
-FROM Usuario
-JOIN Empresa ON Usuario.fkEmpresaUsuario = Empresa.idEmpresa
-JOIN Endereco ON Empresa.fk_endereco = Endereco.idEndereco
-WHERE Usuario.email = 'ewerton@gmail.com' AND Usuario.senha = '12345' AND Usuario.ativo = true;
-
-select * from empresa;
-
-update empresa set ativo = true where idempresa = 1;
-
-
-
+INSERT INTO Config (ValorConfiguracao)
+VALUES
+('ConfiguracaoMemoriaUsada'),
+('ConfiguracaoMemoriaEmUso'),
+('ConfiguracaoMemoriaDisponivel'),
+('ConfiguracaoPercentualUsoDisco'),
+('ConfiguracaoTamanhoDisco'),
+('ConfiguracaoTamanhoDisponivel'),
+('ConfiguracaoPercentualUsoProcessador'),
+('ConfiguracaoBytesRecebidos'),
+('ConfiguracaoBytesEnviados');
+ 
+ 
+ 
 SELECT M.*, U.Tipo AS TipoUnidadeMedida, TC.nomeTipo AS NomeTipoComponente
 FROM Medicoes M
 JOIN UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
 JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
-WHERE TC.nomeTipo = 'Percentual de Uso do Processador';
-
-select * from tipoComponente;
-
-
-
-SELECT idTipoComponente, nomeTipo
-FROM TipoComponente
-WHERE (nomeTipo, idTipoComponente) IN ( 
-    SELECT nomeTipo, MIN(idTipoComponente) AS idTipoComponente
-    FROM TipoComponente
-    WHERE nomeTipo IN ('Memoria Usada', 'Memoria em Uso', 'Memoria Disponível', 'Percentual de uso do Disco', 'Tamanho do Disco', 'Tamanho Disponível', 'Percentual de Uso do Processador', 'Bytes Recebidos', 'Bytes Enviados', 'Percentual de Memoria')
-    GROUP BY nomeTipo
-);
-
-
-SELECT 
-    M.*, 
-    U.Tipo AS TipoUnidadeMedida, 
-    TC.nomeTipo AS NomeTipoComponente
-FROM 
-    Medicoes M
-JOIN 
-    UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
-JOIN 
-    TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
-WHERE 
-    TC.nomeTipo IN ('Memoria Usada', 'Memoria Disponivel');
-    
-    SELECT
-    AVG(CASE WHEN TC.nomeTipo = 'Memoria Usada' THEN M.valor END) AS media_memoria_usada,
-    AVG(CASE WHEN TC.nomeTipo = 'Memoria Disponivel' THEN M.valor END) AS media_memoria_disponivel
-FROM
-    Medicoes M
-JOIN
-    UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
-JOIN
-    TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
-WHERE
-    TC.nomeTipo IN ('Memoria Usada', 'Memoria Disponivel');
-
-
-
-SELECT
-    AVG(CASE WHEN TC.nomeTipo = 'Memoria Usada' THEN M.valor END) AS media_memoria_usada,
-    AVG(CASE WHEN TC.nomeTipo = 'Memoria Disponivel' THEN M.valor END) AS media_memoria_disponivel
-FROM
-    Medicoes M
-JOIN
-    UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
-JOIN
-    TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
-WHERE
-    TC.nomeTipo IN ('Memoria Usada', 'Memoria Disponivel');
-
-
-SELECT
-    ROUND(AVG(CASE WHEN TC.nomeTipo = 'Memoria Usada' THEN M.valor END), 2) AS media_memoria_usada,
-    ROUND(AVG(CASE WHEN TC.nomeTipo = 'Memoria Disponivel' THEN M.valor END), 2) AS media_memoria_disponivel
-FROM
-    Medicoes M
-JOIN
-    UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
-JOIN
-    TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
-WHERE
-    TC.nomeTipo IN ('Memoria Usada', 'Memoria Disponivel');
-    
-    
-    
-    
-    SELECT
-    ROUND(AVG(CASE WHEN TC.nomeTipo = 'Memoria Usada' THEN M.valor END), 2) AS media_memoria_usada,
-    ROUND(AVG(CASE WHEN TC.nomeTipo = 'Memoria Disponivel' THEN M.valor END), 2) AS media_memoria_disponivel,
-    ROUND(AVG(CASE WHEN TC.nomeTipo IN ('Memoria Usada', 'Memoria Disponivel') THEN M.valor END), 2) AS media_porcentagem
-FROM
-    Medicoes M
-JOIN
-    UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
-JOIN
-    TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
-WHERE
-    TC.nomeTipo IN ('Memoria Usada', 'Memoria Disponivel');
-    
-    
-    SELECT
-    ROUND(AVG(CASE WHEN TC.nomeTipo = 'Memoria Usada' THEN (M.valor / (SELECT MAX(valor) FROM Medicoes WHERE TC.nomeTipo = 'Memoria Disponivel')) * 100 END), 2) AS media_memoria_usada,
-    ROUND(AVG(CASE WHEN TC.nomeTipo = 'Memoria Disponivel' THEN (M.valor / (SELECT MAX(valor) FROM Medicoes WHERE TC.nomeTipo = 'Memoria Disponivel')) * 100 END), 2) AS media_memoria_disponivel
-FROM
-    Medicoes M
-JOIN
-    TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
-WHERE
-    TC.nomeTipo IN ('Memoria Usada', 'Memoria Disponivel');
-    
-    SELECT * FROM TipoComponente;
-    
-  
-  select * from config;
-  Insert into tipoComponente (nomeTipo , tipoComponente)values
-    ('Percentual de Memoria' , 'Memoria');
-
-insert into Config values
-(null , 'ConfiguraçãoMediaMemoria' );
-
-
-
-
-    
-    
-    select * from tipoComponente;
- 
- 
- 
-SELECT *
-FROM Endereco
-JOIN Unidade ON Unidade.fkEndereco = Endereco.idEndereco
-JOIN Maquina ON Maquina.fKUnidade = Unidade.idUnidade 
-WHERE Maquina.ativo = true AND fkEmpresaMaquina = 1;
+WHERE TC.nomeTipo = 'Percentual de Memoria';
 
 SELECT *
-FROM Endereco
-JOIN Unidade ON Unidade.fkEndereco = Endereco.idEndereco
-JOIN Maquina ON Maquina.fKUnidade = Unidade.idUnidade 
-WHERE Maquina.statusMaquina = 1 AND Maquina.fkEmpresa = 1;
-
-  
-  select * from maquina;
-  
-  
-  
-  SELECT DISTINCT Maquina.idMaquina ,Maquina.hostname
-FROM Maquina
-JOIN Medicoes ON Medicoes.id_computador = Maquina.idMaquina
-JOIN TipoComponente ON TipoComponente.idTipoComponente = Medicoes.fkTipoComponenteID
-WHERE (TipoComponente.nomeTipo = 'Percentual de Uso do Processador' AND Medicoes.valor > 80)
-   OR (TipoComponente.nomeTipo IN ('Memoria Usada', 'Percentual de Memoria') AND Medicoes.valor > 80)
-   OR (TipoComponente.nomeTipo IN ('Bytes Recebidos', 'Bytes Enviados') AND Medicoes.valor > 1000);
-   
-   
-SELECT DISTINCT Maquina.idmaquina, Maquina.hostname
-FROM Maquina
-JOIN Medicoes ON Medicoes.id_computador = Maquina.idMaquina
-JOIN TipoComponente ON TipoComponente.idTipoComponente = Medicoes.fkTipoComponenteID
-JOIN Empresa ON Empresa.idEmpresa = Maquina.fkEmpresa
-WHERE Empresa.idEmpresa = 1
-  AND (
-    (TipoComponente.nomeTipo = 'Percentual de Uso do Processador' AND Medicoes.valor > 80)
-    OR (TipoComponente.nomeTipo IN ('Memoria Usada', 'Percentual de Memoria') AND Medicoes.valor > 80)
-    OR (TipoComponente.nomeTipo IN ('Bytes Recebidos', 'Bytes Enviados') AND Medicoes.valor > 1000)
-  );
-  
-SELECT distinct idMaquina, Maquina.hostname
-FROM Maquina
-JOIN Empresa ON Maquina.fkEmpresa = Empresa.idEmpresa
-WHERE Empresa.idEmpresa = 1;
+FROM Medicoes AS m
+JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
+JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros 
+where tipoComponente = "Disco" AND nomeTipo = 'Tamanho Disponível' or nomeTipo ='Tamanho do Disco';
 
 SELECT *
-FROM Maquina
-WHERE (idMaquina, hostname) IN (
-    SELECT idMaquina, hostname
-    FROM Maquina
-    GROUP BY idMaquina, hostname
-    HAVING COUNT(*) > 1
-);
-
-DELETE m1
-FROM Maquina m1, Maquina m2
-WHERE m1.idMaquina > m2.idMaquina
-  AND m1.hostname = m2.hostname;
-
-
-
-select * from maquina;
-
-
-insert into maquina values(null , 'maquinaana', '172.168,18.1' ,'Linux' , 1 , 1 , 1);
-
-
-
-
+FROM Medicoes AS m
+JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
+JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros
+JOIN Maquina AS maq ON um.fkMaquina = maq.idMaquina
+WHERE tc.nome = 'Disco' AND (tc.nome = 'Tamanho Disponível' OR tc.nome = 'Tamanho do Disco')
+LIMIT 0, 1000;

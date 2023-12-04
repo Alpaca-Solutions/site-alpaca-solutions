@@ -86,7 +86,7 @@
     }
 
     function obterDados_usuarios() {
-        var idEmpresa = sessionStorage.fkEmpresaUsuario;
+        var idEmpresa = sessionStorage.fkEmpresa;
         console.log("ID do Usuário:", idEmpresa);
 
         fetch(`/avisos/listar_usuarios/${idEmpresa}`, { cache: 'no-store' })

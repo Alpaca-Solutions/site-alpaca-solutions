@@ -10,7 +10,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 
-<body onload="obterDadosMaquinas()">
+<body onload="obterDadosMaquinas(),  init()">
     <div class="corpo">
         <div class="header">
             <div class="boasVindas">
@@ -56,26 +56,27 @@
                 <div class="cards_superiores">
                     <div class="metricas">
                         <div class="titulos_cards1">
-                            <h1>RAM</h1>
-                            <h2>80%</h2>
-                            <p>Porcentagem média de uso de RAM</p>
+                            <h1>RAM EM ALERTA</h1>
+                            <p>Quantidade de Máquinas</p>
+                            <h2 id="ramAlert">4</h2>                            
                         </div>
 
                         <div class="titulos_cards1">
                             <h1>DADOS REDE</h1>
+                            <p>Velocidade de média download</p>
                             <h2>10 Mbps</h2>
-                            <p>Velocidade de download</p>
                         </div>
                         <div class="titulos_cards1">
-                            <h1>DISCO</h1>
-                            <h2>50%</h2>
-                            <p>Uso médio do disco</p>
+                            <h1>Perda de pacotes</h1>
+                            <p>Quantidade de máquinas:</p>
+                            <h2>1</h2>
+                            
                         </div>
 
                         <div class="titulos_cards1">
-                            <h1>CPU</h1>
-                            <h2>50%</h2>
-                            <p>Uso médio da CPU</p>
+                            <h1>CPU em alerta</h1>
+                            <p>Máquinas em alertas de CPU</p>
+                            <h2>0</h2>                            
                         </div>
                     </div>
                     <div class="list-machine">
@@ -93,23 +94,23 @@
                     <div class="lado-direito">
                         <div class="grafico-card2">
                             <!-- <h1>MEMÓRIA RAM</h1> -->
-                            <div id="chart_div1" class="grafico-card"></div>
+                            <div id="chart_div" class="grafico-card"></div>
                         </div>
 
                         <div class="grafico-car2">
                             <!-- <h1>CAPTURA DE DADOS DE REDE</h1> -->
-                            <div id="chart_div2" class="grafico-card"></div>
+                            <div id="chart_div3" class="grafico-card"></div>
                         </div>
                     </div>
 
                     <div class="lado-esquerdo">
                         <div class="grafico-card2">
                             <!-- <h1>DISCO</h1> -->
-                            <div class="grafico-card" id="chart_div3"></div>
+                            <div class="grafico-card" id="chart_div1"></div>
                         </div>
                         <div class="grafico-card2">
                             <!-- <h1>CPU</h1> -->
-                            <div class="grafico-card" id="chart_div4"></div>
+                            <div class="grafico-card" id="chart_div2"></div>
                         </div>
                     </div>
                 </div>
@@ -132,185 +133,451 @@
         window.history.back()
     }
 
-    // gráficos:
+google.charts.load('current', { packages: ['corechart'] });
 
-    google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(drawCharts);
+function init() {
+    google.charts.setOnLoadCallback(function () {
+        drawCharts();
+    });
 
-    function drawCharts() {
-        var data1 = google.visualization.arrayToDataTable([
-            ['Hora', 'Mb/s'],
-            ['21:20', 104455],
-            ['21:40', 68802],
-            ['22:00', 66844],
-            ['22:20', 499929],
-            ['22:40', 34871],
-        ]);
+    setInterval(function () {
+        buscarDadosRede();
+        buscarDadosMemoria();
+        buscarDadosDisco();
+        buscarDadosCPU();
+    }, 5000);
 
-        var data2 = google.visualization.arrayToDataTable([
-            ['Hora', 'Enviados'],
-            ['21:20', 548756],
-            ['21:40', 948756],
-            ['22:00', 348756],
-            ['22:20', 948756],
-            ['22:40', 348756],
-        ]);
+    setInterval(obterDadosMaquinas, 5000);
+}
 
-        var data3 = google.visualization.arrayToDataTable([
-            ['Qtd', '%'],
-            ['21:20', 29],
-            ['21:40', 30],
-            ['22:00', 29],
-            ['22:20', 31],
-            ['22:40', 31],
-        ]);
+function drawCharts() {
+    buscarDadosMemoria();
+    buscarDadosRede();
+    buscarDadosDisco();
+    buscarDadosCPU();
+}
 
-        var data4 = google.visualization.arrayToDataTable([
-            ['Qtd', '%'],
-            ['21:20', 49],
-            ['21:40', 50],
-            ['22:00', 29],
-            ['22:20', 29],
-            ['22:40', 28],
-        ]);
+function plotarDadosMemoria(dados) {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Máquina');
+    data.addColumn('number', 'Uso de Memória');
+    data.addColumn({ type: 'string', role: 'style' });
 
-        // Função para obter a cor com base no valor
-        function getLineColor(value) {
-            if (value >= 80000) {
-                return 'red'; // vermelho
-            } else if (value >= 60000) {
-                return 'orange'; // laranja
-            } else {
-                return 'green'; // verde
-            }
-        }
+    for (var i = 0; i < dados.length; i++) {
+        var maquina = 'Máquina ' + dados[i].id_computador;
+        var usoMemoria = parseFloat(dados[i].valor);
+        var corBarra = getBarColor2(usoMemoria);
 
-        // Opções para os gráficos
-        var options = {
-            title: 'USO DA MEMÓRIA RAM',
-            curveType: 'function',
-            legend: { position: 'bottom' },
-            colors: [getLineColor(104455)]
-        };
-
-        var options2 = {
-            title: 'MÉDIA DA CAPTURA DE DADOS DE REDE',
-            curveType: 'function',
-            legend: { position: 'bottom' },
-            colors: [getLineColor(548756)]
-        };
-
-        var options3 = {
-            title: 'Uso do DISCO',
-            curveType: 'function',
-            legend: { position: 'bottom' },
-            colors: [getLineColor(29)]
-        };
-
-        var options4 = {
-            title: 'USO DA CPU',
-            curveType: 'function',
-            legend: { position: 'bottom' },
-            colors: [getLineColor(49)]
-        };
-
-        // Elementos HTML onde os gráficos serão exibidos
-        var chart1 = new google.visualization.LineChart(document.getElementById('chart_div1'));
-        var chart2 = new google.visualization.LineChart(document.getElementById('chart_div2'));
-        var chart3 = new google.visualization.LineChart(document.getElementById('chart_div3'));
-        var chart4 = new google.visualization.LineChart(document.getElementById('chart_div4'));
-
-        var chartOptions = {
-            width: 500, // Defina o valor desejado para a largura do gráfico
-            height: 240 // Defina o valor desejado para a altura do gráfico
-        };
-        chart1.draw(data1, Object.assign({}, options, chartOptions));
-        chart2.draw(data2, Object.assign({}, options2, chartOptions));
-        chart3.draw(data3, Object.assign({}, options3, chartOptions));
-        chart4.draw(data4, Object.assign({}, options4, chartOptions));
+        data.addRow([maquina, usoMemoria, corBarra]);
     }
+
+    var options = {
+        title: 'Uso de Memória',
+        hAxis: {
+            title: 'Percentual',
+            minValue: 0,
+            maxValue: 100
+        },
+        chartOptions: {
+            width: 500,
+            height: 240
+        }
+    };
+
+    var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+
+    chart.draw(data, options);
+}
+
+function buscarDadosMemoria() {
+    fetch(`/medidas/buscarMemoria`, { cache: 'no-store' })
+        .then(function (response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+        .then(function (dados) {
+            plotarDadosMemoria(dados);
+            console.log("Dados da Memoria: " + dados);
+        })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+        });
+}
+
+function getBarColor2(value) {
+    if (value >= 90) {
+        return 'red';
+    } else if (value >= 75) {
+        return 'orange';
+    } else {
+        return 'blue';
+    }
+}
+
+function buscarDadosRede() {
+    fetch(`/medidas/buscarRede`, { cache: 'no-store' })
+        .then(function (response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+        .then(function (dados) {
+            drawLineChart(dados);
+        })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+        });
+}
+
+function buscarDadosDisco() {
+    fetch(`/medidas/buscarDisco`, { cache: 'no-store' })
+        .then(function (response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+        .then(function (dados) {
+            plotarDisco(dados);
+        })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+        });
+}
+
+function buscarDadosCPU() {
+    fetch(`/medidas/buscarCPU`, { cache: 'no-store' })
+        .then(function (response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+        .then(function (dados) {
+            plotarDadosCPU(dados);
+        })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+        });
+}
+
+function drawLineChart(dados) {
+    var data = new google.visualization.DataTable();
+    data.addColumn('datetime', 'Tempo');
+    data.addColumn('number', 'Taxa de Transferência (Mbps)');
+
+    for (var i = 0; i < dados.length; i++) {
+        var timestamp = new Date(dados[i].timestamp);
+        var taxaTransferencia = parseFloat(dados[i].taxa_transferencia);
+        data.addRow([timestamp, taxaTransferencia]);
+    }
+
+    var options = {
+        title: 'Captura de Dados de Rede',
+        vAxis: {
+            title: 'Taxa de Transferência (Mbps)'
+        },
+        hAxis: {
+            title: 'Tempo'
+        },
+        chartOptions: {
+            width: 500,
+            height: 240
+        }
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('chart_div2'));
+
+    chart.draw(data, options);
+}
+
+function plotarDisco(dados) {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Máquina');
+    data.addColumn('number', 'Uso de Disco');
+    data.addColumn({ type: 'string', role: 'style' });
+
+    for (var i = 0; i < dados.length; i++) {
+        var maquina = 'Máquina ' + dados[i].id_computador;
+        var usoDisco = parseFloat(dados[i].valor);
+        var corBarra = getBarColor2(usoDisco);
+
+        data.addRow([maquina, usoDisco, corBarra]);
+    }
+
+    var options = {
+        title: 'Uso de Disco',
+        hAxis: {
+            title: 'Percentual',
+            minValue: 0,
+            maxValue: 100
+        },
+        chartOptions: {
+            width: 500,
+            height: 240
+        }
+    };
+
+    var chart = new google.visualization.BarChart(document.getElementById('chart_div3'));
+
+    chart.draw(data, options);
+}
+
+function plotarDadosCPU(dados) {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Máquina');
+    data.addColumn('number', 'Uso de CPU');
+    data.addColumn({ type: 'string', role: 'style' });
+
+    for (var i = 0; i < dados.length; i++) {
+        var maquina = 'Máquina ' + dados[i].id_computador;
+        var usoCPU = parseFloat(dados[i].valor);
+        var corBarra = getBarColor2(usoCPU);
+
+        data.addRow([maquina, usoCPU, corBarra]);
+    }
+
+    var options = {
+        title: 'Uso de CPU',
+        hAxis: {
+            title: 'Percentual',
+            minValue: 0,
+            maxValue: 100
+        },
+        chartOptions: {
+            width: 500,
+            height: 240
+        }
+    };
+
+    var chart = new google.visualization.BarChart(document.getElementById('chart_div1'));
+
+    chart.draw(data, options);
+}
+
+
+function exibirDadosMaquinas(dados) {
+    var tabela = document.getElementById('tabela_maquinas');
+    tabela.innerHTML = '';
+
+    for (var i = 0; i < dados.length; i++) {
+        var linha = document.createElement('tr');
+
+        var idMaquina = document.createElement('td');
+        idMaquina.textContent = dados[i].id_computador;
+        linha.appendChild(idMaquina);
+
+        var ipMaquina = document.createElement('td');
+        ipMaquina.textContent = dados[i].ip;
+        linha.appendChild(ipMaquina);
+
+        var nomeMaquina = document.createElement('td');
+        nomeMaquina.textContent = dados[i].nome;
+        linha.appendChild(nomeMaquina);
+
+        tabela.appendChild(linha);
+    }
+}
+
+init();
 
     // Lista de maquinas:
 
     function obterDadosMaquinas() {
-        var idEmpresa = sessionStorage.fkEmpresaUsuario;
-        console.log("ID do Usuário:", idEmpresa);
+    var idEmpresa = sessionStorage.fkEmpresa;
+    console.log("ID do Usuário:", idEmpresa);
 
-        fetch(`/avisos/listar_maquinas/${idEmpresa}`, { cache: 'no-store' })
-            .then(function (response) {
-                if (!response.ok) {
-                    console.error('Erro na API:', response.status, response.statusText);
-                    throw new Error('Erro na API');
-                }
+    fetch(`/avisos/listar_maquinas/${idEmpresa}`, { cache: 'no-store' })
+        .then(function (response) {
+            if (!response.ok) {
+                console.error('Erro na API:', response.status, response.statusText);
+                throw new Error('Erro na API');
+            }
 
-                // Verificar se o corpo da resposta está vazio
-                const contentLength = response.headers.get('content-length');
-                if (contentLength && contentLength === '0') {
-                    console.log('Nenhum dado encontrado na resposta.');
-                    return null;
-                }
+            // Verificar se o corpo da resposta está vazio
+            const contentLength = response.headers.get('content-length');
+            if (contentLength && contentLength === '0') {
+                console.log('Nenhum dado encontrado na resposta.');
+                return null;
+            }
 
-                // Tentar analisar o corpo da resposta como JSON
-                return response.json();
-            })
-            .then(function (resposta) {
-                if (resposta !== null) {
-                    const divListMachine = document.querySelector('.list-machine');
+            // Tentar analisar o corpo da resposta como JSON
+            return response.json();
+        })
+        .then(function (resposta) {
+            if (resposta !== null) {
+                const divListMachine = document.querySelector('.list-machine');
 
-                    // Limpar qualquer conteúdo existente
-                    divListMachine.innerHTML = '';
+                // Limpar qualquer conteúdo existente
+                divListMachine.innerHTML = '';
 
-                    // Adicionar a classe "list-machine" de volta à div
-                    divListMachine.classList.add('list-machine');
+                // Adicionar a classe "list-machine" de volta à div
+                divListMachine.classList.add('list-machine');
 
-                    // Adicionar o título "Máquinas em alerta"
-                    const titulo = document.createElement('h4');
-                    titulo.textContent = 'Máquinas em alerta:';
-                    divListMachine.appendChild(titulo);
+                // Adicionar o título "Máquinas em alerta"
+                const titulo = document.createElement('h4');
+                titulo.textContent = 'Máquinas:';
+                divListMachine.appendChild(titulo);
 
-                    resposta.forEach(function (dados_banco) {
-                        const idMaquina = dados_banco.idMaquina;
-                        const nomeMaquina = dados_banco.NomeMaquina;
+                resposta.forEach(function (dados_banco) {
+                    const idMaquina = dados_banco.idMaquina;
+                    const nomeMaquina = dados_banco.hostname;
+                    const porcentagemCPU = dados_banco.porcentagemCPU;
+                    const porcentagemDisco = dados_banco.porcentagemDisco;
+                    const porcentagemMemoria = dados_banco.porcentagemMemoria;
 
-                        // Cria um elemento <p>
-                        var linha = document.createElement('p');
-                        
-                        linha.textContent = nomeMaquina;
+                    // Cria um elemento <p>
+                    var linha = document.createElement('p');
 
-                        if (nomeMaquina == "Servidor Paulista") {
-                            const imagem = document.createElement('img');
-                            imagem.src = '../../assets/imgs/warning.png';
-                            imagem.style.width = '45px';
-                            linha.appendChild(imagem);
-                            linha.style.color = '#FF5555';
+                    linha.textContent = nomeMaquina;
 
-                        } else if (nomeMaquina == "Servidor tucuruvi") {
-                            const imagem = document.createElement('img');
-                            imagem.src = '../../assets/imgs/caution.png';
-                            imagem.style.width = '45px';
-                            linha.appendChild(imagem);
-                            linha.style.color = '#e68a01';
-                        }
-                        
+                    if (porcentagemCPU > 80) {
+                        const imagem = document.createElement('img');
+                        imagem.src = '../../assets/imgs/warning.png';
+                        imagem.style.width = '45px';
+                        linha.appendChild(imagem);
+                        linha.style.color = '#FF5555';
+                    } else if (porcentagemDisco > 80) {
+                        const imagem = document.createElement('img');
+                        imagem.src = '../../assets/imgs/caution.png';
+                        imagem.style.width = '45px';
+                        linha.appendChild(imagem);
+                        linha.style.color = '#e68a01';
+                    } else if (porcentagemMemoria > 80) {
+                        const imagem = document.createElement('img');
+                        imagem.src = '../../assets/imgs/info.png';
+                        imagem.style.width = '45px';
+                        linha.appendChild(imagem);
+                        linha.style.color = '#0088FF';
+                    }
 
-                        // Adiciona o atributo onclick ao <p> com o redirecionamento para o dashboard específico
-                        linha.setAttribute('onclick', `redirecionarDashboard(${idMaquina})`);
+                    // Adiciona o atributo onclick ao <p> com o redirecionamento para o dashboard específico
+                    linha.setAttribute('onclick', `redirecionarDashboard(${idMaquina})`);
 
-                        // Adiciona a linha criada à div com a classe "list-machine"
-                        divListMachine.appendChild(linha);
-                    });
-                }
-            })
-            .catch(function (error) {
-                console.error(`Erro na obtenção dos dados para gráfico: ${error.message}`);
-            });
-    }
+                    // Adiciona a linha criada à div com a classe "list-machine"
+                    divListMachine.appendChild(linha);
+                });
+            }
+        })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados para gráfico: ${error.message}`);
+        });
 
-    // Função para redirecionar para o dashboard específico com o ID da máquina como parâmetro
+}// Função para redirecionar para o dashboard específico com o ID da máquina como parâmetro
 
     function redirecionarDashboard(idMaquina) {
         // Redireciona para o dashboard específico com o ID da máquina como parâmetro na URL
         window.location.href = `dashboard-especifico.html?idMaquina=${idMaquina}`;
     }
+
+    
+
+    // medida de contorno 
+        // // gráficos:
+    // google.charts.load('current', { 'packages': ['corechart'] });
+    // google.charts.setOnLoadCallback(drawCharts);
+
+    // function drawCharts() {
+    //     var data1 = google.visualization.arrayToDataTable([
+    //         ['Servidor', 'Mb/s', { role: 'style' }],
+    //         ['Servidor A', 104455, getBarColor(104455)],
+    //         ['Servidor B', 68802, getBarColor(68802)],
+    //         ['Servidor C', 66844, getBarColor(66844)],
+    //         ['Servidor D', 499929, getBarColor(499929)],
+    //         ['Servidor E', 34871, getBarColor(34871)],
+    //     ]);
+
+    //     var data2 = google.visualization.arrayToDataTable([
+    //         ['Servidor', 'Enviados', { role: 'style' }],
+    //         ['Servidor A', 548756, getBarColor(548756)],
+    //         ['Servidor B', 948756, getBarColor(948756)],
+    //         ['Servidor C', 348756, getBarColor(348756)],
+    //         ['Servidor D', 948756, getBarColor(948756)],
+    //         ['Servidor E', 348756, getBarColor(348756)],
+    //     ]);
+
+    //     var data3 = google.visualization.arrayToDataTable([
+    //         ['Servidor', '%', { role: 'style' }],
+    //         ['Servidor A', 29, getBarColor2(29)],
+    //         ['Servidor B', 30, getBarColor2(30)],
+    //         ['Servidor C', 29, getBarColor2(29)],
+    //         ['Servidor D', 31, getBarColor2(31)],
+    //         ['Servidor E', 31, getBarColor2(31)],
+    //     ]);
+
+    //     var data4 = google.visualization.arrayToDataTable([
+    //         ['Servidor', '%', { role: 'style' }],
+    //         ['Servidor A', 49, getBarColor2(49)],
+    //         ['Servidor B', 50, getBarColor2(50)],
+    //         ['Servidor C', 29, getBarColor2(29)],
+    //         ['Servidor D', 29, getBarColor2(29)],
+    //         ['Servidor E', 28, getBarColor2(28)],
+    //     ]);
+
+    //     // Função para obter a cor com base no valor do servidor
+    //     function getBarColor(value) {
+    //         if (value >= 80000) {
+    //             return 'red'; // vermelho
+    //         } else if (value >= 60000) {
+    //             return 'orange'; // laranja
+    //         } else {
+    //             return 'blue'; // azul
+    //         }
+    //     }
+
+    //     function getBarColor2(value) {
+    //         if (value >= 30) {
+    //             return 'red'; // vermelho
+    //         } else if (value >= 20) {
+    //             return 'orange'; // laranja
+    //         } else {
+    //             return 'blue'; // azul
+    //         }
+    //     }
+
+    //     // Opções para os gráficos de barra
+    //     var options = {
+    //         title: 'USO DA MEMÓRIA RAM',
+    //         legend: { position: 'bottom' }
+    //     };
+
+    //     var options2 = {
+    //         title: 'MÉDIA DA CAPTURA DE DADOS DE REDE',
+    //         legend: { position: 'bottom' }
+    //     };
+
+    //     var options3 = {
+    //         title: 'Uso do DISCO',
+    //         legend: { position: 'bottom' }
+    //     };
+
+    //     var options4 = {
+    //         title: 'USO DA CPU',
+    //         legend: { position: 'bottom' }
+    //     };
+
+    //     // Elementos HTML onde os gráficos serão exibidos
+    //     var chart1 = new google.visualization.ColumnChart(document.getElementById('chart_div1'));
+    //     var chart2 = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
+    //     var chart3 = new google.visualization.ColumnChart(document.getElementById('chart_div3'));
+    //     var chart4 = new google.visualization.ColumnChart(document.getElementById('chart_div4'));
+
+    //     var chartOptions = {
+    //         width: 500, // Defina o valor desejado para a largura do gráfico
+    //         height: 240 // Defina o valor desejado para a altura do gráfico
+    //     };
+    //     chart1.draw(data1, Object.assign({}, options, chartOptions));
+    //     chart2.draw(data2, Object.assign({}, options2, chartOptions));
+    //     chart3.draw(data3, Object.assign({}, options3, chartOptions));
+    //     chart4.draw(data4, Object.assign({}, options4, chartOptions));
+    // }
+
 
 </script>

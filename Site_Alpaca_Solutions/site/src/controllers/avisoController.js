@@ -63,6 +63,22 @@ function listar_Maquinas(req, res) {
     });
 }
 
+function listar_MaquinasLista(req, res) {
+
+    var fkEmpresa = req.params.idEmpresa
+    avisoModel.listar_Maquinas(fkEmpresa).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
 function listarMaquina(req, res) {
 
     var idMaquina = req.params.idMaquina
@@ -269,5 +285,6 @@ module.exports = {
     listarMaquina,
     atualizarMaquina,
     deletarMaquina, 
-    listar_Maquinas
+    listar_Maquinas,
+    listar_MaquinasLista
 }

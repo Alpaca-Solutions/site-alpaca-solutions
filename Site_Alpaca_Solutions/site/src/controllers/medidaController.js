@@ -43,8 +43,6 @@ function buscarMedidasEmTempoReal(req, res) {
 
 function buscarRede(req, res) {
 
-
-
     console.log(`Recuperando medidas em tempo real`);
 
     medidaModel.buscarRede().then(function (resultado) {
@@ -61,9 +59,6 @@ function buscarRede(req, res) {
 }
 
 function buscarMemoria(req, res) {
-
-
-
     console.log(`Recuperando medidas em tempo real`);
 
     medidaModel.buscarMemoria().then(function (resultado) {
@@ -80,9 +75,6 @@ function buscarMemoria(req, res) {
 }
 
 function buscarDisco(req, res) {
-
-
-
     console.log(`Recuperando medidas em tempo real`);
 
     medidaModel.buscarDisco().then(function (resultado) {
@@ -116,12 +108,89 @@ function buscarCPU(req, res) {
         res.status(500).json(erro.sqlMessage);
     });
 }
+// grafico especifico 
+
+function buscarRedeId(req, res) {
+    const id = req.params.idMaquina;
+
+    console.log(`Recuperando medidas em tempo real para a máquina ${id}`);
+
+    medidaModel.buscarRedeId(id).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!");
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar asId últimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function buscarMemoriaId(req, res) {
+    const id = req.params.idMaquina;
+
+    console.log(`Recuperando medidas em tempo real para a máquina ${id}`);
+
+    medidaModel.buscarMemoriaId(id).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!");
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar asId últimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function buscarDiscoId(req, res) {
+    const id = req.params.id;
+
+    console.log(`Recuperando medidas em tempo real para a máquina ${id}`);
+
+    medidaModel.buscarDiscoId(id).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!");
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar asId últimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function buscarCPUId(req, res) {
+    const id = req.params.id;
+
+    console.log(`Recuperando medidas em tempo real para a máquina ${id}`);
+
+    medidaModel.buscarCPUId(id).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!");
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar asId últimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
 module.exports = {
     buscarUltimasMedidas,
     buscarMedidasEmTempoReal,
     buscarRede,
     buscarMemoria,
     buscarDisco,
-    buscarCPU
-
+    buscarCPU,
+    buscarRedeId,
+    buscarMemoriaId,
+    buscarDiscoId,
+    buscarCPUId
 }
