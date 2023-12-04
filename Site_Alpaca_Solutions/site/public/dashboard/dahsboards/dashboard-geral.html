@@ -58,7 +58,7 @@
                         <div class="titulos_cards1">
                             <h1>RAM EM ALERTA</h1>
                             <p>Quantidade de Máquinas</p>
-                            <h2 id="ramAlert">4</h2>                            
+                            <h2 id="ramAlert"></h2>                            
                         </div>
 
                         <div class="titulos_cards1">
@@ -76,17 +76,12 @@
                         <div class="titulos_cards1">
                             <h1>CPU em alerta</h1>
                             <p>Máquinas em alertas de CPU</p>
-                            <h2>0</h2>                            
+                            <h2 id="qtdCpuAlerta"></h2>                            
                         </div>
                     </div>
                     <div class="list-machine">
                         <h4>Máquinas em alerta:</h4>
-                        <p onclick="">nome_da_maquina</p>
-                        <p onclick="">nome_da_maquina</p>
-                        <p onclick="">nome_da_maquina</p>
-                        <p onclick="">nome_da_maquina</p>
-                        <p onclick="">nome_da_maqu</p>
-                        <p onclick="">nome_da_maquina</p>
+                     <p id="nomeMaquina"></p>
                     </div>
 
                 </div>
@@ -143,8 +138,12 @@ function init() {
     setInterval(function () {
         buscarDadosRede();
         buscarDadosMemoria();
+        obterNomeMaquinasAlerta()
         buscarDadosDisco();
         buscarDadosCPU();
+        
+        obterQtdMaquinaAlerta(),
+        obterQtdMaquinasAlertaProcessador();
     }, 5000);
 
     setInterval(obterDadosMaquinas, 5000);
@@ -328,6 +327,66 @@ function plotarDisco(dados) {
     var chart = new google.visualization.BarChart(document.getElementById('chart_div3'));
 
     chart.draw(data, options);
+}
+
+function obterQtdMaquinaAlerta(){
+    fetch(`/medidas/buscarQtdMaquinaAlerta`, { cache: 'no-store' })
+    .then(function (response) {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+    .then(function (dados) {
+        console.log(`Dados recebidos: ${JSON.stringify(dados)}`);
+        for(const dadosMaquina of dados){
+            ramAlert.innerHTML = dadosMaquina.TotalMaquinasEmAlerta;
+       }
+    })
+    .catch(function (error) {
+        console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+    });
+}
+
+function obterQtdMaquinasAlertaProcessador(){
+    fetch(`/medidas/buscarQtdProcessadorAlerta`, { cache: 'no-store' })
+    .then(function (response) {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+    .then(function (dados) {
+        console.log(`Dados recebidos: ${JSON.stringify(dados)}`);
+        for(const dadosMaquina of dados){
+            qtdCpuAlerta.innerHTML = dadosMaquina.TotalProcessadorEmAlerta;
+       }
+    })
+    .catch(function (error) {
+        console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+    });
+}
+
+function obterNomeMaquinasAlerta(){
+    fetch(`/medidas/MaquinasAlerta`, { cache: 'no-store' })
+    .then(function (response) {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+    .then(function (dados) {
+        console.log(`Dados recebidos: ${JSON.stringify(dados)}`);
+        for(const dadosMaquina of dados){
+            nomeMaquina.innerHTML = dadosMaquina.hostname + "<br>"
+       }
+    })
+    .catch(function (error) {
+        console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+    });
 }
 
 function plotarDadosCPU(dados) {

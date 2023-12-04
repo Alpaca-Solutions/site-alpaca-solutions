@@ -42,4 +42,23 @@ router.get("/buscarCPUId/:idMaquina", function (req, res) {
     medidaController.buscarCPUId(req, res);
 })
 
+router.get("/buscarQtdMaquinaAlerta", function (req, res) {
+    medidaController.buscarQtdMaquinaAlerta(req, res);
+})
+
+router.get("/buscarQtdProcessadorAlerta", function (req, res) {
+    medidaController.buscarQtdProcessadorAlerta(req, res);
+})
+router.get("/MaquinasAlerta", function (req, res) {
+    medidaController.MaquinasAlerta(req, res);
+})
+
+router.get("/buscarMaquinasUsuario/:idNovo", function (req, res) {
+    medidaController.buscarMaquinasUsuario(req, res);
+})
+
+
+
+
+
 module.exports = router;

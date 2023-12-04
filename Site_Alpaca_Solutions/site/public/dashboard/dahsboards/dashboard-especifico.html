@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 
-<body onload="init(), obterDadosMaquinas()">
+<body onload="init(), obterDadosMaquinas(), obterMaquinasUsuario()">
     <div class="corpo">
         <div class="header">
             <div class="boasVindas">
@@ -56,7 +56,9 @@
                     <div id="cpu-chart" class="chart"></div>
                     <div class="list-machine">
                         <h4>Máquinas:</h4>
+                        <h1 id="maquina"></h1>
                     </div>
+             
                 </div>
                 <div id="line-chart" class="chart"></div>
                 <script type="text/javascript" src="scripts.js"></script>
@@ -68,6 +70,9 @@
 </html>
 <script> 
 
+    var idNovo = sessionStorage.fkEmpresa;
+
+    console.log("id novo é " + idNovo)
 var id_computador = 3;
     const b_usuario = document.getElementById("b_usuario");
     b_usuario.innerHTML = sessionStorage.NomeUsuarioLogin;
@@ -82,11 +87,13 @@ var id_computador = 3;
             drawLineChart()
         });
 
+        setInterval(obterMaquinasUsuario, 5000)
         setInterval(buscarDadosRede, 5000);
         setInterval(buscarDadosMemoria, 5000);
         setInterval(buscarDadosDisco , 5000);
         setInterval(buscarDadosCPU, 5000);
         setInterval(obterDadosMaquinas , 5000);
+        
        
     }
 
@@ -128,87 +135,42 @@ var id_computador = 3;
         chart.draw(data, options);
     }
 
+
+    function obterMaquinasUsuario(){
+        var idNovo = sessionStorage.fkEmpresa;
+
+
+    fetch(`/medidas/buscarMaquinasUsuario/${idNovo}`, { cache: 'no-store' })
+        .then(function (response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+        .then(function (dados) {
+            console.log(`Dados recebidos de maquinas com dados: ${JSON.stringify(dados)}`);
+            // Chama a função para desenhar o gráfico com os dados recebidos
+           console.log("Dados recebidos: " + dados)
+
+           for(const dadosMaquina of dados){
+                console.log(dadosMaquina)
+                var maquina = document.getElementById("maquina");
+
+        
+                
+                maquina.innerHTML = `<p onclick="buscarDadosRede()">${dadosMaquina.hostname}</p>`
+           }
+        })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+        });
+    }
     function funcVoltar() {
         window.history.back()
     }
 
-    function obterDadosMaquinas() {
-        var idEmpresa = sessionStorage.fkEmpresa;
-        console.log("ID do Usuário:", idEmpresa);
 
-        fetch(`/avisos/listar_maquinasLista/${idEmpresa}`, { cache: 'no-store' })
-            .then(function (response) {
-                if (!response.ok) {
-                    console.error('Erro na API:', response.status, response.statusText);
-                    throw new Error('Erro na API');
-                }
-
-                // Verificar se o corpo da resposta está vazio
-                const contentLength = response.headers.get('content-length');
-                if (contentLength && contentLength === '0') {
-                    console.log('Nenhum dado encontrado na resposta.');
-                    return null;
-                }
-
-                // Tentar analisar o corpo da resposta como JSON
-                return response.json();
-            })
-            .then(function (resposta) {
-                if (resposta !== null) {
-                    const divListMachine = document.querySelector('.list-machine');
-
-                    // Limpar qualquer conteúdo existente
-                    divListMachine.innerHTML = '';
-
-                    // Adicionar a classe "list-machine" de volta à div
-                    divListMachine.classList.add('list-machine');
-
-                    // Adicionar o título "Máquinas em alerta"
-                    const titulo = document.createElement('h4');
-                    titulo.textContent = 'Máquinas em alerta:';
-                    divListMachine.appendChild(titulo);
-
-                    resposta.forEach(function (dados_banco) {
-                        const idMaquina = dados_banco.idMaquina;
-                        const nomeMaquina = dados_banco.hostname;
-
-                        console.log("Nome maquina " + idMaquina)
-                        // Cria um elemento <p>
-                        var linha = document.createElement('p');
-
-                        linha.textContent = nomeMaquina;
-
-                        if (porcentagemCPU > 80) {
-                        const imagem = document.createElement('img');
-                        imagem.src = '../../assets/imgs/warning.png';
-                        imagem.style.width = '45px';
-                        linha.appendChild(imagem);
-                        linha.style.color = '#FF5555';
-                    } else if (porcentagemDisco > 80) {
-                        const imagem = document.createElement('img');
-                        imagem.src = '../../assets/imgs/caution.png';
-                        imagem.style.width = '45px';
-                        linha.appendChild(imagem);
-                        linha.style.color = '#e68a01';
-                    } else if (porcentagemMemoria > 80) {
-                        const imagem = document.createElement('img');
-                        imagem.src = '../../assets/imgs/info.png';
-                        imagem.style.width = '45px';
-                        linha.appendChild(imagem);
-                        linha.style.color = '#0088FF';
-                    }
-                        // Adiciona o atributo onclick ao <p> com o redirecionamento para o dashboard específico
-                        linha.setAttribute('onclick', `redirecionarDashboard(${idMaquina})`);
-
-                        // Adiciona a linha criada à div com a classe "list-machine"
-                        divListMachine.appendChild(linha);
-                    });
-                }
-            })
-            .catch(function (error) {
-                console.error(`Erro na obtenção dos dados para gráfico: ${error.message}`);
-            });
-    }
 
     function redirecionarDashboard(idMaquina) {
         // Redireciona para o dashboard específico com o ID da máquina como parâmetro na URL

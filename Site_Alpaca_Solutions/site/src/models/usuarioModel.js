@@ -71,10 +71,18 @@ function cadastrarUsuario(nome, email, senha, tipoAcesso, nivelAcesso, empresaId
 
     // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
     //  e na ordem de inserção dos dados.
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
     var instrucao = `
     INSERT INTO Usuario (nome, email, senha, tipoAcesso, nivelAcesso, ativo, fkEmpresa)
     VALUES ('${nome}','${email}', '${senha}', '${tipoAcesso}', '${nivelAcesso}', true, 1);
     `;
+    }
+    else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
+        var instrucao = `
+        INSERT INTO Usuario (nome, email, senha, tipoAcesso, nivelAcesso, ativo, fkEmpresa)
+        VALUES ('${nome}','${email}', '${senha}', '${tipoAcesso}', '${nivelAcesso}', true, 1);
+        `;
+    }
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }

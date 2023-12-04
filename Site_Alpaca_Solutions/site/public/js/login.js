@@ -106,12 +106,12 @@ function entrar() {
             sessionStorage.Email = json.email;
             sessionStorage.NomeUsuarioLogin = json.nome;
             sessionStorage.idUsuario = json.idUsuario;
-            sessionStorage.fkEmpresa = json.fkEmpresa;
+            sessionStorage.fkEmpresa = json.id;
             sessionStorage.idEmpresaLogin = json.idEmpresa;
             sessionStorage.tipoAcessoLogin = json.tipoAcesso;
             sessionStorage.idUsuarioLogin = json.idUsuario;
-           
-            
+            sessionStorage.Ativo = json.ativo;
+                     
             setTimeout(function () {
               window.location = "../dashboard/dahsboards/dashboard-geral.html";
             }, 1000); // apenas para exibir o loading

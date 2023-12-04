@@ -182,6 +182,68 @@ function buscarCPUId(req, res) {
     });
 }
 
+
+function buscarQtdMaquinaAlerta(req, res) {
+ 
+    medidaModel.buscarQtdMaquinaAlerta().then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!");
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar asId últimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function buscarQtdProcessadorAlerta(req, res) {
+ 
+    medidaModel.buscarQtdProcessadorAlerta().then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!");
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar asId últimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function MaquinasAlerta(req, res) {
+ 
+    medidaModel.MaquinasAlerta().then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!");
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar asId últimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function buscarMaquinasUsuario(req, res) {
+ 
+    var idNovo = req.params.idNovo;
+
+    medidaModel.buscarMaquinasUsuario(idNovo).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!");
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar asId últimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
 module.exports = {
     buscarUltimasMedidas,
     buscarMedidasEmTempoReal,
@@ -192,5 +254,9 @@ module.exports = {
     buscarRedeId,
     buscarMemoriaId,
     buscarDiscoId,
-    buscarCPUId
+    buscarCPUId,
+    buscarQtdMaquinaAlerta,
+    buscarQtdProcessadorAlerta,
+    MaquinasAlerta,
+    buscarMaquinasUsuario
 }
