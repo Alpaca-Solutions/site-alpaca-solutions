@@ -195,13 +195,46 @@ function atualizarUsuario(){
   })
     .then(function (resposta) {
       if (resposta.ok) {
-        console.log("Dados do usuário atualizados com sucesso!");
-
-        alert("O Usuario foi atualizado com sucesso")
-
-        setTimeout(function () {
-              window.location = "../listas/lista-usuario.html";
-            }, 1000);
+        Swal.fire({
+          title: '<h2 class="textoCadastro">Atualizando os Dados...</h2>',
+          html: `
+            <div style="display: flex; flex-direction: column; align-items: center;">
+              <img src="assets/icon/logo_alpaca_preto2.png" alt="Alpaca feliz" style="width: 200px; height: 200px;">
+              <span class="textoCadastro">Só um minutinho estamos verificando seus dados!</span>
+              <div style="margin-top: 10px;"></div>
+            </div>`,
+          timer: 2000,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            Swal.showLoading();
+            timerInterval = setInterval(() => {
+              Swal.getContent().querySelector('b').textContent = `${Swal.getTimerLeft()}`;
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          }
+        }).then(() => {
+          Swal.fire({
+            html: `
+            <div class="textoCadastro">
+              Tudo Certo! Usuario Atualizado com Sucesso
+            </div>`,
+            imageUrl: 'https://png.pngtree.com/png-clipart/20231020/original/pngtree-happy-cute-alpaca-3d-rendering-illustration-png-image_13385040.png',
+            imageWidth: 200,
+            imageHeight: 200,
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#4CAF50',
+            customClass: {
+              popup: 'smaller-swal',
+            }
+          }).then(() => {
+            console.log("Funcionário Atualizado com Sucesso");
+            window.location = "../listas/lista-usuario.html";
+          });
+        });
+        
 
       } else {
         console.log("Houve um erro ao atualizar o usuário!");

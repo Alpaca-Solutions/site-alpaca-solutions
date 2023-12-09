@@ -74,6 +74,7 @@ function cadastrarUsuario(nome, email, senha, tipoAcesso, nivelAcesso, empresaId
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n", nome, email, senha);
 
 
+    console.log("Valor da Fk chegando " + empresaId);
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         var instrucao = `
         INSERT INTO Usuario (nome, email, senha, tipoAcesso, nivelAcesso, ativo, fkEmpresa)
