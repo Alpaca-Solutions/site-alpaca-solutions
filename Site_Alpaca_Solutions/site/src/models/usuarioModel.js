@@ -78,7 +78,7 @@ function cadastrarUsuario(nome, email, senha, tipoAcesso, nivelAcesso, empresaId
     if (process.env.AMBIENTE_PROCESSO == "producao") {
     var instrucao = `
     INSERT INTO Usuario (nome, email, senha, tipoAcesso, nivelAcesso, ativo, fkEmpresa)
-    VALUES ('${nome}','${email}', '${senha}', '${tipoAcesso}', '${nivelAcesso}', true, 1);
+    VALUES ('${nome}','${email}', '${senha}', '${tipoAcesso}', '${nivelAcesso}', true, ${empresaId});
     `;
     }
     else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){

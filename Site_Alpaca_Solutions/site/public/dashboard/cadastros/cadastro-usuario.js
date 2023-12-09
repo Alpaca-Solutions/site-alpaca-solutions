@@ -6,11 +6,11 @@ function cadastrarUsuario(){
     const nomeVar = nome.value
     const tipoAcessoVar = document.getElementById("tipoAcesso")
     const nivelAcessoVar =  nivelAcesso.value
-    let fkEndereco = sessionStorage.fkEmpresa;
+    let fkEndereco = sessionStorage.fkEmpresa
 
     console.log(sessionStorage.fkEmpresa)
 
- fetch(`/usuarios/cadastrarUsuario/${fkEndereco}`, {
+ fetch(`/usuarios/cadastrarUsuario`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -23,7 +23,7 @@ function cadastrarUsuario(){
           senhaServer: senhaVar,
           tipoAcessoServer: tipoAcessoVar, 
           nivelAcessoServer: nivelAcessoVar,
-          idUsuarioServer: idVar
+          idUsuarioServer: fkEndereco
           
         }),
       })
