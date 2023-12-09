@@ -52,7 +52,7 @@
             <div class="grade">
                 <div class="campos">
                     <div class="campos_box">
-                        <a href="../cadastros/cadastro-usuario.html"><button onclick="validarTipoUsuario()">+ Cadastrar novo usuário</button></a>
+                        <a href="#" onclick="validarTipoAcesso();"><button>+ Cadastrar novo usuário</button></a>
                         <div class="listas_users">
                             <div class="titulos">
                                 <div class="titulo">Nome</div>
@@ -88,9 +88,11 @@
     function validarTipoAcesso(){
 
         let tipoAcesso = sessionStorage.TipoAcesso
+
+        console.log("Tipo de Acesso:", tipoAcesso);
       
         if(tipoAcesso == "empresa"){
-            obterDados_usuarios();
+            window.location.href = "../cadastros/cadastro-usuario.html";
         }
         
         else{
