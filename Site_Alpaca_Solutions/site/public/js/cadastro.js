@@ -220,6 +220,11 @@ function cadastrar() {
   const cidadeVar = document.getElementById("input_cidade").value;
   const numeroVar = document.getElementById("input_numero").value;
 
+
+  console.log("Valor de email saindo do front " + emailVar)
+  console.log("Valor de senha saindo do front " + senhaVar)
+
+
   fetch("/empresas/cadastrar", {
     method: "POST",
     headers: {
@@ -245,15 +250,39 @@ function cadastrar() {
     .then(function (resposta) {
       console.log("resposta: ", resposta);
 
-      if (resposta.ok) {
-        setTimeout(() => {
+      if (resposta.ok || resposta.status === 200) {
+
+         Swal.fire({
+        title: '<h2 class="textoCadastro">Cadastro realizado com sucesso!</h2>',
+        html: `
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <img src="assets/icon/logo_alpaca_preto2.png" alt="Alpaca feliz" style="width: 200px; height: 200px;">
+            <span class="textoCadastro" >Agora você aproveitar os serviços da alpaca!</span>
+            <div style="margin-top: 10px;">
+            </div>
+          </div>
+        `,
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        }, // Alterado para background em vez de imageUrl // Removido o ícone padrão do SweetAlert
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#4CAF50' // Cor verde
+      });
+    
+
+      setTimeout(() => {
           window.location = "login.html";
-        }, 2000);
+        }, 5000);
       } else {
         alert("Erro ao realizar cadastro!");
       }
     })
     .catch(function (resposta) {
+      console.error("Erro no servidor:", error);
+      res.status(500).send("Erro interno no servidor");
       console.log(`#ERRO: ${resposta}`);
     });
 }

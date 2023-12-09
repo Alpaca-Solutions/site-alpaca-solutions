@@ -188,6 +188,25 @@ function plotarDadosMemoria(dados) {
     chart.draw(data, options);
 }
 
+
+function obterDadosRedeInovacao(){
+    fetch(`/medidas/buscarRedeInovacao`, { cache: 'no-store' })
+    .then(function (response) {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+    .then(function (dados) {
+        plotarDadosRedeInovacao(dados);
+        console.log("Dados da Memoria: " + dados);
+    })
+    .catch(function (error) {
+        console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+    });   
+}
+
 function buscarDadosMemoria() {
     fetch(`/medidas/buscarMemoria`, { cache: 'no-store' })
         .then(function (response) {
@@ -328,6 +347,41 @@ function plotarDisco(dados) {
 
     chart.draw(data, options);
 }
+
+
+function plotarDadosRedeInovacao(dados) {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Máquina');
+    data.addColumn('number', 'Uso de Disco');
+    data.addColumn({ type: 'string', role: 'style' });
+
+    for (var i = 0; i < dados.length; i++) {
+        var maquina = 'Rede ' + dados[i].id_computador;
+        var usoDisco = parseFloat(dados[i].valor);
+        var corBarra = getBarColor2(usoDisco);
+
+        data.addRow([maquina, usoDisco, corBarra]);
+    }
+
+    var options = {
+        title: 'Uso de Rede',
+        hAxis: {
+            title: 'Percentual',
+            minValue: 0,
+            maxValue: 100
+        },
+        chartOptions: {
+            width: 500,
+            height: 240
+        }
+    };
+
+    var chart = new google.visualization.BarChart(document.getElementById('chart_div2'));
+
+    chart.draw(data, options);
+}
+
+
 
 function obterQtdMaquinaAlerta(){
     fetch(`/medidas/buscarQtdMaquinaAlerta`, { cache: 'no-store' })

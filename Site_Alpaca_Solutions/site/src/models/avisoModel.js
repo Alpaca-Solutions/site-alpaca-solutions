@@ -24,7 +24,7 @@ function listar_usuarios(idEmpresa) {
     
     if(process.env.AMBIENTE_PROCESSO == "producao") {
     var instrucao = `
-    SELECT * FROM Usuario WHERE fkEmpresa = ${idEmpresa} AND ativo = true;
+    SELECT * FROM Usuario WHERE fkEmpresa = ${idEmpresa} AND ativo = 1;
     `;
     }
     else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
@@ -110,7 +110,7 @@ function listar_Maquinas(fkEmpresa) {
     FROM Endereco
     JOIN Unidade ON Unidade.fkEndereco = Endereco.idEndereco
     JOIN Maquina ON Maquina.fKUnidade = Unidade.idUnidade 
-    WHERE Maquina.statusMaquina = true AND fkEmpresa = ${fkEmpresa};
+    WHERE Maquina.statusMaquina = 1 AND fkEmpresa = ${fkEmpresa};
         `;
     }
     else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
@@ -158,7 +158,7 @@ function listarMaquina(idMaquina) {
 FROM Endereco
 JOIN Unidade ON Unidade.fkEndereco = Endereco.idEndereco
 JOIN Maquina ON Maquina.fKUnidade = Unidade.idUnidade 
-WHERE Maquina.statusMaquina = true AND idMaquina = ${idMaquina};
+WHERE Maquina.statusMaquina = 1 AND idMaquina = ${idMaquina};
     `;
   }
    else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento") {

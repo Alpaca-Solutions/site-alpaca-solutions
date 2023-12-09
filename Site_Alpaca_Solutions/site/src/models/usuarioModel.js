@@ -6,6 +6,7 @@ function autenticar(email, senha) {
     if (process.env.AMBIENTE_PROCESSO == "producao") {
     var instrucao = `
     SELECT 
+    'empresa' as tipo,
     Empresa.idEmpresa as id,
     Empresa.nomeFantasia as nome,
     Empresa.email,
@@ -15,9 +16,10 @@ function autenticar(email, senha) {
     Endereco.*
 FROM Empresa
 JOIN Endereco ON Empresa.fk_endereco = Endereco.idEndereco
-WHERE Empresa.email = 'ewerton@gmail.com' AND Empresa.senha = '12345' AND Empresa.ativo = 1
+WHERE Empresa.email = '${email}' AND Empresa.senha = '${senha}' AND Empresa.ativo = 1
 UNION
 SELECT 
+'empregado' as tipo,
     Usuario.idUsuario as id,
     Usuario.nome,
     Usuario.email,
@@ -28,11 +30,12 @@ SELECT
 FROM Usuario
 JOIN Empresa ON Usuario.fkEmpresa = Empresa.idEmpresa
 JOIN Endereco ON Empresa.fk_endereco = Endereco.idEndereco
-WHERE Usuario.email = 'ewerton@gmail.com' AND Usuario.senha = '12345' AND Usuario.ativo = 1;
+WHERE Usuario.email = '${email}' AND Usuario.senha = '${senha}' AND Usuario.ativo = 1;
     `;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucao = `    SELECT 
+        'empresa' as tipo,
         Empresa.idEmpresa as id,
         Empresa.nomeFantasia as nome,
         Empresa.email,
@@ -42,9 +45,10 @@ WHERE Usuario.email = 'ewerton@gmail.com' AND Usuario.senha = '12345' AND Usuari
         Endereco.*
     FROM Empresa
     JOIN Endereco ON Empresa.fk_endereco = Endereco.idEndereco
-    WHERE Empresa.email = 'ewerton@gmail.com' AND Empresa.senha = '12345' AND Empresa.ativo = true
+    WHERE Empresa.email = '${email}' AND Empresa.senha = '${senha}' AND Empresa.ativo = true
     UNION
     SELECT 
+    'empregado' as tipo,
         Usuario.idUsuario as id,
         Usuario.nome,
         Usuario.email,
@@ -55,7 +59,7 @@ WHERE Usuario.email = 'ewerton@gmail.com' AND Usuario.senha = '12345' AND Usuari
     FROM Usuario
     JOIN Empresa ON Usuario.fkEmpresa = Empresa.idEmpresa
     JOIN Endereco ON Empresa.fk_endereco = Endereco.idEndereco
-    WHERE Usuario.email = 'ewerton@gmail.com' AND Usuario.senha = '12345' AND Usuario.ativo = true;`;
+    WHERE Usuario.email = '${email}' AND Usuario.senha = '${senha}' AND Usuario.ativo = true;`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return

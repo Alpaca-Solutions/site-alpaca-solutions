@@ -81,18 +81,18 @@ var id_computador = 3;
 
     function init() {
         google.charts.load('current', { 'packages': ['corechart'] });
-
+        
         google.charts.setOnLoadCallback(function () {
             drawCharts();
             drawLineChart()
         });
 
-        setInterval(obterMaquinasUsuario, 5000)
-        setInterval(buscarDadosRede, 5000);
-        setInterval(buscarDadosMemoria, 5000);
-        setInterval(buscarDadosDisco , 5000);
-        setInterval(buscarDadosCPU, 5000);
-        setInterval(obterDadosMaquinas , 5000);
+        setInterval(obterMaquinasUsuario, 100)
+        setInterval(buscarDadosRede, 100);
+        setInterval(buscarDadosMemoria, 100);
+        setInterval(buscarDadosDisco , 100);
+        setInterval(buscarDadosCPU, 100);
+        setInterval(obterDadosMaquinas , 100);
         
        
     }

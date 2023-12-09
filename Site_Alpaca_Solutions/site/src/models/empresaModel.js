@@ -32,7 +32,9 @@ async function cadastrarEmpresa(
       nomeFantasia,
       razaoSocial,
       cnpj,
-      insertEndereco.insertId
+      insertEndereco.insertId,
+      email,
+      senha,
     );
 
     // Inserir o telefone
@@ -41,27 +43,30 @@ async function cadastrarEmpresa(
       insertEmpresa.insertId
     );
 
-    // Inserir o usuário
-    var insertUsuario = await cadastrarUsuario(
-      nomeFantasia,
-      email,
-      senha,
-      insertEmpresa.insertId
-    );
-
     return insertEmpresa;
-  } catch (error) {
+  }catch (error) {
+    console.error('Erro ao cadastrar empresa:', error);
     throw error;
   }
 }
 
 function cadastrarEndereco(rua, bairro, estado, cep, cidade, numero) {
   return new Promise((resolve, reject) => {
+
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
     var query = `
     INSERT INTO Endereco (cep, rua, numero, bairro,  cidade, estado, ativo)
     VALUES ('${cep}', '${rua}', '${numero}', '${bairro}', '${cidade}', '${estado}', true);
     `;
+    }
 
+    else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+      var query = `
+      INSERT INTO Endereco (cep, rua, numero, bairro,  cidade, estado, ativo)
+      VALUES ('${cep}', '${rua}', '${numero}', '${bairro}', '${cidade}', '${estado}', true);
+      `;
+    }
     console.log("Executando a instrução SQL: \n" + query);
     database
       .executar(query)
@@ -74,32 +79,63 @@ function cadastrarEndereco(rua, bairro, estado, cep, cidade, numero) {
   });
 }
 
-function inserirEmpresa(nomeFantasia, razaoSocial, cnpj, fkEndereco) {
+function inserirEmpresa(nomeFantasia, razaoSocial, cnpj, fkEndereco, email , senha) {
   return new Promise((resolve, reject) => {
+    console.log("Node.js Inserindo no banco - Dados que estão chegando:");
+    console.log("Nome Fantasia:", nomeFantasia);
+    console.log("Razão Social:", razaoSocial);
+    console.log("CNPJ:", cnpj);
+    console.log("FK Endereço:", fkEndereco);
+    console.log("Email:", email);
+    console.log("Senha:", senha);
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
     var query = `
-    INSERT INTO Empresa (nomefantasia, razaoSocial, cnpj, ativo, fk_endereco)
-    VALUES ('${nomeFantasia}', '${razaoSocial}', '${cnpj}', true, ${fkEndereco});
+      INSERT INTO Empresa (email , senha , nomefantasia, razaoSocial, cnpj, ativo, fk_endereco)
+      VALUES ('${email}' , '${senha}', '${nomeFantasia}', '${razaoSocial}', '${cnpj}', true, ${fkEndereco});
     `;
+    }
+    else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
+      var query = `
+      INSERT INTO Empresa (email , senha , nomefantasia, razaoSocial, cnpj, ativo, fk_endereco)
+      VALUES ('${email}' , '${senha}', '${nomeFantasia}', '${razaoSocial}', '${cnpj}', true, ${fkEndereco});
+    `;
+    }
 
     console.log("Executando a instrução SQL: \n" + query);
+
     database
       .executar(query)
       .then((result) => {
+        console.log("Inserção bem-sucedida. Resultado:", result);
         resolve(result);
       })
       .catch((error) => {
+        console.error("Erro durante a inserção:", error);
         reject(error);
       });
   });
 }
 
-function cadastrarTelefone(numero, fkCliente) {
+
+function cadastrarTelefone(telefone, fkCliente) {
   return new Promise((resolve, reject) => {
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+   
     var query = `
     INSERT INTO Telefone (numero, tipo, ativo, fkEmpresa)
-    VALUES ('${numero}', 'celular', true, ${fkCliente});
+    VALUES ('${telefone}', 'celular', true, ${fkCliente});
     `;
 
+    }
+
+    else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
+      var query = `
+      INSERT INTO Telefone (numero, tipo, ativo, fkEmpresa)
+      VALUES ('${telefone}', 'celular', true, ${fkCliente});
+      `;
+    }
     console.log("Executando a instrução SQL: \n" + query);
     database
       .executar(query)
@@ -112,24 +148,24 @@ function cadastrarTelefone(numero, fkCliente) {
   });
 }
 
-function cadastrarUsuario(nomeFantasia, email, senha, fkClienteUsuario) {
-  return new Promise((resolve, reject) => {
-    var query = `
-    INSERT INTO Usuario (nome, email, senha, tipoAcesso, nivelAcesso, ativo, fkEmpresaUsuario)
-    VALUES ('${nomeFantasia}','${email}', '${senha}', '1', '1', true, ${fkClienteUsuario});
-    `;
+// function cadastrarUsuario(nomeFantasia, email, senha, fkClienteUsuario) {
+//   return new Promise((resolve, reject) => {
+//     var query = `
+//     INSERT INTO Usuario (nome, email, senha, tipoAcesso, nivelAcesso, ativo, fkEmpresaUsuario)
+//     VALUES ('${nomeFantasia}','${email}', '${senha}', '1', '1', true, ${fkClienteUsuario});
+//     `;
 
-    console.log("Executando a instrução SQL: \n" + query);
-    database
-      .executar(query)
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-}
+//     console.log("Executando a instrução SQL: \n" + query);
+//     database
+//       .executar(query)
+//       .then((result) => {
+//         resolve(result);
+//       })
+//       .catch((error) => {
+//         reject(error);
+//       });
+//   });
+// }
 // CRUD DA EMPRESA:
 
 function listarEmpresa(idEmpresa) {
@@ -278,7 +314,6 @@ module.exports = {
   cadastrarEmpresa,
   cadastrarEndereco,
   cadastrarTelefone,
-  cadastrarUsuario,
   cadastrarMaquinas,
   atualizarEmpresa,
   listarEmpresa,

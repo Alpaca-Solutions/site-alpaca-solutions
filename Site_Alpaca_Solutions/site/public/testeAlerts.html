@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SweetAlert com Alpaca</title>
+  <!-- Adicione o link CDN do SweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Adicione um link para o seu próprio arquivo de estilo CSS, se necessário -->
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Adicione estilos personalizados aqui */
+
+    .textoCadastro{
+        color: black;
+        font-size: medium;
+        font-weight: 600;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-style: normal;
+      }
+  </style>
+  
+</head>
+<body>
+
+<script>
+  // Função para exibir o SweetAlert
+  function exibirAlerta() {
+    // Configuração do SweetAlert
+    let timerInterval;
+    Swal.fire({
+        title: '<h2 class="textoCadastro">Login realizado com sucesso!</h2>',
+        html: `
+      <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="assets/icon/logo_alpaca_preto2.png" alt="Alpaca feliz" style="width: 200px; height: 200px;">
+        <span class="textoCadastro" >Agora você visualizar os graficos de suas maquinas!</span>
+        <div style="margin-top: 10px;">
+        </div>
+      </div`,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+        const timer = Swal.getPopup().querySelector("b");
+        timerInterval = setInterval(() => {
+          timer.textContent = `${Swal.getTimerLeft()}`;
+        }, 100);
+      },
+      willClose: () => {
+        clearInterval(timerInterval);
+      }
+    }).then((result) => {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+        console.log("I was closed by the timer");
+      }
+    });
+}
+
+  // Chame a função para exibir o alerta
+  exibirAlerta();
+</script>
+
+</body>
+</html>

@@ -16,6 +16,10 @@ function cadastrar(req, res) {
   var senha = req.body.senhaServer;
   var telefone = req.body.telefoneServer;
 
+  console.log("Valor que está chegando no email no controoler de email " + email)
+  console.log("Valor que está chegando no email no controoler de senha " + senha)
+  
+
   empresaModel
     .cadastrarEmpresa(
       nomeFantasia,
