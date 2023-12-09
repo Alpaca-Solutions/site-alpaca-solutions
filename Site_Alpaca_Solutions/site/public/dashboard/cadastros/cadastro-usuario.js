@@ -31,7 +31,12 @@ function cadastrarUsuario(){
           console.log("resposta: ", resposta);
     
           if (resposta.ok) {
-            alert("O usuário foi cadastrado com sucesso!")
+            Swal.fire({
+              title: '<h2 class="textoCadastro">Usuário Cadastrado com Sucesso :)</h2>',    
+              icon: "success",
+              confirmButtonColor: '#008000',
+              confirmButtonText: 'Confirmar',
+            });
 
             setTimeout(function () {
                   window.location = "../listas/lista-usuario.html";
