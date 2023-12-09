@@ -1,144 +1,336 @@
-var empresaModel = require("../models/empresaModel");
+var database = require("../database/config");
 
-function cadastrar(req, res) {
-  var nomeFantasia = req.body.nomeFantasiaServer;
-  var razaoSocial = req.body.razaoSocialServer;
-  var cnpj = req.body.cnpjServer;
+//CADASTRANDO EMPRESA
 
-  var rua = req.body.ruaServer;
-  var bairro = req.body.bairroServer;
-  var estado = req.body.estadoServer;
-  var cep = req.body.cepServer;
-  var cidade = req.body.cidadeServer;
-  var numero = req.body.numeroServer;
-
-  var email = req.body.emailServer;
-  var senha = req.body.senhaServer;
-  var telefone = req.body.telefoneServer;
-
-  console.log("Valor que está chegando no email no controoler de email " + email)
-  console.log("Valor que está chegando no email no controoler de senha " + senha)
-  
-
-  empresaModel
-    .cadastrarEmpresa(
-      nomeFantasia,
-      razaoSocial,
-      cnpj,
+async function cadastrarEmpresa(
+  nomeFantasia,
+  razaoSocial,
+  cnpj,
+  rua,
+  bairro,
+  estado,
+  cep,
+  cidade,
+  numero,
+  email,
+  senha,
+  telefone
+) {
+  try {
+    // Inserir o endereço
+    var insertEndereco = await cadastrarEndereco(
       rua,
       bairro,
       estado,
       cep,
       cidade,
-      numero,
+      numero
+    );
+
+    console.log("Resultado na nuvem ")
+    // Inserir a empresa
+    var insertEmpresa = await inserirEmpresa(
+      nomeFantasia,
+      razaoSocial,
+      cnpj,
+      insertEndereco.insertId,
       email,
       senha,
-      telefone
-    )
-    .then((resultado) => {
-      res.status(201).json(resultado);
+    );
+
+    // Inserir o telefone
+    var insertTelefone = await cadastrarTelefone(
+      telefone,
+      insertEmpresa.insertId
+    );
+
+    return insertEmpresa;
+  }catch (error) {
+    console.error('Erro ao cadastrar empresa:', error);
+    throw error;
+  }
+}function cadastrarEndereco(rua, bairro, estado, cep, cidade, numero) {
+  return new Promise((resolve, reject) => {
+    let query;
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+      query = `
+        INSERT INTO Endereco (cep, rua, numero, bairro, cidade, estado, ativo)
+        OUTPUT INSERTED.idEndereco
+        VALUES ('${cep}', '${rua}', '${numero}', '${bairro}', '${cidade}', '${estado}', 1);
+      `;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+      query = `
+        INSERT INTO Endereco (cep, rua, numero, bairro, cidade, estado, ativo)
+        VALUES ('${cep}', '${rua}', '${numero}', '${bairro}', '${cidade}', '${estado}', true);
+      `;
+    }
+
+    console.log("Executando a instrução SQL: \n" + query);
+
+    database
+      .executar(query)
+      .then((result) => {
+        console.log("Resultado do Endereco:", result[0].idEndereco);
+
+      
+
+        const insertId = result[0].idEndereco;
+        resolve({ insertId });
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+
+
+
+function inserirEmpresa(nomeFantasia, razaoSocial, cnpj, fkEndereco, email , senha) {
+  return new Promise((resolve, reject) => {
+    console.log("Node.js Inserindo no banco - Dados que estão chegando:");
+    console.log("Nome Fantasia:", nomeFantasia);
+    console.log("Razão Social:", razaoSocial);
+    console.log("CNPJ:", cnpj);
+    console.log("FK Endereço:", fkEndereco);
+    console.log("Email:", email);
+    console.log("Senha:", senha);
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+    var query = `
+      INSERT INTO Empresa (email , senha , nomefantasia, razaoSocial, cnpj, ativo, fk_endereco)
+       OUTPUT INSERTED.idEmpresa
+      VALUES ('${email}' , '${senha}', '${nomeFantasia}', '${razaoSocial}', '${cnpj}', 1, ${fkEndereco});
+    `;
+    }
+    else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
+      var query = `
+      INSERT INTO Empresa (email , senha , nomefantasia, razaoSocial, cnpj, ativo, fk_endereco)
+      VALUES ('${email}' , '${senha}', '${nomeFantasia}', '${razaoSocial}', '${cnpj}', true, ${fkEndereco});
+    `;
+    }
+
+    console.log("Executando a instrução SQL: \n" + query);
+    database
+    .executar(query)
+    .then((result) => {
+      console.log("Resultado Empresa:", result[0].idEmpresa);
+      const insertId = result[0].idEmpresa;
+      resolve({ insertId });
     })
     .catch((error) => {
-      res.status(500).json({ error: error.message });
+      reject(error);
     });
+});
+  
+  }
+
+
+
+function cadastrarTelefone(telefone, fkCliente) {
+  return new Promise((resolve, reject) => {
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+   
+    var query = `
+    INSERT INTO Telefone (numero, tipo, ativo, fkEmpresa)
+    OUTPUT INSERTED.idTelefone
+    VALUES ('${telefone}', 'celular', 1, ${fkCliente});
+    `;
+
+    }
+
+    else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
+      var query = `
+      INSERT INTO Telefone (numero, tipo, ativo, fkEmpresa)
+      VALUES ('${telefone}', 'celular', true, ${fkCliente});
+      `;
+    }
+    console.log("Executando a instrução SQL: \n" + query);
+    database
+    .executar(query)
+    .then((result) => {
+      console.log("Resultado Empresa:", result[0].idTelefone);
+      const insertId = result[0].idTelefone;
+      resolve({ insertId });
+    })
+    .catch((error) => {
+      reject(error);
+    });
+});
 }
 
-// CRUD DA EMPRESA 
+// function cadastrarUsuario(nomeFantasia, email, senha, fkClienteUsuario) {
+//   return new Promise((resolve, reject) => {
+//     var query = `
+//     INSERT INTO Usuario (nome, email, senha, tipoAcesso, nivelAcesso, ativo, fkEmpresaUsuario)
+//     VALUES ('${nomeFantasia}','${email}', '${senha}', '1', '1', true, ${fkClienteUsuario});
+//     `;
 
-function listarEmpresa(req, res) {
-
-  var idEmpresa = req.params.idEmpresa
-   empresaModel.listarEmpresa(idEmpresa).then(function (resultado) {
-      if (resultado.length > 0) {
-          res.status(200).json(resultado);
-      } else {
-          res.status(204).send("Nenhum resultado encontrado!")
-      }
-  }).catch(function (erro) {
-      console.log(erro);
-      console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
-      res.status(500).json(erro.sqlMessage);
-  });
-}
-
-// function deletarEmpresa(req, res) {
-//   var idEmpresa = req.params.idEmpresa
-//    empresaModel.deletarEmpresa(idEmpresa)
-//   .then(
-//       function (resultado) {
-//           res.json(resultado);
-//       }
-//   )
-//   .catch(
-//       function (erro) {
-//           console.log(erro);
-//           console.log("Houve um erro ao realizar o post: ", erro.sqlMessage);
-//           res.status(500).json(erro.sqlMessage);
-//       }
-//   );
+//     console.log("Executando a instrução SQL: \n" + query);
+//     database
+//       .executar(query)
+//       .then((result) => {
+//         resolve(result);
+//       })
+//       .catch((error) => {
+//         reject(error);
+//       });
+//   });
 // }
+// CRUD DA EMPRESA:
 
-function atualizarEmpresa(req, res) {
-  var idEmpresa = req.params.idEmpresa
-  var dadosAtualizados = req.body;
+function listarEmpresa(idEmpresa) {
+  var instrucao = `
+  SELECT *
+  FROM Endereco
+  JOIN Empresa ON Empresa.fk_endereco = Endereco.idEndereco
+  JOIN Telefone ON Telefone.fkEmpresa = Empresa.idEmpresa
+  JOIN Usuario ON Usuario.fkEmpresa = Empresa.idEmpresa
+  WHERE idEmpresa = ${idEmpresa} LIMIT 1;
+  `;
 
- empresaModel.atualizarEmpresa(idEmpresa, dadosAtualizados)
-  .then(function (resultado) {
-    res.json(resultado);
-  })
-  .catch(function (erro) {
-    console.log(erro);
-    console.log("Houve um erro ao realizar a atualização: ", erro.sqlMessage);
-    res.status(500).json(erro.sqlMessage);
-  });
+  console.log("Executando a instrução SQL: \n" + instrucao);
+  return database.executar(instrucao);
+}
+function atualizarEmpresa(idEmpresa, dadosAtualizados) {
+  var instrucao1 = `UPDATE Empresa
+                    SET nomeFantasia = '${dadosAtualizados.nomeFantasia}',
+                        razaoSocial = '${dadosAtualizados.razaoSocial}',
+                        cnpj = '${dadosAtualizados.cnpj}'
+                    WHERE idEmpresa = ${idEmpresa}`;
+
+  var instrucao2 = `UPDATE Endereco
+                    SET cep = '${dadosAtualizados.cep}',
+                        rua = '${dadosAtualizados.rua}',
+                        numero = '${dadosAtualizados.numero}',
+                        bairro = '${dadosAtualizados.bairro}',
+                        cidade = '${dadosAtualizados.cidade}',
+                        estado = '${dadosAtualizados.estado}'
+                    WHERE idEndereco = ${dadosAtualizados.idEndereco}`;
+
+  
+  console.log("Executando a instrução SQL 1: \n" + instrucao1);
+  console.log("Executando a instrução SQL 2: \n" + instrucao2);
+
+  return Promise.all([
+      database.executar(instrucao1),
+      database.executar(instrucao2)
+  ]);
 }
 
-// FIM
+// fim
 
-
-
-
-function cadastrarMaquina(req, res) {
-
-  var ipMaquina = req.body.ipMaquinaServer;
-  var sistemaOperacional = req.body.sistemaOperacionalServer;
-  var NomeMaquina = req.body.NomeMaquinaServer;
-  var nomeUnidade = req.body.nomeUnidadeServer;
-
-  var rua = req.body.ruaServer;
-  var bairro = req.body.bairroServer;
-  var estado = req.body.estadoServer;
-  var cep = req.body.cepServer;
-  var cidade = req.body.cidadeServer;
-  var numero = req.body.numeroServer;
-
-    empresaModel
-    .cadastrarMaquinas(
+// Cadastrando Maquinas
+async function cadastrarMaquinas(
+  cep, 
+  rua, 
+  numero, 
+  bairro,  
+  cidade, 
+  estado,
+  nomeUnidade,
+  ipMaquina,
+  sistemaOperacional,
+  NomeMaquina
+) {
+  try {
+    // Inserir o endereço
+    var insertEndereco = await cadastrarEnderecoMaquina(
       cep, 
       rua, 
       numero, 
       bairro,  
       cidade, 
-      estado,
+      estado
+    );
+
+    // Inserir a Unidade
+    var insertUnidade = await cadastrarUnidade(
       nomeUnidade,
+      insertEndereco.insertId
+    );
+
+    // Inserir a máquina
+    var insertMaquina = await cadastrarMaquina(
+      NomeMaquina,
       ipMaquina,
       sistemaOperacional,
-      NomeMaquina
-    )
-    .then((resultado) => {
-      res.status(201).json(resultado);
-    })
-    .catch((error) => {
-      res.status(500).json({ error: error.message });
-    });
+      insertUnidade.insertId
+    );
 
+    return insertMaquina;
+  } catch (error) {
+    throw error;
+  }
+}
+function cadastrarEnderecoMaquina(cep, rua, numero, bairro,  cidade, estado) {
+  return new Promise((resolve, reject) => {
+    var query = `
+    INSERT INTO Endereco (cep, rua, numero, bairro,  cidade, estado, ativo)
+    VALUES ('${cep}', '${rua}', '${numero}', '${bairro}', '${cidade}', '${estado}', true);
+    `;
+
+    console.log("Executando a instrução SQL: \n" + query);
+    database
+      .executar(query)
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+function cadastrarUnidade(nomeUnidade, fkEndereco) {
+  return new Promise((resolve, reject) => {
+    var query = `
+    INSERT INTO Unidade (nomeInstituicao, ativo, fkEndereco)
+    VALUES('${nomeUnidade}', true, ${fkEndereco});      
+    `;
+
+    console.log("Executando a instrução SQL: \n" + query);
+    database
+      .executar(query)
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+function cadastrarMaquina(NomeMaquina, ipMaquina, sistemaOperacional, fkUnidade) {
+  return new Promise((resolve, reject) => {
+    var query = `
+      INSERT INTO Maquina(hostname, ipMaquina, sistemaOperacional, statusMaquina, fkEmpresa, fkUnidade)
+      VALUES('${NomeMaquina}', '${ipMaquina}', '${sistemaOperacional}', true, '1', ${fkUnidade});
+    `;
+
+    console.log("Executando a instrução SQL: \n" + query);
+    database
+      .executar(query)
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 }
 
 
-
 module.exports = {
-  cadastrar,
-  listarEmpresa,
+  cadastrarEmpresa,
+  cadastrarEndereco,
+  cadastrarTelefone,
+  cadastrarMaquinas,
   atualizarEmpresa,
-  cadastrarMaquina,
+  listarEmpresa,
+  cadastrarEnderecoMaquina,
+  cadastrarUnidade,
+  cadastrarMaquina
 };

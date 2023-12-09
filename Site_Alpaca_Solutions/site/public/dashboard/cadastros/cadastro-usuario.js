@@ -6,12 +6,11 @@ function cadastrarUsuario(){
     const nomeVar = nome.value
     const tipoAcessoVar = document.getElementById("tipoAcesso")
     const nivelAcessoVar =  nivelAcesso.value
+    let fkEndereco = sessionStorage.fkEmpresa;
 
+    console.log(sessionStorage.fkEmpresa)
 
-    let tipoAcesso = sessionStorage.TipoAcesso;
-    if(tipoAcesso == "empregado"){
-       alert("Nãooooooooooooo")
-       }   fetch("/usuarios/cadastrarUsuario", {
+ fetch(`/usuarios/cadastrarUsuario/${fkEndereco}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
