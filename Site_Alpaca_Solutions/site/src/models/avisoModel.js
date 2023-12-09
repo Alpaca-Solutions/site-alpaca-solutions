@@ -59,7 +59,7 @@ function deletarUsuario(idUsuario) {
 
     if(process.env.AMBIENTE_PROCESSO == "producao") {
         var instrucao = `
-        UPDATE Usuario SET ativo = false WHERE idUsuario =  ${idUsuario};
+        UPDATE Usuario SET ativo = 0 WHERE idUsuario =  ${idUsuario};
         `;
     }
     else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento") {

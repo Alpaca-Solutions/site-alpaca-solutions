@@ -166,8 +166,12 @@ function excluirUsuario(){
     .then(function (resposta) {
       if (resposta.ok) {
         console.log("Dados do usuário atualizados com sucesso!");
-        alert("O Usuario foi excluido com sucesso")
-
+        Swal.fire({
+          title: '<h2 class="textoCadastro">Usuário Excluido com Sucesso :)</h2>',    
+          icon: "success",
+          confirmButtonColor: '#008000',
+          confirmButtonText: 'Confirmar',
+        });
         setTimeout(function () {
               window.location = "../listas/lista-usuario.html";
             }, 1000);

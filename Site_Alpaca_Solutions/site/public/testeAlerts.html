@@ -34,19 +34,12 @@
   function exibirAlerta() {
     // Configuração do SweetAlert
     Swal.fire({
-        title: '<h2 class="textoCadastro">Tem certeza?</h2>',
-        html: '<h2 class="textoCadastro">Esta ação excluirá permanentemente o usuário!</h2>',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Sim, excluir!',
-        cancelButtonText: 'Cancelar',
+        title: '<h2 class="textoCadastro">Usuário Excluido com Sucesso :)</h2>',    
+        icon: "success",
         confirmButtonColor: '#008000',
-        cancelButtonColor: '#FF0000',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          excluirUsuario();
-        }
+        confirmButtonText: 'Confirmar',
       });
+
     }
   
 
