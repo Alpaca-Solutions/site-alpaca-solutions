@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../css/lista-usuario.css">
     <link rel="shortcut icon" href="../../assets/icon/icon_alpaca.png" type="image/x-icon">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body onload="obterDados_usuarios()">
@@ -51,7 +52,7 @@
             <div class="grade">
                 <div class="campos">
                     <div class="campos_box">
-                        <a href="../cadastros/cadastro-usuario.html"><button>+ Cadastrar novo usuário</button></a>
+                        <a href="../cadastros/cadastro-usuario.html"><button onclick="validarTipoUsuario()">+ Cadastrar novo usuário</button></a>
                         <div class="listas_users">
                             <div class="titulos">
                                 <div class="titulo">Nome</div>
@@ -84,7 +85,24 @@
     function funcVoltar() {
         window.history.back()
     }
+    function validarTipoAcesso(){
 
+        let tipoAcesso = sessionStorage.TipoAcesso
+      
+        if(tipoAcesso == "empresa"){
+            obterDados_usuarios();
+        }
+        
+        else{
+          Swal.fire({
+            title: '<h2 class="textoCadastro">Infelizmente, conforme os termos da Alpaca Solutions, apenas empresas têm permissão para atualizar ou excluir usuários.</h2>',    
+            icon: "error",
+            confirmButtonColor: '#FF0000',
+            confirmButtonText: 'Confirmar',
+          });
+        }
+      }
+      
     function obterDados_usuarios() {
         var idEmpresa = sessionStorage.fkEmpresa;
         console.log("ID do Usuário:", idEmpresa);
