@@ -38,7 +38,7 @@
             <div class="grade">
                 <div class="campos">
                     <div class="campos_box">
-                        <a href="../cadastros/cadastro-maquina.html"><button>+ Cadastrar nova máquina</button></a>
+                        <a href="#"><button onclick="ValidarTipoUsuario()">+ Cadastrar nova máquina</button></a>
                         <div class="listas_maquina">
                             <div class="titulos">
                                 <div class="titulo">Nome Instancia</div>
@@ -72,6 +72,26 @@ b_usuario.innerHTML = sessionStorage.NomeUsuarioLogin;
 
 function funcVoltar() {
     window.history.back();
+}
+
+function ValidarTipoUsuario(){
+    let tipoAcesso = sessionStorage.TipoAcesso
+    let nivelAcesso = sessionStorage.nivelAcesso;
+
+    if(tipoAcesso == "empresa" || nivelAcesso == 1){
+      window.location.href = "../cadastros/cadastro-maquina.html";
+       obterDadosMaquinas();
+    }
+
+    else{
+        Swal.fire({
+            title: '<h2 class="textoCadastro">Infelizmente, conforme os termos da Alpaca Solutions, apenas empresas ou administradores têm permissão para inserir, atualizar ou excluir máquinas.</h2>',    
+            icon: "error",
+            confirmButtonColor: '#FF0000',
+            confirmButtonText: 'Confirmar',
+          });
+    }
+
 }
 
 function obterDadosMaquinas() {
