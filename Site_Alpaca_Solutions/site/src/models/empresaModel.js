@@ -57,10 +57,11 @@ function cadastrarEndereco(rua, bairro, estado, cep, cidade, numero) {
   return new Promise((resolve, reject) => {
 
 
+
     if (process.env.AMBIENTE_PROCESSO == "producao") {
     var query = `
     INSERT INTO Endereco (cep, rua, numero, bairro,  cidade, estado, ativo)
-    VALUES ('${cep}', '${rua}', '${numero}', '${bairro}', '${cidade}', '${estado}', true);
+    VALUES ('${cep}', '${rua}', '${numero}', '${bairro}', '${cidade}', '${estado}', 1);
     `;
     }
 
@@ -95,7 +96,7 @@ function inserirEmpresa(nomeFantasia, razaoSocial, cnpj, fkEndereco, email , sen
     if (process.env.AMBIENTE_PROCESSO == "producao") {
     var query = `
       INSERT INTO Empresa (email , senha , nomefantasia, razaoSocial, cnpj, ativo, fk_endereco)
-      VALUES ('${email}' , '${senha}', '${nomeFantasia}', '${razaoSocial}', '${cnpj}', true, ${fkEndereco});
+      VALUES ('${email}' , '${senha}', '${nomeFantasia}', '${razaoSocial}', '${cnpj}', 1, ${fkEndereco});
     `;
     }
     else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
@@ -128,7 +129,7 @@ function cadastrarTelefone(telefone, fkCliente) {
    
     var query = `
     INSERT INTO Telefone (numero, tipo, ativo, fkEmpresa)
-    VALUES ('${telefone}', 'celular', true, ${fkCliente});
+    VALUES ('${telefone}', 'celular', 1, ${fkCliente});
     `;
 
     }
