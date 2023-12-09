@@ -65,7 +65,7 @@
                         <option value="3">N3</option>
                     </select>
                     <div class="buttons">
-                        <button onclick="excluirUsuario()" class="excluir">Excluir</button>
+                        <button onclick="AlertaDeletar()" class="excluir">Excluir</button>
                         <button onclick="atualizarUsuario()" class="atualizar">Atualizar</button>
                     </div>
                 </div>
@@ -134,6 +134,23 @@ function preencherDados(){
             });
 
         return false;
+    }
+
+    function AlertaDeletar(){
+      Swal.fire({
+        title: '<h2 class="textoCadastro">Tem certeza?</h2>',
+        html: '<h2 class="textoCadastro">Esta ação excluirá permanentemente o usuário!</h2>',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sim, excluir!',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#008000',
+        cancelButtonColor: '#FF0000',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          excluirUsuario();
+        }
+      });
     }
 
 function excluirUsuario(){
