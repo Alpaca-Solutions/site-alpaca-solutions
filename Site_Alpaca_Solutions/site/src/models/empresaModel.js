@@ -27,6 +27,7 @@ async function cadastrarEmpresa(
       numero
     );
 
+    console.log("Resultado na nuvem " + insertEndereco)
     // Inserir a empresa
     var insertEmpresa = await inserirEmpresa(
       nomeFantasia,
@@ -36,13 +37,15 @@ async function cadastrarEmpresa(
       email,
       senha,
     );
-
+    console.log("Resultado na nuvem " + insertEmpresa)
+   
     // Inserir o telefone
     var insertTelefone = await cadastrarTelefone(
       telefone,
       insertEmpresa.insertId
     );
-
+    console.log("Resultado na nuvem " + insertTelefone)
+   
     return insertEmpresa;
   }catch (error) {
     console.error('Erro ao cadastrar empresa:', error);
