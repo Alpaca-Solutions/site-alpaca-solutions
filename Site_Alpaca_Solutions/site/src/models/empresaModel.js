@@ -104,6 +104,9 @@ function inserirEmpresa(nomeFantasia, razaoSocial, cnpj, fkEndereco, email, senh
   });
 }
 
+
+
+
 // function cadastrarUsuario(nomeFantasia, email, senha, fkClienteUsuario) {
 //   return new Promise((resolve, reject) => {
 //     var query = `
@@ -123,6 +126,37 @@ function inserirEmpresa(nomeFantasia, razaoSocial, cnpj, fkEndereco, email, senh
 //   });
 // }
 // CRUD DA EMPRESA:
+
+
+function cadastrarTelefone(telefone, fkCliente) {
+  return new Promise((resolve, reject) => {
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+   
+    var query = `
+    INSERT INTO Telefone (numero, tipo, ativo, fkEmpresa)
+    VALUES ('${telefone}', 'celular', 1, ${fkCliente});
+    `;
+
+    }
+
+    else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
+      var query = `
+      INSERT INTO Telefone (numero, tipo, ativo, fkEmpresa)
+      VALUES ('${telefone}', 'celular', true, ${fkCliente});
+      `;
+    }
+    console.log("Executando a instrução SQL: \n" + query);
+    database
+      .executar(query)
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
 
 function listarEmpresa(idEmpresa) {
   var instrucao = `
