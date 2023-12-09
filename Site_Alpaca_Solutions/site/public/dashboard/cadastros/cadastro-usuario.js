@@ -1,3 +1,23 @@
+function validarTipoAcesso(){
+
+  let tipoAcesso = sessionStorage.TipoAcesso
+
+  if(tipoAcesso == "empresa"){
+    cadastrarUsuario();
+  }
+  
+  else{
+    Swal.fire({
+      title: '<h2 class="textoCadastro">Infelizmente, conforme os termos da Alpaca Solutions, apenas empresas têm permissão para atualizar ou excluir usuários.</h2>',    
+      icon: "error",
+      confirmButtonColor: '#FF0000',
+      confirmButtonText: 'Confirmar',
+    });
+  }
+}
+
+
+
 function cadastrarUsuario(){
 
     const idVar = sessionStorage.ID_USUARIO;
