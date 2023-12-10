@@ -49,28 +49,32 @@ async function cadastrarEmpresa(
     console.error('Erro ao cadastrar empresa:', error);
     throw error;
   }
-}
-
-function cadastrarEndereco(rua, bairro, estado, cep, cidade, numero) {
+}function cadastrarEndereco(rua, bairro, estado, cep, cidade, numero) {
   return new Promise((resolve, reject) => {
-    if (process.env.AMBIENTE_PROCESSO === "producao") {
-      var query = `
+    let query;
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+      query = `
         INSERT INTO Endereco (cep, rua, numero, bairro, cidade, estado, ativo)
-        OUTPUT INSERTED.idEndereco 
+        OUTPUT INSERTED.idEndereco
         VALUES ('${cep}', '${rua}', '${numero}', '${bairro}', '${cidade}', '${estado}', 1);
       `;
-    } else if (process.env.AMBIENTE_PROCESSO === "desenvolvimento") {
-      var query = `
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+      query = `
         INSERT INTO Endereco (cep, rua, numero, bairro, cidade, estado, ativo)
         VALUES ('${cep}', '${rua}', '${numero}', '${bairro}', '${cidade}', '${estado}', true);
       `;
     }
 
     console.log("Executando a instrução SQL: \n" + query);
+
     database
       .executar(query)
       .then((result) => {
-        console.log("Resultado completo:", result);
+        console.log("Resultado do Endereco:", result[0].idEndereco);
+
+      
+
         const insertId = result[0].idEndereco;
         resolve({ insertId });
       })
@@ -79,6 +83,8 @@ function cadastrarEndereco(rua, bairro, estado, cep, cidade, numero) {
       });
   });
 }
+
+
 
 
 function inserirEmpresa(nomeFantasia, razaoSocial, cnpj, fkEndereco, email , senha) {
@@ -94,6 +100,7 @@ function inserirEmpresa(nomeFantasia, razaoSocial, cnpj, fkEndereco, email , sen
     if (process.env.AMBIENTE_PROCESSO == "producao") {
     var query = `
       INSERT INTO Empresa (email , senha , nomefantasia, razaoSocial, cnpj, ativo, fk_endereco)
+       OUTPUT INSERTED.idEmpresa
       VALUES ('${email}' , '${senha}', '${nomeFantasia}', '${razaoSocial}', '${cnpj}', 1, ${fkEndereco});
     `;
     }
@@ -108,8 +115,8 @@ function inserirEmpresa(nomeFantasia, razaoSocial, cnpj, fkEndereco, email , sen
     database
     .executar(query)
     .then((result) => {
-      console.log("Resultado completo:", result);
-      const insertId = result[0].idEndereco;
+      console.log("Resultado Empresa:", result[0].idEmpresa);
+      const insertId = result[0].idEmpresa;
       resolve({ insertId });
     })
     .catch((error) => {
@@ -128,7 +135,8 @@ function cadastrarTelefone(telefone, fkCliente) {
    
     var query = `
     INSERT INTO Telefone (numero, tipo, ativo, fkEmpresa)
-    VALUES ('${telefone}', 'celular', true, ${fkCliente});
+    OUTPUT INSERTED.idTelefone
+    VALUES ('${telefone}', 'celular', 1, ${fkCliente});
     `;
 
     }
@@ -141,14 +149,16 @@ function cadastrarTelefone(telefone, fkCliente) {
     }
     console.log("Executando a instrução SQL: \n" + query);
     database
-      .executar(query)
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+    .executar(query)
+    .then((result) => {
+      console.log("Resultado Empresa:", result[0].idTelefone);
+      const insertId = result[0].idTelefone;
+      resolve({ insertId });
+    })
+    .catch((error) => {
+      reject(error);
+    });
+});
 }
 
 // function cadastrarUsuario(nomeFantasia, email, senha, fkClienteUsuario) {
@@ -279,7 +289,7 @@ function cadastrarEnderecoMaquina(cep, rua, numero, bairro,  cidade, estado) {
     database
       .executar(query)
       .then((result) => {
-        console.log("Resultado completo:", result);
+        console.log("Resultado completo:", result[0].idEndereco);
         const insertId = result[0].idEndereco;
         resolve({ insertId });
       })
@@ -310,7 +320,7 @@ function cadastrarUnidade(nomeUnidade, fkEndereco) {
     database
       .executar(query)
       .then((result) => {
-        console.log("Resultado completo:", result);
+        console.log("Resultado completo:", result[0].idUnidade);
         const insertId = result[0].idUnidade;
         resolve({ insertId });
       })
@@ -342,7 +352,7 @@ function cadastrarMaquina(NomeMaquina, ipMaquina, sistemaOperacional, fkUnidade,
     database
       .executar(query)
       .then((result) => {
-        console.log("Resultado completo:", result);
+        console.log("Resultado completo:", result[0].idMaquina);
         const insertId = result[0].idMaquina;
         resolve({ insertId });
       })
