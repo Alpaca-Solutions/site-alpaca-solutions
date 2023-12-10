@@ -267,10 +267,45 @@ function buscarRedeInovacao(req, res) {
 
 function buscarMemoriaComputadorEmpresa(req, res) {
 
-    let fkempresa = req.params.idEmpresa
-
+    var fkempresa = req.params.idEmpresa
 
     medidaModel.buscarMemoriaComputadorEmpresa(fkempresa).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!");
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar asId últimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function buscarCPUGeral(req, res) {
+
+    var fkempresa = req.params.idEmpresa
+
+
+    medidaModel.buscarCPUGeral(fkempresa).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!");
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar asId últimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function buscarDiscoGeral(req, res) {
+
+    var fkempresa = req.params.idEmpresa
+
+
+    medidaModel.buscarDiscoGeral(fkempresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -298,5 +333,7 @@ module.exports = {
     MaquinasAlerta,
     buscarMaquinasUsuario,
     buscarRedeInovacao,
-    buscarMemoriaComputadorEmpresa
+    buscarMemoriaComputadorEmpresa,
+    buscarCPUGeral,
+    buscarDiscoGeral
 }

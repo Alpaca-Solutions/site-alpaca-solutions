@@ -227,7 +227,7 @@ function buscarDadosMemoria() {
             console.log("Dados da Memoria: " + dados);
         })
         .catch(function (error) {
-            console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+            console.error(`Erro na obtenção dos dados para o gráfico de memóra :  ${error.message}`);
         });
 }
 
@@ -254,12 +254,13 @@ function buscarDadosRede() {
             drawLineChart(dados);
         })
         .catch(function (error) {
-            console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+            console.error(`Erro na obtenção dos dados para o gráfico de rede: ${error.message}`);
         });
 }
 
 function buscarDadosDisco() {
-    fetch(`/medidas/buscarDisco`, { cache: 'no-store' })
+    let idEmpresa = sessionStorage.fkEmpresa
+    fetch(`/medidas/buscarDiscoGeral/${idEmpresa}`, { cache: 'no-store' })
         .then(function (response) {
             if (response.ok) {
                 return response.json();
@@ -276,7 +277,8 @@ function buscarDadosDisco() {
 }
 
 function buscarDadosCPU() {
-    fetch(`/medidas/buscarCPU`, { cache: 'no-store' })
+    let idEmpresa = sessionStorage.fkEmpresa
+    fetch(`/medidas/buscarCPUGeral/${idEmpresa}`, { cache: 'no-store' })
         .then(function (response) {
             if (response.ok) {
                 return response.json();
@@ -288,7 +290,7 @@ function buscarDadosCPU() {
             plotarDadosCPU(dados);
         })
         .catch(function (error) {
-            console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+            console.error(`Erro na obtenção dos dados para o gráfico de cpu: ${error.message}`);
         });
 }
 

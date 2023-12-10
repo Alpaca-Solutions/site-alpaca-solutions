@@ -65,7 +65,11 @@ router.get("/buscarMaquinasUsuario/:idNovo", function (req, res) {
 router.get("/buscarMemoriaComputadorEmpresa/:fkempresa", function (req, res) {
     medidaController.buscarMemoriaComputadorEmpresa(req, res);
 })
-
-
+router.get("/buscarCPUGeral/:fkempresa", function (req, res) {
+    medidaController.buscarCPUGeral(req, res);
+})
+router.get("/buscarDiscoGeral/:fkempresa", function (req, res) {
+    medidaController.buscarDiscoGeral(req, res);
+})
 
 module.exports = router;
