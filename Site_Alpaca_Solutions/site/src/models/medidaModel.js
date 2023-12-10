@@ -476,29 +476,17 @@ function MaquinasAlerta(){
 function buscarMaquinasUsuario(idNovo){
     instrucaoSql = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `SELECT DISTINCT Maquina.idMaquina, Maquina.hostname
+        instrucaoSql = `SELECT *
         FROM Maquina
-        JOIN Empresa ON Maquina.fkEmpresa = Empresa.idEmpresa
-        WHERE Empresa.idEmpresa = ${idNovo}
-        AND EXISTS (
-            SELECT 1
-            FROM Medicoes
-            WHERE Medicoes.id_computador = Maquina.idMaquina
-        );
+        WHERE fkEmpresa = ${idNovo};
+        
         `;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
-        SELECT DISTINCT Maquina.idMaquina, Maquina.hostname
+        SELECT *
         FROM Maquina
-        JOIN Empresa ON Maquina.fkEmpresa = Empresa.idEmpresa
-        WHERE Empresa.idEmpresa = ${idNovo}
-        AND EXISTS (
-            SELECT 1
-            FROM Medicoes
-            WHERE Medicoes.id_computador = Maquina.idMaquina
-        );
-        
+        WHERE fkEmpresa = ${idNovo};
         `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
