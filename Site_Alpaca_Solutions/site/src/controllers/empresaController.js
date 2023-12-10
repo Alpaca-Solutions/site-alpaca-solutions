@@ -267,10 +267,19 @@ async function cadastrarMaquinas(
 }
 function cadastrarEnderecoMaquina(cep, rua, numero, bairro,  cidade, estado) {
   return new Promise((resolve, reject) => {
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
     var query = `
     INSERT INTO Endereco (cep, rua, numero, bairro,  cidade, estado, ativo)
     VALUES ('${cep}', '${rua}', '${numero}', '${bairro}', '${cidade}', '${estado}', true);
     `;
+    }
+    else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
+      var query = `
+    INSERT INTO Endereco (cep, rua, numero, bairro,  cidade, estado, ativo)
+    VALUES ('${cep}', '${rua}', '${numero}', '${bairro}', '${cidade}', '${estado}', true);
+    `; 
+    }
 
     console.log("Executando a instrução SQL: \n" + query);
     database
@@ -286,10 +295,19 @@ function cadastrarEnderecoMaquina(cep, rua, numero, bairro,  cidade, estado) {
 
 function cadastrarUnidade(nomeUnidade, fkEndereco) {
   return new Promise((resolve, reject) => {
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
     var query = `
     INSERT INTO Unidade (nomeInstituicao, ativo, fkEndereco)
     VALUES('${nomeUnidade}', true, ${fkEndereco});      
     `;
+    }
+    else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
+      var query = `
+      INSERT INTO Unidade (nomeInstituicao, ativo, fkEndereco)
+      VALUES('${nomeUnidade}', true, ${fkEndereco});      
+      `;
+    }
 
     console.log("Executando a instrução SQL: \n" + query);
     database
@@ -305,10 +323,19 @@ function cadastrarUnidade(nomeUnidade, fkEndereco) {
 
 function cadastrarMaquina(NomeMaquina, ipMaquina, sistemaOperacional, fkUnidade) {
   return new Promise((resolve, reject) => {
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
     var query = `
       INSERT INTO Maquina(hostname, ipMaquina, sistemaOperacional, statusMaquina, fkEmpresa, fkUnidade)
       VALUES('${NomeMaquina}', '${ipMaquina}', '${sistemaOperacional}', true, '1', ${fkUnidade});
     `;
+    }
+    else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
+      var query = `
+      INSERT INTO Maquina(hostname, ipMaquina, sistemaOperacional, statusMaquina, fkEmpresa, fkUnidade)
+      VALUES('${NomeMaquina}', '${ipMaquina}', '${sistemaOperacional}', true, '1', ${fkUnidade});
+    `;
+    }
 
     console.log("Executando a instrução SQL: \n" + query);
     database

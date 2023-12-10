@@ -134,7 +134,7 @@ function listar_MaquinasLista(fkEmpresa) {
     var instrucao = `
     SELECT MAX(idMaquina) AS idMaquina, TRIM(hostname) AS hostname
     FROM Maquina
-    WHERE fkempresa = 1
+    WHERE fkempresa = ${fkEmpresa}
     GROUP BY TRIM(hostname);
     `;
     }
@@ -142,7 +142,7 @@ function listar_MaquinasLista(fkEmpresa) {
         var instrucao = `
         SELECT MAX(idMaquina) AS idMaquina, TRIM(hostname) AS hostname
         FROM Maquina
-        WHERE fkempresa = 1
+        WHERE fkempresa = ${fkEmpresa}
         GROUP BY TRIM(hostname);
         `;
     }
@@ -178,7 +178,7 @@ function deletarMaquina(idMaquina) {
 
     if(process.env.AMBIENTE_PROCESSO == "producao") {
         var instrucao = `
-        UPDATE Maquina SET statusMaquina = false WHERE idMaquina = ${idMaquina};
+        UPDATE Maquina SET statusMaquina = 0 WHERE idMaquina = ${idMaquina};
         `;
     }
     else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
