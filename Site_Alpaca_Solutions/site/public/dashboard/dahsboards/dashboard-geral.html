@@ -138,17 +138,17 @@ function init() {
 
     setInterval(function () {
         buscarDadosMemoria();
-        buscarDadosDisco();
+        buscarDadosCPU();
         
     }, 5000);
 
     setInterval(obterDadosMaquinas, 5000);
-    setInterval(buscarDadosDisco , 5000);
+    setInterval(buscarDadosCPU , 5000);
 }
 
 function drawCharts() {
     buscarDadosMemoria();
-    buscarDadosDisco()
+    buscarDadosCPU()
    
 }
 
