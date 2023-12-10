@@ -160,7 +160,7 @@ var id_computador = 3;
 
         
                 
-                maquina.innerHTML = `<p onclick="buscarDadosRede()">${dadosMaquina.hostname}</p>`
+                maquina.innerHTML += `<p onclick="buscarDadosRede()">${dadosMaquina.hostname}</p>`
            }
         })
         .catch(function (error) {
