@@ -541,7 +541,7 @@ function buscarMemoriaComputadorEmpresa(idEmpresa) {
     let instrucaoSql = '';
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `SELECT MA.hostName, MA.idMaquina, ROUND(AVG(M.valor), 2) AS mediaPercentualMemoria
+        instrucaoSql = `SELECT MA.idMaquina, ROUND(AVG(M.valor), 2) AS mediaPercentualMemoria
         FROM Medicoes M
         JOIN Maquina MA ON M.id_computador = MA.idMaquina
         JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
@@ -550,7 +550,7 @@ function buscarMemoriaComputadorEmpresa(idEmpresa) {
           AND TC.nomeTipo = 'Percentual de Memoria'
         GROUP BY MA.idMaquina;`; 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `SELECT MA.hostName, MA.idMaquina, ROUND(AVG(M.valor), 2) AS mediaPercentualMemoria
+        instrucaoSql = `SELECT MA.idMaquina, ROUND(AVG(M.valor), 2) AS mediaPercentualMemoria
         FROM Medicoes M
         JOIN Maquina MA ON M.id_computador = MA.idMaquina
         JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
