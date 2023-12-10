@@ -80,7 +80,7 @@ function ValidarTipoUsuario(){
 
     if(tipoAcesso == "empresa" || nivelAcesso == 1){
       window.location.href = "../cadastros/cadastro-maquina.html";
-       obterDadosMaquinas();
+       buscarFkUnidade();
     }
 
     else{
@@ -153,6 +153,9 @@ function obterDadosMaquinas() {
         .catch(function (error) {
             console.error(`Erro na obtenção dos dados para gráfico: ${error.message}`);
         });
+
+
+       
 }
 
 

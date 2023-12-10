@@ -257,6 +257,7 @@ async function cadastrarMaquinas(
       NomeMaquina,
       ipMaquina,
       sistemaOperacional,
+      insertEmpresa.insertId,
       insertUnidade.insertId
     );
 
@@ -271,7 +272,7 @@ function cadastrarEnderecoMaquina(cep, rua, numero, bairro,  cidade, estado) {
     if (process.env.AMBIENTE_PROCESSO == "producao") {
     var query = `
     INSERT INTO Endereco (cep, rua, numero, bairro,  cidade, estado, ativo)
-    VALUES ('${cep}', '${rua}', '${numero}', '${bairro}', '${cidade}', '${estado}', true);
+    VALUES ('${cep}', '${rua}', '${numero}', '${bairro}', '${cidade}', '${estado}', 1);
     `;
     }
     else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
@@ -299,7 +300,7 @@ function cadastrarUnidade(nomeUnidade, fkEndereco) {
     if (process.env.AMBIENTE_PROCESSO == "producao") {
     var query = `
     INSERT INTO Unidade (nomeInstituicao, ativo, fkEndereco)
-    VALUES('${nomeUnidade}', true, ${fkEndereco});      
+    VALUES('${nomeUnidade}', 1, ${fkEndereco});      
     `;
     }
     else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
@@ -321,13 +322,13 @@ function cadastrarUnidade(nomeUnidade, fkEndereco) {
   });
 }
 
-function cadastrarMaquina(NomeMaquina, ipMaquina, sistemaOperacional, fkUnidade) {
+function cadastrarMaquina(NomeMaquina, ipMaquina, sistemaOperacional,fkEmpresa, fkUnidade) {
   return new Promise((resolve, reject) => {
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
     var query = `
       INSERT INTO Maquina(hostname, ipMaquina, sistemaOperacional, statusMaquina, fkEmpresa, fkUnidade)
-      VALUES('${NomeMaquina}', '${ipMaquina}', '${sistemaOperacional}', true, '1', ${fkUnidade});
+      VALUES('${NomeMaquina}', '${ipMaquina}', '${sistemaOperacional}', 1, ${fkEmpresa}, ${fkUnidade});
     `;
     }
     else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
