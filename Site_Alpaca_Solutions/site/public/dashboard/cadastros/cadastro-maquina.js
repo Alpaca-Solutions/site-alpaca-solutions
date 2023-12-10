@@ -15,6 +15,7 @@ function cadastrarMaquina() {
     const cep = document.getElementById("cep").value;
     const cidade = document.getElementById("cidade").value;
     const numero = document.getElementById("numero").value;
+    let fkEmpresaMaquina = sessionStorage.fkEmpresa;
   
     fetch("/empresas/cadastrarMaquina", {
       method: "POST",
@@ -32,6 +33,7 @@ function cadastrarMaquina() {
         cepServer: cep,
         cidadeServer: cidade,
         numeroServer: numero,
+        fkEmpresaServer: fkEmpresaMaquina
       }),
     })
       .then(function (resposta) {
