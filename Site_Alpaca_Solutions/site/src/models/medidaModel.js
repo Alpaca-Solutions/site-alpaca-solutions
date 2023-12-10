@@ -569,47 +569,37 @@ function buscarMemoriaComputadorEmpresa(idEmpresa) {
 }
 
 
-// function buscarCPUGeral(idEmpresa) {
-//     console.log("Valor da fk que o back recebe " +  idEmpresa)
-//     let instrucaoSql = '';
+ function buscarCPUGeral(idEmpresa) {
+    console.log("Valor da fk que o back recebe " +  idEmpresa)
+     let instrucaoSql = '';
 
-//     if (process.env.AMBIENTE_PROCESSO == "producao") {
-//         instrucaoSql = `SELECT MA.idMaquina, ROUND(AVG(M.valor), 2) AS mediaPercentualMemoria
-//         FROM Medicoes M
-//         JOIN Maquina MA ON M.id_computador = MA.idMaquina
-//         JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
-//         JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
-//         WHERE MA.fkEmpresa = ${idEmpresa}
-//           AND TC.nomeTipo = 'Percentual de Uso do Processador'
-//         GROUP BY MA.idMaquina;`; 
-//     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-//         instrucaoSql = `SELECT MA.idMaquina, ROUND(AVG(M.valor), 2) AS mediaPercentualMemoria
-//         FROM Medicoes M
-//         JOIN Maquina MA ON M.id_computador = MA.idMaquina
-//         JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
-//         JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
-//         WHERE MA.fkEmpresa = ${idEmpresa}
-//           AND TC.nomeTipo = 'Percentual de Uso do Processador'
-//         GROUP BY MA.idMaquina;`;
-//     } else {
-//         return res.status(500).json({ error: "O ambiente não foi definido corretamente." });
-//     }
+     if (process.env.AMBIENTE_PROCESSO == "producao") {
+         instrucaoSql = `SELECT MA.idMaquina, ROUND(AVG(M.valor), 2) AS mediaPercentualMemoria
+         FROM Medicoes M
+         JOIN Maquina MA ON M.id_computador = MA.idMaquina
+        JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+        JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
+        WHERE MA.fkEmpresa = ${idEmpresa}
+          AND TC.nomeTipo = 'Percentual de Uso do Processador'
+        GROUP BY MA.idMaquina;`; 
+     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+         instrucaoSql = `SELECT MA.idMaquina, ROUND(AVG(M.valor), 2) AS mediaPercentualMemoria
+        FROM Medicoes M
+        JOIN Maquina MA ON M.id_computador = MA.idMaquina
+        JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+        JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
+        WHERE MA.fkEmpresa = ${idEmpresa}
+          AND TC.nomeTipo = 'Percentual de Uso do Processador'
+        GROUP BY MA.idMaquina;`;
+    } else {
+        return res.status(500).json({ error: "O ambiente não foi definido corretamente." });
+    }
 
-//     console.log("Executando a instrução SQL: \n" + instrucaoSql);
+     console.log("Executando a instrução SQL: \n" + instrucaoSql);
 
-//     return database.executar(instrucaoSql)
-//         .then(resultado => {
-//             if (resultado.length > 0) {
-//                 res.status(200).json(resultado);
-//             } else {
-//                 res.status(204).json({ message: "Nenhum resultado encontrado!" });
-//             }
-//         })
-//         .catch(erro => {
-//             console.error("Erro ao executar a consulta SQL:", erro);
-//             res.status(500).json({ error: "Erro interno ao processar a consulta SQL." });
-//         });
-// }
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+ }
 
 
 // function buscarDiscoGeral(idEmpresa) {
@@ -670,6 +660,6 @@ module.exports = {
     buscarMaquinasUsuario,
     buscarRedeInovacao,
     buscarMemoriaComputadorEmpresa,
-    // buscarCPUGeral,
+     buscarCPUGeral,
     // buscarDiscoGeral
 }

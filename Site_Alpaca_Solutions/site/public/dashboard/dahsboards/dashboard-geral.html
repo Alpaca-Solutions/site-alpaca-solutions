@@ -138,13 +138,17 @@ function init() {
 
     setInterval(function () {
         buscarDadosMemoria();
+        buscarDadosDisco();
+        
     }, 5000);
 
     setInterval(obterDadosMaquinas, 5000);
+    setInterval(buscarDadosDisco , 5000);
 }
 
 function drawCharts() {
     buscarDadosMemoria();
+    buscarDadosDisco()
    
 }
 
@@ -249,7 +253,7 @@ function buscarDadosRede() {
         });
 }
 
-/* function buscarDadosDisco() {
+function buscarDadosDisco() {
     let idEmpresa = sessionStorage.fkEmpresa
     fetch(`/medidas/buscarDiscoGeral/${idEmpresa}`, { cache: 'no-store' })
         .then(function (response) {
@@ -267,6 +271,7 @@ function buscarDadosRede() {
         });
 }
 
+/*
 function buscarDadosCPU() {
     let idEmpresa = sessionStorage.fkEmpresa
     fetch(`/medidas/buscarCPUGeral/${idEmpresa}`, { cache: 'no-store' })
