@@ -564,18 +564,8 @@ function buscarMemoriaComputadorEmpresa(idEmpresa) {
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
 
-    return database.executar(instrucaoSql)
-        .then(resultado => {
-            if (resultado.length > 0) {
-                res.status(200).json(resultado);
-            } else {
-                res.status(204).json({ message: "Nenhum resultado encontrado!" });
-            }
-        })
-        .catch(erro => {
-            console.error("Erro ao executar a consulta SQL:", erro);
-            res.status(500).json({ error: "Erro interno ao processar a consulta SQL." });
-        });
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
 
