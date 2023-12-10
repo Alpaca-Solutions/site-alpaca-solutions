@@ -44,8 +44,9 @@ function buscarMedidasEmTempoReal(req, res) {
 function buscarRede(req, res) {
 
     console.log(`Recuperando medidas em tempo real`);
+    const id = req.params.idMaquina;
 
-    medidaModel.buscarRede().then(function (resultado) {
+    medidaModel.buscarRede(id).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -60,8 +61,9 @@ function buscarRede(req, res) {
 
 function buscarMemoria(req, res) {
     console.log(`Recuperando medidas em tempo real`);
+    const id = req.params.idMaquina;
 
-    medidaModel.buscarMemoria().then(function (resultado) {
+    medidaModel.buscarMemoria(id).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -76,8 +78,8 @@ function buscarMemoria(req, res) {
 
 function buscarDisco(req, res) {
     console.log(`Recuperando medidas em tempo real`);
-
-    medidaModel.buscarDisco().then(function (resultado) {
+    const id = req.params.idMaquina;
+    medidaModel.buscarDisco(id).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -92,11 +94,11 @@ function buscarDisco(req, res) {
 
 function buscarCPU(req, res) {
 
-
+    const id = req.params.idMaquina;
 
     console.log(`Recuperando medidas em tempo real`);
 
-    medidaModel.buscarCPU().then(function (resultado) {
+    medidaModel.buscarCPU(id).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -147,7 +149,7 @@ function buscarMemoriaId(req, res) {
 }
 
 function buscarDiscoId(req, res) {
-    const id = req.params.id;
+    const id = req.params.idMaquina;
 
     console.log(`Recuperando medidas em tempo real para a máquina ${id}`);
 
@@ -165,7 +167,7 @@ function buscarDiscoId(req, res) {
 }
 
 function buscarCPUId(req, res) {
-    const id = req.params.id;
+    const id = req.params.idMaquina;
 
     console.log(`Recuperando medidas em tempo real para a máquina ${id}`);
 

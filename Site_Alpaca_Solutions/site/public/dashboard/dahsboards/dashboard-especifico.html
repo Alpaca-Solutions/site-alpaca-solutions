@@ -160,7 +160,7 @@ var id_computador = 3;
 
         
                 
-                maquina.innerHTML += `<p onclick="buscarDadosRede()">${dadosMaquina.hostname}</p>`
+                maquina.innerHTML += `<p onclick="redirecionarDashboard(${dadosMaquina.idMaquina})">${dadosMaquina.hostname}</p>`
            }
         })
         .catch(function (error) {
@@ -177,14 +177,18 @@ var id_computador = 3;
         // Redireciona para o dashboard específico com o ID da máquina como parâmetro na URL
         window.location.href = `dashboard-especifico.html?idMaquina=${idMaquina}`;
     }
-    // Obtém a URL atual
+
 var url = new URL(window.location.href);
 
-// Obtém o valor do parâmetro "idMaquina" da URL
 var idMaquina = url.searchParams.get("idMaquina");
 
 
-
+if(idMaquina) {
+    buscarDadosRede();
+    buscarDadosMemoria();
+    buscarDadosDisco();
+    buscarDadosCPU()
+}
 
 function buscarDadosRede() {
     fetch(`/medidas/buscarRedeId/${idMaquina}`, { cache: 'no-store' })

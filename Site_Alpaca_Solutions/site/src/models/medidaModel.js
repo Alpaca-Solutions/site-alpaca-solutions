@@ -89,7 +89,7 @@ function buscarMedidasEmTempoReal(idAquario) {
     return database.executar(instrucaoSql);
 }
 
-function buscarRede(){
+function buscarRede(id){
     instrucaoSql = ''
 
 
@@ -105,7 +105,7 @@ function buscarRede(){
         JOIN 
         TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
         WHERE 
-        TC.nomeTipo IN ('bytes recebidos', 'bytes enviados');`;
+        TC.nomeTipo IN ('bytes recebidos', 'bytes enviados') and id_computador = ${id};`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = ` SELECT 
@@ -119,7 +119,7 @@ function buscarRede(){
         JOIN 
         TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
         WHERE 
-        TC.nomeTipo IN ('bytes recebidos', 'bytes enviados');`;
+        TC.nomeTipo IN ('bytes recebidos', 'bytes enviados') and id_computador = ${id};`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
@@ -131,7 +131,7 @@ function buscarRede(){
 
 }
 
-function buscarMemoria(){
+function buscarMemoria(id){
     instrucaoSql = ''
 
 
@@ -140,7 +140,7 @@ function buscarMemoria(){
         FROM Medicoes AS m
         JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
         JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros
-        where  tipoComponente = 'Memoria' AND nomeTipo ='Percentual de Memoria';`;
+        where  tipoComponente = 'Memoria' AND nomeTipo ='Percentual de Memoria' and id_computador = ${id};`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
@@ -148,7 +148,7 @@ function buscarMemoria(){
 FROM Medicoes AS m
 JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
 JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros
-where  tipoComponente = "Memoria" AND nomeTipo ='Percentual de Memoria';`;
+where  tipoComponente = "Memoria" AND nomeTipo ='Percentual de Memoria' and id_computador = ${id};`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
@@ -159,7 +159,7 @@ where  tipoComponente = "Memoria" AND nomeTipo ='Percentual de Memoria';`;
 
 
 }
-function buscarDisco(){
+function buscarDisco(id){
     instrucaoSql = ''
 
 
@@ -168,7 +168,7 @@ function buscarDisco(){
         FROM Medicoes AS m
         JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
         JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros 
-        where tipoComponente = 'Disco' AND nomeTipo = 'Percentual de Uso do Disco';`;
+        where tipoComponente = 'Disco' AND nomeTipo = 'Percentual de Uso do Disco' and id_computador = ${id};`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
@@ -176,7 +176,7 @@ function buscarDisco(){
 FROM Medicoes AS m
 JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
 JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros 
-where tipoComponente = "Disco" AND nomeTipo = 'Percentual de Uso do Disco';
+where tipoComponente = "Disco" AND nomeTipo = 'Percentual de Uso do Disco' and id_computador = ${id};
         `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -189,7 +189,7 @@ where tipoComponente = "Disco" AND nomeTipo = 'Percentual de Uso do Disco';
 
 }
 
-function buscarCPU(){
+function buscarCPU(id){
     instrucaoSql = ''
 
 
@@ -198,7 +198,7 @@ function buscarCPU(){
         FROM Medicoes AS m
         JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
         JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros
-        where  tipoComponente = 'Processador';;`;
+        where  tipoComponente = 'Processador' and id_computador = ${id};`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
@@ -206,7 +206,7 @@ function buscarCPU(){
 FROM Medicoes AS m
 JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
 JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros
-where  tipoComponente = "Processador";
+where  tipoComponente = "Processador" and id_computador = ${id};
         `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -237,7 +237,7 @@ function buscarRedeId(id){
         UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
     JOIN 
         TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
-    WHERE id_computador = '1' AND  
+    WHERE id_computador = ${id} AND  
         TC.nomeTipo IN ('bytes recebidos', 'bytes enviados');`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
@@ -251,7 +251,7 @@ function buscarRedeId(id){
         UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
     JOIN 
         TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
-    WHERE id_computador = '1' AND  
+    WHERE id_computador = ${id} AND  
         TC.nomeTipo IN ('bytes recebidos', 'bytes enviados');`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -273,7 +273,7 @@ function buscarMemoriaId(id){
         FROM Medicoes AS m
         JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
         JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros
-        where id_computador = '1' AND  tipoComponente = 'Memoria' AND nomeTipo ='Percentual de Memoria';`;
+        where id_computador = ${id} AND  tipoComponente = 'Memoria' AND nomeTipo ='Percentual de Memoria';`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
@@ -281,7 +281,7 @@ function buscarMemoriaId(id){
 FROM Medicoes AS m
 JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
 JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros
-where id_computador = '1' AND  tipoComponente = "Memoria" AND nomeTipo ='Percentual de Memoria';`;
+where id_computador = ${id} AND  tipoComponente = "Memoria" AND nomeTipo ='Percentual de Memoria';`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
@@ -299,7 +299,7 @@ function buscarDiscoId(id){
         FROM Medicoes AS m
         JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
         JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros 
-        where id_computador = '1' AND  tipoComponente = 'Disco' AND nomeTipo = 'Percentual de Uso do Disco';`;
+        where id_computador = ${id} AND  tipoComponente = 'Disco' AND nomeTipo = 'Percentual de Uso do Disco';`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
@@ -307,7 +307,7 @@ function buscarDiscoId(id){
 FROM Medicoes AS m
 JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
 JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros 
-where id_computador = '1' AND  tipoComponente = "Disco" AND nomeTipo = 'Percentual de Uso do Disco';
+where id_computador = ${id} AND  tipoComponente = "Disco" AND nomeTipo = 'Percentual de Uso do Disco';
         `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
@@ -369,7 +369,7 @@ function buscarCPUId(id){
         FROM Medicoes AS m
         JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
         JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros
-        where id_computador = '1' AND   tipoComponente = 'Processador';`;
+        where id_computador = ${id} AND   tipoComponente = 'Processador';`;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
@@ -377,7 +377,7 @@ function buscarCPUId(id){
 FROM Medicoes AS m
 JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
 JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros
-where id_computador = '1' AND   tipoComponente = "Processador";
+where id_computador = ${id} AND   tipoComponente = "Processador";
         `;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
