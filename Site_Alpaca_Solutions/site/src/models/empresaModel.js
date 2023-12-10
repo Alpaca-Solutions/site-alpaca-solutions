@@ -56,7 +56,7 @@ function cadastrarEndereco(rua, bairro, estado, cep, cidade, numero) {
     if (process.env.AMBIENTE_PROCESSO === "producao") {
       var query = `
         INSERT INTO Endereco (cep, rua, numero, bairro, cidade, estado, ativo)
-        OUTPUT INSERTED.idEndereco -- Aqui você inclui a saída do ID
+        OUTPUT INSERTED.idEndereco 
         VALUES ('${cep}', '${rua}', '${numero}', '${bairro}', '${cidade}', '${estado}', 1);
       `;
     } else if (process.env.AMBIENTE_PROCESSO === "desenvolvimento") {
@@ -264,6 +264,7 @@ function cadastrarEnderecoMaquina(cep, rua, numero, bairro,  cidade, estado) {
     if(process.env.AMBIENTE_PROCESSO == "producao"){
     var query = `
     INSERT INTO Endereco (cep, rua, numero, bairro,  cidade, estado, ativo)
+    OUTPUT INSERTED.idEndereco
     VALUES ('${cep}', '${rua}', '${numero}', '${bairro}', '${cidade}', '${estado}', 1);
     `;
     }
@@ -278,7 +279,9 @@ function cadastrarEnderecoMaquina(cep, rua, numero, bairro,  cidade, estado) {
     database
       .executar(query)
       .then((result) => {
-        resolve(result);
+        console.log("Resultado completo:", result);
+        const insertId = result.recordset[0].idEndereco;
+        resolve({ insertId });
       })
       .catch((error) => {
         reject(error);
@@ -292,6 +295,7 @@ function cadastrarUnidade(nomeUnidade, fkEndereco) {
     if(process.AMBIENTE_PROCESSO == "producao"){
     var query = `
     INSERT INTO Unidade (nomeInstituicao, ativo, fkEndereco)
+    OUTPUT INSERTED.idUnidade
     VALUES('${nomeUnidade}', 1, ${fkEndereco});      
     `;
     }
@@ -306,7 +310,9 @@ function cadastrarUnidade(nomeUnidade, fkEndereco) {
     database
       .executar(query)
       .then((result) => {
-        resolve(result);
+        console.log("Resultado completo:", result);
+        const insertId = result.recordset[0].idUnidade;
+        resolve({ insertId });
       })
       .catch((error) => {
         reject(error);
@@ -320,6 +326,7 @@ function cadastrarMaquina(NomeMaquina, ipMaquina, sistemaOperacional, fkUnidade,
     if(process.AMBIENTE_PROCESSO == "producao"){
       var query = `
       INSERT INTO Maquina(hostname, ipMaquina, sistemaOperacional, statusMaquina, fkEmpresa, fkUnidade)
+      OUTPUT INSERTED.idMaquina
       VALUES('${NomeMaquina}', '${ipMaquina}', '${sistemaOperacional}', 1, ${fkEmpresa}, ${fkUnidade});
     `;
     }
@@ -335,7 +342,9 @@ function cadastrarMaquina(NomeMaquina, ipMaquina, sistemaOperacional, fkUnidade,
     database
       .executar(query)
       .then((result) => {
-        resolve(result);
+        console.log("Resultado completo:", result);
+        const insertId = result.recordset[0].idMaquina;
+        resolve({ insertId });
       })
       .catch((error) => {
         reject(error);
