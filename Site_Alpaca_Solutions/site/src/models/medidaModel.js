@@ -538,30 +538,26 @@ function buscarRedeInovacao(){
 function buscarMemoriaComputadorEmpresa(fkempresa){
     instrucaoSql = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `SELECT ma.idMaquina, ROUND(AVG(m.valor) , 2) AS mediaPercentualMemoria
-        FROM Medicoes AS m
-        JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
-        JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros
-        JOIN Maquina AS ma ON m.id_computador = ma.idMaquina
-        JOIN Unidade AS u ON ma.fkUnidade = u.idUnidade
-        JOIN Empresa AS e ON u.fkEndereco = e.idEmpresa
-        WHERE tc.nomeTipo = 'Percentual de Memoria' 
-        AND e.idEmpresa = ${fkempresa}
-        GROUP BY ma.idMaquina;
+        instrucaoSql = `SELECT MA.idMaquina, ROUND(AVG(M.valor), 2) AS mediaPercentualMemoria
+        FROM Medicoes M
+        JOIN Maquina MA ON M.id_computador = MA.idMaquina
+        JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+        JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
+        WHERE MA.fkEmpresa = ${fkempresa}
+          AND TC.nomeTipo = 'Percentual de Memoria'
+        GROUP BY MA.idMaquina;
         `;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
-        SELECT ma.idMaquina, ROUND(AVG(m.valor) , 2) AS mediaPercentualMemoria
-        FROM Medicoes AS m
-        JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
-        JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros
-        JOIN Maquina AS ma ON m.id_computador = ma.idMaquina
-        JOIN Unidade AS u ON ma.fkUnidade = u.idUnidade
-        JOIN Empresa AS e ON u.fkEndereco = e.idEmpresa
-        WHERE tc.nomeTipo = 'Percentual de Memoria' 
-        AND e.idEmpresa = ${fkempresa}
-        GROUP BY ma.idMaquina;
+        SELECT MA.idMaquina, ROUND(AVG(M.valor), 2) AS mediaPercentualMemoria
+        FROM Medicoes M
+        JOIN Maquina MA ON M.id_computador = MA.idMaquina
+        JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+        JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
+        WHERE MA.fkEmpresa = ${fkempresa}
+          AND TC.nomeTipo = 'Percentual de Memoria'
+        GROUP BY MA.idMaquina;
         
         `;
     } else {
