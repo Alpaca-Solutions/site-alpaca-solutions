@@ -536,6 +536,8 @@ function buscarRedeInovacao(){
 
 
 function buscarMemoriaComputadorEmpresa(fkempresa) {
+
+    console.log("Valor da fk que o back recebe " +  fkempresa)
     let instrucaoSql = '';
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
@@ -578,6 +580,7 @@ function buscarMemoriaComputadorEmpresa(fkempresa) {
 
 
 function buscarCPUGeral(fkempresa) {
+    console.log("Valor da fk que o back recebe " +  fkempresa)
     let instrucaoSql = '';
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
@@ -620,6 +623,7 @@ function buscarCPUGeral(fkempresa) {
 
 
 function buscarDiscoGeral(fkempresa) {
+    console.log("Valor da fk que o back recebe " +  fkempresa)
     let instrucaoSql = '';
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
