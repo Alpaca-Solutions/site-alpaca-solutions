@@ -40,7 +40,12 @@ function cadastrarMaquina() {
         console.log("resposta: ", resposta);
   
         if (resposta.ok) {
-          alert("O maquina foi cadastro com sucesso")
+          Swal.fire({
+            title: '<h2 class="textoCadastro">Máquina Cadastrada com Sucesso :)</h2>',    
+            icon: "success",
+            confirmButtonColor: '#008000',
+            confirmButtonText: 'Confirmar',
+          });
 
           setTimeout(function () {
                 window.location = "../listas/lista-maquina.html";

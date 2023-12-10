@@ -175,3 +175,14 @@ body {
     cursor: pointer;
     border-radius: 15px;
 }
+.textoCadastro {
+    color: black;
+    font-size: medium;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-style: normal;
+  }
+  .smaller-swal .swal2-popup {
+    width: 200px; 
+    height: 200px;
+  }
