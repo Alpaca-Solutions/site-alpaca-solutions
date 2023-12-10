@@ -291,6 +291,8 @@ function cadastrarEnderecoMaquina(cep, rua, numero, bairro,  cidade, estado) {
       .then((result) => {
         console.log("Resultado completo:", result[0].idEndereco);
         const insertId = result[0].idEndereco;
+
+        console.log("Passando o valor pra váriavel " + insertId);
         resolve({ insertId });
       })
       .catch((error) => {
@@ -302,14 +304,14 @@ function cadastrarEnderecoMaquina(cep, rua, numero, bairro,  cidade, estado) {
 function cadastrarUnidade(nomeUnidade, fkEndereco) {
   return new Promise((resolve, reject) => {
 
-    if(process.AMBIENTE_PROCESSO == "producao"){
+    if(process.env.AMBIENTE_PROCESSO == "producao"){
     var query = `
     INSERT INTO Unidade (nomeInstituicao, ativo, fkEndereco)
     OUTPUT INSERTED.idUnidade
     VALUES('${nomeUnidade}', 1, ${fkEndereco});      
     `;
     }
-    else if(process.AMBIENTE_PROCESSO == "desenvolvimento"){
+    else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
       var query = `
       INSERT INTO Unidade (nomeInstituicao, ativo, fkEndereco)
       VALUES('${nomeUnidade}', true, ${fkEndereco});      
@@ -333,14 +335,14 @@ function cadastrarUnidade(nomeUnidade, fkEndereco) {
 function cadastrarMaquina(NomeMaquina, ipMaquina, sistemaOperacional, fkUnidade, fkEmpresa) {
   return new Promise((resolve, reject) => {
 
-    if(process.AMBIENTE_PROCESSO == "producao"){
+    if(process.env.AMBIENTE_PROCESSO == "producao"){
       var query = `
       INSERT INTO Maquina(hostname, ipMaquina, sistemaOperacional, statusMaquina, fkEmpresa, fkUnidade)
       OUTPUT INSERTED.idMaquina
       VALUES('${NomeMaquina}', '${ipMaquina}', '${sistemaOperacional}', 1, ${fkEmpresa}, ${fkUnidade});
     `;
     }
-    else if(process.AMBIENTE_PROCESSO == "desenvolvimento"){
+    else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
       var query = `
       INSERT INTO Maquina(hostname, ipMaquina, sistemaOperacional, statusMaquina, fkEmpresa, fkUnidade)
       VALUES('${NomeMaquina}', '${ipMaquina}', '${sistemaOperacional}', true, '1', ${fkUnidade});
