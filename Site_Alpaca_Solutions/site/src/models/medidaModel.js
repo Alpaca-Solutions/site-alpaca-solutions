@@ -479,7 +479,7 @@ function buscarMaquinasUsuario(idNovo){
         instrucaoSql = `SELECT DISTINCT Maquina.idMaquina, Maquina.hostname
         FROM Maquina
         JOIN Empresa ON Maquina.fkEmpresa = Empresa.idEmpresa
-        WHERE Empresa.idEmpresa = 1
+        WHERE Empresa.idEmpresa = ${idNovo}
         AND EXISTS (
             SELECT 1
             FROM Medicoes
