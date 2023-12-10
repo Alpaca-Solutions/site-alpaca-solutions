@@ -155,8 +155,8 @@ function plotarDadosMemoria(dados) {
     data.addColumn({ type: 'string', role: 'style' });
 
     for (var i = 0; i < dados.length; i++) {
-        var maquina = 'Máquina ' + dados[i].id_computador;
-        var usoMemoria = parseFloat(dados[i].valor);
+        var maquina = 'Máquina ' + dados[i].idMaquina;
+        var usoMemoria = parseFloat(dados[i].mediaPercentualMemoria);
         var corBarra = getBarColor2(usoMemoria);
 
         data.addRow([maquina, usoMemoria, corBarra]);
