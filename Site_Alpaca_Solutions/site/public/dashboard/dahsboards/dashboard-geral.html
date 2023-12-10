@@ -209,7 +209,10 @@ function obterDadosRedeInovacao(){
 }
 
 function buscarDadosMemoria() {
-    fetch(`/medidas/buscarMemoria`, { cache: 'no-store' })
+
+    let idEmpresa = sessionStorage.fkEmpresa
+    
+    fetch(`/medidas/buscarMemoriaComputadorEmpresa/${idEmpresa}`, { cache: 'no-store' })
         .then(function (response) {
             if (response.ok) {
                 return response.json();

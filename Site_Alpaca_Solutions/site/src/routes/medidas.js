@@ -62,7 +62,9 @@ router.get("/buscarMaquinasUsuario/:idNovo", function (req, res) {
     medidaController.buscarMaquinasUsuario(req, res);
 })
 
-
+router.get("/buscarMemoriaComputadorEmpresa/:fkempresa", function (req, res) {
+    medidaController.buscarMemoriaComputadorEmpresa(req, res);
+})
 
 
 

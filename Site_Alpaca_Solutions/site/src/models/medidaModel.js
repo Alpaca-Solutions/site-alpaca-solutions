@@ -532,6 +532,48 @@ function buscarRedeInovacao(){
 
 
 }
+
+
+
+function buscarMemoriaComputadorEmpresa(fkempresa){
+    instrucaoSql = ''
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = `SELECT ma.idMaquina, ROUND(AVG(m.valor) , 2) AS mediaPercentualMemoria
+        FROM Medicoes AS m
+        JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
+        JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros
+        JOIN Maquina AS ma ON m.id_computador = ma.idMaquina
+        JOIN Unidade AS u ON ma.fkUnidade = u.idUnidade
+        JOIN Empresa AS e ON u.fkEndereco = e.idEmpresa
+        WHERE tc.nomeTipo = 'Percentual de Memoria' 
+        AND e.idEmpresa = ${fkempresa}
+        GROUP BY ma.idMaquina;
+        `;
+
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `
+        SELECT ma.idMaquina, ROUND(AVG(m.valor) , 2) AS mediaPercentualMemoria
+        FROM Medicoes AS m
+        JOIN TipoComponente AS tc ON m.fkTipoComponenteID = tc.idTipoComponente
+        JOIN UnidadeMedida AS um ON m.fkUnidadeMedidaID = um.idParametros
+        JOIN Maquina AS ma ON m.id_computador = ma.idMaquina
+        JOIN Unidade AS u ON ma.fkUnidade = u.idUnidade
+        JOIN Empresa AS e ON u.fkEndereco = e.idEmpresa
+        WHERE tc.nomeTipo = 'Percentual de Memoria' 
+        AND e.idEmpresa = ${fkempresa}
+        GROUP BY ma.idMaquina;
+        
+        `;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+
+}
 module.exports = {
     buscarUltimasMedidas,
     buscarMedidasEmTempoReal,
@@ -547,5 +589,6 @@ module.exports = {
     buscarQtdProcessadorAlerta,
     MaquinasAlerta,
     buscarMaquinasUsuario,
-    buscarRedeInovacao
+    buscarRedeInovacao,
+    buscarMemoriaComputadorEmpresa
 }
