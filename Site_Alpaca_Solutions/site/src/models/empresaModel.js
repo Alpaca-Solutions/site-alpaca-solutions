@@ -71,7 +71,7 @@ function cadastrarEndereco(rua, bairro, estado, cep, cidade, numero) {
       .executar(query)
       .then((result) => {
         console.log("Resultado completo:", result);
-        const insertId = result.recordset[0].idEndereco;
+        const insertId = result[0].idEndereco;
         resolve({ insertId });
       })
       .catch((error) => {
@@ -109,7 +109,7 @@ function inserirEmpresa(nomeFantasia, razaoSocial, cnpj, fkEndereco, email , sen
     .executar(query)
     .then((result) => {
       console.log("Resultado completo:", result);
-      const insertId = result.recordset[0].idEndereco;
+      const insertId = result[0].idEndereco;
       resolve({ insertId });
     })
     .catch((error) => {
