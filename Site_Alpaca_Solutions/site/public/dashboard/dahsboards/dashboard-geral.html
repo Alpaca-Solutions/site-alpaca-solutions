@@ -218,7 +218,7 @@ function buscarDadosMemoria() {
         })
         .then(function (dados) {
             plotarDadosMemoria(dados);
-            console.log("Dados da Memoria: " + dados);
+            console.log("Dados da Memoria: " + JSON.stringify(dados));
         })
         .catch(function (error) {
             console.error(`Erro na obtenção dos dados para o gráfico de memóra :  ${error.message}`);
