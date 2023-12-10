@@ -220,11 +220,39 @@ b_usuario.innerHTML = sessionStorage.NomeUsuarioLogin;
                 if (resposta.ok) {
                     console.log("Dados da empresa atualizados com sucesso!");
 
-                    alert("A empresa foi atualizada com sucesso");
+                    Swal.fire({
+                        title: '<h2 class="textoCadastro">Atualizando seus dados...</h2>',
+                        html: `
+                          <div style="display: flex; flex-direction: column; align-items: center;">
+                            <img src="assets/icon/logo_alpaca_preto2.png" alt="Alpaca feliz" style="width: 200px; height: 200px;">
+                            <span class="textoCadastro">Só um minutinho atualiando seus dados  !</span>
+                            <div style="margin-top: 10px;"></div>
+                          </div>`,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        showConfirmButton: false,
+                        didOpen: () => {
+                          Swal.showLoading();
+                          timerInterval = setInterval(() => {
+                            Swal.getContent().querySelector('b').textContent = `${Swal.getTimerLeft()}`;
+                          }, 100);
+                        },
+                        willClose: () => {
+                          clearInterval(timerInterval);
+                        }
+                      }).then(() => {
+                        Swal.fire({
+                          title: 'Empresa atualizada com sucesso!',
+                          text: 'os dados da sua empresa foram atualizados com sucesso :)',
+                          icon: 'success',
+                          confirmButtonText: 'OK',
+                          confirmButtonColor: '#4CAF50'
+                        }).then(() => {
+                            window.location = "../edits/edicao-empresa..html";
+                        });
+                      });
 
-                    setTimeout(function () {
-                        window.location = "../edits/edicao-empresa..html";
-                    }, 1000);
+                  
                 } else {
                     console.log("Houve um erro ao atualizar a empresa!");
 
