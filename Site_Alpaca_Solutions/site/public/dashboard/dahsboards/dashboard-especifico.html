@@ -209,7 +209,7 @@ function buscarDadosRede() {
 }
 
 function buscarDadosMemoria(){
-    fetch(`/medidas/buscarMemoriaId/${id_computador}`, { cache: 'no-store' })
+    fetch(`/medidas/buscarMemoriaId/${idMaquina}`, { cache: 'no-store' })
     .then(function (response) {
         if (response.ok) {
             return response.json();
@@ -227,7 +227,7 @@ function buscarDadosMemoria(){
 }
 
 function buscarDadosDisco(){
-    fetch(`/medidas/buscarDiscoId/${id_computador}`, { cache: 'no-store' })
+    fetch(`/medidas/buscarDiscoId/${idMaquina}`, { cache: 'no-store' })
     .then(function (response) {
         if (response.ok) {
             return response.json();
@@ -245,7 +245,7 @@ function buscarDadosDisco(){
 }
 
 function buscarDadosCPU(){
-    fetch(`/medidas/buscarCPUId/${id_computador}`, { cache: 'no-store' })
+    fetch(`/medidas/buscarCPUId/${idMaquina}`, { cache: 'no-store' })
     .then(function (response) {
         if (response.ok) {
             return response.json();
