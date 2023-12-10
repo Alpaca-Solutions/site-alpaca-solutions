@@ -53,8 +53,8 @@
                     <div class="campos1">
                         Nome Fantasia: <input type="text" id="nomeFantasia">
                         Razão Social: <input type="text" id="razaoSocial">
-                        CNPJ: <input type="text" id="cnpj" readonly>
-                        Email: <input type="text" id="email" readonly>
+                        CNPJ: <input type="text" id="cnpj" readonly placeholder="CNPJ não pode ser alterado">
+                        Email: <input type="text" id="email" readonly placeholder="Email não pode ser alterado">
                         Rua: <input type="text" id="rua">
                     </div>
                     <div class="campos2">
@@ -113,7 +113,7 @@ b_usuario.innerHTML = sessionStorage.NomeUsuarioLogin;
     }
 
     function preencherDados() {
-        const idEmpresa = sessionStorage.idEmpresaLogin;
+        const idEmpresa = sessionStorage.fkEmpresa;
         fetch(`/empresas/listarEmpresa/${idEmpresa}`)
             .then(function (resposta) {
                 console.log("ESTOU NO THEN DO entrar()!");
@@ -178,7 +178,7 @@ b_usuario.innerHTML = sessionStorage.NomeUsuarioLogin;
     }
 
     function atualizarEmpresa() {
-        const idEmpresa = sessionStorage.idEmpresaLogin;
+        const idEmpresa = sessionStorage.fkEmpresa;
 
         // Obtenha os valores atualizados dos campos
         const ruaAtualizada = document.getElementById("rua").value;

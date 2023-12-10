@@ -34,7 +34,7 @@ WHERE Usuario.email = '${email}' AND Usuario.senha = '${senha}' AND Usuario.ativ
     `;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucao = `    SELECT 
+        instrucao = `SELECT 
         'empresa' as tipo,
         Empresa.idEmpresa as id,
         Empresa.nomeFantasia as nome,
@@ -42,7 +42,8 @@ WHERE Usuario.email = '${email}' AND Usuario.senha = '${senha}' AND Usuario.ativ
         Empresa.senha,
         Empresa.cnpj,
         Empresa.ativo,
-        Endereco.*
+        Endereco.*,
+		endereco.idEndereco
     FROM Empresa
     JOIN Endereco ON Empresa.fk_endereco = Endereco.idEndereco
     WHERE Empresa.email = '${email}' AND Empresa.senha = '${senha}' AND Empresa.ativo = true
@@ -55,11 +56,12 @@ WHERE Usuario.email = '${email}' AND Usuario.senha = '${senha}' AND Usuario.ativ
         Usuario.senha,
         NULL as cnpj,
         Usuario.ativo,
-        Endereco.*
+        Endereco.*,
+         endereco.idEndereco
     FROM Usuario
     JOIN Empresa ON Usuario.fkEmpresa = Empresa.idEmpresa
     JOIN Endereco ON Empresa.fk_endereco = Endereco.idEndereco
-    WHERE Usuario.email = '${email}' AND Usuario.senha = '${senha}' AND Usuario.ativo = true;`;
+    WHERE Usuario.email =  '${email}' AND Usuario.senha = '${senha}' AND Usuario.ativo = true;`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return

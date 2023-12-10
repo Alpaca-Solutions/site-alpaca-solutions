@@ -107,6 +107,7 @@ function entrar() {
               sessionStorage.idUsuarioLogin = json.idUsuario;
               sessionStorage.Ativo = json.ativo;
               sessionStorage.TipoAcesso = json.tipo
+              sessionStorage.idEndereco = json.idEndereco
 
               let timerInterval;
               Swal.fire({
