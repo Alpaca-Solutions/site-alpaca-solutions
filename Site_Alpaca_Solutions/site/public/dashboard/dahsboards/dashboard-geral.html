@@ -252,7 +252,7 @@ function buscarDadosRede() {
             console.error(`Erro na obtenção dos dados para o gráfico de rede: ${error.message}`);
         });
 }
-/*
+
 function buscarDadosDisco() {
     let idEmpresa = sessionStorage.fkEmpresa
     fetch(`/medidas/buscarDiscoGeral/${idEmpresa}`, { cache: 'no-store' })
@@ -270,7 +270,7 @@ function buscarDadosDisco() {
             console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
         });
 }
-*/
+
 
 
 function buscarDadosCPU() {
@@ -328,8 +328,8 @@ function plotarDisco(dados) {
     data.addColumn({ type: 'string', role: 'style' });
 
     for (var i = 0; i < dados.length; i++) {
-        var maquina = 'Máquina ' + dados[i].id_computador;
-        var usoDisco = parseFloat(dados[i].valor);
+        var maquina = 'Máquina ' + dados[i].idMaquina;
+        var usoDisco = parseFloat(dados[i].mediaPercentualDisco);
         var corBarra = getBarColor2(usoDisco);
 
         data.addRow([maquina, usoDisco, corBarra]);
