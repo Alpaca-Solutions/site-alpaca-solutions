@@ -535,9 +535,9 @@ function buscarRedeInovacao(){
 
 
 
-function buscarMemoriaComputadorEmpresa(fkempresa) {
+function buscarMemoriaComputadorEmpresa(idEmpresa) {
 
-    console.log("Valor da fk que o back recebe " +  fkempresa)
+    console.log("Valor da fk que o back recebe " +  idEmpresa)
     let instrucaoSql = '';
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
@@ -546,7 +546,7 @@ function buscarMemoriaComputadorEmpresa(fkempresa) {
         JOIN Maquina MA ON M.id_computador = MA.idMaquina
         JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
         JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
-        WHERE MA.fkEmpresa = ${fkempresa}
+        WHERE MA.fkEmpresa = ${idEmpresa}
           AND TC.nomeTipo = 'Percentual de Memoria'
         GROUP BY MA.idMaquina;`; 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
@@ -555,7 +555,7 @@ function buscarMemoriaComputadorEmpresa(fkempresa) {
         JOIN Maquina MA ON M.id_computador = MA.idMaquina
         JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
         JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
-        WHERE MA.fkEmpresa = ${fkempresa}
+        WHERE MA.fkEmpresa = ${idEmpresa}
           AND TC.nomeTipo = 'Percentual de Memoria'
         GROUP BY MA.idMaquina;`;
     } else {
@@ -579,8 +579,8 @@ function buscarMemoriaComputadorEmpresa(fkempresa) {
 }
 
 
-function buscarCPUGeral(fkempresa) {
-    console.log("Valor da fk que o back recebe " +  fkempresa)
+function buscarCPUGeral(idEmpresa) {
+    console.log("Valor da fk que o back recebe " +  idEmpresa)
     let instrucaoSql = '';
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
@@ -589,7 +589,7 @@ function buscarCPUGeral(fkempresa) {
         JOIN Maquina MA ON M.id_computador = MA.idMaquina
         JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
         JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
-        WHERE MA.fkEmpresa = ${fkempresa}
+        WHERE MA.fkEmpresa = ${idEmpresa}
           AND TC.nomeTipo = 'Percentual de Uso do Processador'
         GROUP BY MA.idMaquina;`; 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
@@ -598,7 +598,7 @@ function buscarCPUGeral(fkempresa) {
         JOIN Maquina MA ON M.id_computador = MA.idMaquina
         JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
         JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
-        WHERE MA.fkEmpresa = ${fkempresa}
+        WHERE MA.fkEmpresa = ${idEmpresa}
           AND TC.nomeTipo = 'Percentual de Uso do Processador'
         GROUP BY MA.idMaquina;`;
     } else {
@@ -622,8 +622,8 @@ function buscarCPUGeral(fkempresa) {
 }
 
 
-function buscarDiscoGeral(fkempresa) {
-    console.log("Valor da fk que o back recebe " +  fkempresa)
+function buscarDiscoGeral(idEmpresa) {
+    console.log("Valor da fk que o back recebe " +  idEmpresa)
     let instrucaoSql = '';
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
@@ -632,7 +632,7 @@ function buscarDiscoGeral(fkempresa) {
         JOIN Maquina MA ON M.id_computador = MA.idMaquina
         JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
         JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
-        WHERE MA.fkEmpresa = ${fkempresa}
+        WHERE MA.fkEmpresa = ${idEmpresa}
           AND TC.nomeTipo = 'Percentual de Uso do Disco'
         GROUP BY MA.idMaquina;`; 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
@@ -641,7 +641,7 @@ function buscarDiscoGeral(fkempresa) {
         JOIN Maquina MA ON M.id_computador = MA.idMaquina
         JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
         JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
-        WHERE MA.fkEmpresa = ${fkempresa}
+        WHERE MA.fkEmpresa = ${idEmpresa}
           AND TC.nomeTipo = 'Percentual de Uso do Disco'
         GROUP BY MA.idMaquina;`;
     } else {

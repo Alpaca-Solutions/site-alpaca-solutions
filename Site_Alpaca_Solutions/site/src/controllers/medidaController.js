@@ -267,9 +267,9 @@ function buscarRedeInovacao(req, res) {
 
 function buscarMemoriaComputadorEmpresa(req, res) {
 
-    var fkempresa = req.params.idEmpresa
+    var idEmpresa = req.params.idEmpresa
 
-    medidaModel.buscarMemoriaComputadorEmpresa(fkempresa).then(function (resultado) {
+    medidaModel.buscarMemoriaComputadorEmpresa(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -284,10 +284,10 @@ function buscarMemoriaComputadorEmpresa(req, res) {
 
 function buscarCPUGeral(req, res) {
 
-    var fkempresa = req.params.idEmpresa
+    var idEmpresa = req.params.idEmpresa
 
 
-    medidaModel.buscarCPUGeral(fkempresa).then(function (resultado) {
+    medidaModel.buscarCPUGeral(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -302,10 +302,10 @@ function buscarCPUGeral(req, res) {
 
 function buscarDiscoGeral(req, res) {
 
-    var fkempresa = req.params.idEmpresa
+    var idEmpresa = req.params.idEmpresa
 
 
-    medidaModel.buscarDiscoGeral(fkempresa).then(function (resultado) {
+    medidaModel.buscarDiscoGeral(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
