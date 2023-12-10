@@ -65,11 +65,11 @@ router.get("/buscarMaquinasUsuario/:idNovo", function (req, res) {
 router.get("/buscarMemoriaComputadorEmpresa/:idEmpresa", function (req, res) {
     medidaController.buscarMemoriaComputadorEmpresa(req, res);
 })
-router.get("/buscarCPUGeral/:idEmpresa", function (req, res) {
-    medidaController.buscarCPUGeral(req, res);
-})
-router.get("/buscarDiscoGeral/:idEmpresa", function (req, res) {
-    medidaController.buscarDiscoGeral(req, res);
-})
+// router.get("/buscarCPUGeral/:idEmpresa", function (req, res) {
+//     medidaController.buscarCPUGeral(req, res);
+// })
+// router.get("/buscarDiscoGeral/:idEmpresa", function (req, res) {
+//     medidaController.buscarDiscoGeral(req, res);
+// })
 
 module.exports = router;

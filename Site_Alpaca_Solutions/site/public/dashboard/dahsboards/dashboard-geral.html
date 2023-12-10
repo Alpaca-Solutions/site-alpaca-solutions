@@ -137,12 +137,8 @@ function init() {
     });
 
     setInterval(function () {
-        buscarDadosRede();
         buscarDadosMemoria();
         obterNomeMaquinasAlerta()
-        buscarDadosDisco();
-        buscarDadosCPU();
-        
         obterQtdMaquinaAlerta(),
         obterQtdMaquinasAlertaProcessador();
     }, 5000);
@@ -152,9 +148,7 @@ function init() {
 
 function drawCharts() {
     buscarDadosMemoria();
-    buscarDadosRede();
-    buscarDadosDisco();
-    buscarDadosCPU();
+   
 }
 
 function plotarDadosMemoria(dados) {
@@ -258,7 +252,7 @@ function buscarDadosRede() {
         });
 }
 
-function buscarDadosDisco() {
+/* function buscarDadosDisco() {
     let idEmpresa = sessionStorage.fkEmpresa
     fetch(`/medidas/buscarDiscoGeral/${idEmpresa}`, { cache: 'no-store' })
         .then(function (response) {
@@ -292,7 +286,7 @@ function buscarDadosCPU() {
         .catch(function (error) {
             console.error(`Erro na obtenção dos dados para o gráfico de cpu: ${error.message}`);
         });
-}
+} */
 
 function drawLineChart(dados) {
     var data = new google.visualization.DataTable();

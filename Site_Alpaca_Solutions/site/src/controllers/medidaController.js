@@ -282,41 +282,41 @@ function buscarMemoriaComputadorEmpresa(req, res) {
     });
 }
 
-function buscarCPUGeral(req, res) {
+// function buscarCPUGeral(req, res) {
 
-    var idEmpresa = req.params.idEmpresa
-
-
-    medidaModel.buscarCPUGeral(idEmpresa).then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Nenhum resultado encontrado!");
-        }
-    }).catch(function (erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar asId últimas medidas.", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
-}
-
-function buscarDiscoGeral(req, res) {
-
-    var idEmpresa = req.params.idEmpresa
+//     var idEmpresa = req.params.idEmpresa
 
 
-    medidaModel.buscarDiscoGeral(idEmpresa).then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Nenhum resultado encontrado!");
-        }
-    }).catch(function (erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar asId últimas medidas.", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
-}
+//     medidaModel.buscarCPUGeral(idEmpresa).then(function (resultado) {
+//         if (resultado.length > 0) {
+//             res.status(200).json(resultado);
+//         } else {
+//             res.status(204).send("Nenhum resultado encontrado!");
+//         }
+//     }).catch(function (erro) {
+//         console.log(erro);
+//         console.log("Houve um erro ao buscar asId últimas medidas.", erro.sqlMessage);
+//         res.status(500).json(erro.sqlMessage);
+//     });
+// }
+
+// function buscarDiscoGeral(req, res) {
+
+//     var idEmpresa = req.params.idEmpresa
+
+
+//     medidaModel.buscarDiscoGeral(idEmpresa).then(function (resultado) {
+//         if (resultado.length > 0) {
+//             res.status(200).json(resultado);
+//         } else {
+//             res.status(204).send("Nenhum resultado encontrado!");
+//         }
+//     }).catch(function (erro) {
+//         console.log(erro);
+//         console.log("Houve um erro ao buscar asId últimas medidas.", erro.sqlMessage);
+//         res.status(500).json(erro.sqlMessage);
+//     });
+// }
 module.exports = {
     buscarUltimasMedidas,
     buscarMedidasEmTempoReal,
@@ -334,6 +334,6 @@ module.exports = {
     buscarMaquinasUsuario,
     buscarRedeInovacao,
     buscarMemoriaComputadorEmpresa,
-    buscarCPUGeral,
-    buscarDiscoGeral
+    // buscarCPUGeral,
+    // buscarDiscoGeral
 }
