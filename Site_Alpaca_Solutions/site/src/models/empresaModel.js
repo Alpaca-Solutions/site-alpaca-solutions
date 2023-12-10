@@ -280,7 +280,7 @@ function cadastrarEnderecoMaquina(cep, rua, numero, bairro,  cidade, estado) {
       .executar(query)
       .then((result) => {
         console.log("Resultado completo:", result);
-        const insertId = result.recordset[0].idEndereco;
+        const insertId = result[0].idEndereco;
         resolve({ insertId });
       })
       .catch((error) => {
@@ -311,7 +311,7 @@ function cadastrarUnidade(nomeUnidade, fkEndereco) {
       .executar(query)
       .then((result) => {
         console.log("Resultado completo:", result);
-        const insertId = result.recordset[0].idUnidade;
+        const insertId = result[0].idUnidade;
         resolve({ insertId });
       })
       .catch((error) => {
@@ -343,7 +343,7 @@ function cadastrarMaquina(NomeMaquina, ipMaquina, sistemaOperacional, fkUnidade,
       .executar(query)
       .then((result) => {
         console.log("Resultado completo:", result);
-        const insertId = result.recordset[0].idMaquina;
+        const insertId = result[0].idMaquina;
         resolve({ insertId });
       })
       .catch((error) => {
