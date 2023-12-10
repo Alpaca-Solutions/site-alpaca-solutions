@@ -455,8 +455,8 @@ function plotarDadosCPU(dados) {
     data.addColumn({ type: 'string', role: 'style' });
 
     for (var i = 0; i < dados.length; i++) {
-        var maquina = 'Máquina ' + dados[i].id_computador;
-        var usoCPU = parseFloat(dados[i].valor);
+        var maquina = 'Máquina ' + dados[i].idMaquina;
+        var usoCPU = parseFloat(dados[i].mediaPercentualCpu);
         var corBarra = getBarColor2(usoCPU);
 
         data.addRow([maquina, usoCPU, corBarra]);
