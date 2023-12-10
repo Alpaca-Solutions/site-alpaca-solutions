@@ -211,7 +211,9 @@ function obterDadosRedeInovacao(){
 function buscarDadosMemoria() {
 
     let idEmpresa = sessionStorage.fkEmpresa
-    
+
+    console.log("O ID DA EMPRESA É " + idEmpresa)
+
     fetch(`/medidas/buscarMemoriaComputadorEmpresa/${idEmpresa}`, { cache: 'no-store' })
         .then(function (response) {
             if (response.ok) {
