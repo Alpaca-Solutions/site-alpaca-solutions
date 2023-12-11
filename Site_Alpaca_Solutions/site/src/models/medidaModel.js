@@ -738,7 +738,7 @@ function QuantidadeMemoriaAltaGeral(idEmpresa){
     instrucaoSql = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucaoSql = `SELECT
-        COUNT(*) AS quantidadeMaquinaCpuAlta
+        COUNT(*) AS MaquinasComMemoriaAlta
       FROM (
         SELECT
           MA.idMaquina
@@ -761,7 +761,7 @@ function QuantidadeMemoriaAltaGeral(idEmpresa){
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
         SELECT
-        COUNT(*) AS quantidadeMaquinaCpuAlta
+        COUNT(*) AS MaquinasComMemoriaAlta
       FROM (
         SELECT
           MA.idMaquina
