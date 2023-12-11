@@ -143,6 +143,7 @@ function init() {
         obterDadosRedeInovacao()
         buscarMediaPacotes()
         quantidadeMaquinasCpuemAlerta();
+        quantidadeMemoriaEmAlerta()
     }, 5000);
 
     setInterval(obterDadosMaquinas, 5000);
@@ -150,6 +151,7 @@ function init() {
     setInterval(buscarDadosDisco , 5000)
     setInterval(obterDadosRedeInovacao, 5000)
     setInterval(quantidadeMaquinasCpuemAlerta , 5000);
+    setInterval(quantidadeMemoriaEmAlerta , 5000)
 }
 
 function drawCharts() {
@@ -329,6 +331,30 @@ function quantidadeMaquinasCpuemAlerta(){
         });
 }
 
+function quantidadeMemoriaEmAlerta(){
+    let idEmpresa = sessionStorage.fkEmpresa
+    fetch(`/medidas/QuantidadeMemoriaAltaGeral/${idEmpresa}`, { cache: 'no-store' })
+        .then(function (response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+        .then(function (dados) {
+          for(const dadosMemoria of dados){
+
+            console.log(JSON.stringify(dadosMemoria.MaquinasComMemoriaAlta))
+            console.log(dadosMemoria)
+
+            ramAlert.innerHTML = dadosMemoria.MaquinasComMemoriaAlta
+
+          }
+        })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+        });
+}
 
 
 function buscarDadosCPU() {

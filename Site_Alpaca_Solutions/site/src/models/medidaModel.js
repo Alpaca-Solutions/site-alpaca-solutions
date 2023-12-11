@@ -732,6 +732,64 @@ function QuantideMaquinaCpuAlta(idEmpresa){
 
 
 }
+
+
+function QuantidadeMemoriaAltaGeral(idEmpresa){
+    instrucaoSql = ''
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = `SELECT
+        COUNT(*) AS quantidadeMaquinaCpuAlta
+      FROM (
+        SELECT
+          MA.idMaquina
+        FROM
+          Medicoes M
+          JOIN Maquina MA ON M.id_computador = MA.idMaquina
+          JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+          JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
+        WHERE
+          MA.fkEmpresa = ${idEmpresa}
+          AND TC.nomeTipo = 'Percentual de Memoria'
+        GROUP BY
+          MA.idMaquina
+        HAVING
+          AVG(M.valor) > 80
+      ) AS MaquinasComMemoriaAlta;
+        
+        `;
+
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `
+        SELECT
+        COUNT(*) AS quantidadeMaquinaCpuAlta
+      FROM (
+        SELECT
+          MA.idMaquina
+        FROM
+          Medicoes M
+          JOIN Maquina MA ON M.id_computador = MA.idMaquina
+          JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+          JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
+        WHERE
+          MA.fkEmpresa = ${idEmpresa}
+          AND TC.nomeTipo = 'Percentual de Memoria'
+        GROUP BY
+          MA.idMaquina
+        HAVING
+          AVG(M.valor) > 80
+      ) AS MaquinasComMemoriaAlta;
+        
+        `;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+
+}
 module.exports = {
     buscarUltimasMedidas,
     buscarMedidasEmTempoReal,
@@ -752,5 +810,6 @@ module.exports = {
     buscarCPUGeral,
     buscarDiscoGeral,
     buscarMediaRede,
-    QuantideMaquinaCpuAlta
+    QuantideMaquinaCpuAlta,
+    QuantidadeMemoriaAltaGeral
 }
