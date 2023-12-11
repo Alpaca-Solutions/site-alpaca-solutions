@@ -290,8 +290,8 @@ function buscarMediaPacotes() {
         })
         .then(function (dados) {
           for(const dadosRede of dados){
-            let mediaRede = (dados.mediaRede)
-            mediaRedeMaquinas.innerHTML = mediaRede + " Mbs"
+             console.log(dadosRede)
+            mediaRedeMaquinas.innerHTML = dadosRede.mediaRede + "<p>Mbs</p>"
 
           }
         })
