@@ -70,7 +70,7 @@
                         <div class="titulos_cards1">
                             <h1>Perda de pacotes</h1>
                             <p>Quantidade de máquinas:</p>
-                            <h2>1</h2>
+                            <h2 id="maquinaRuim"></h2>
                             
                         </div>
 
@@ -144,6 +144,7 @@ function init() {
         buscarMediaPacotes()
         quantidadeMaquinasCpuemAlerta();
         quantidadeMemoriaEmAlerta()
+        buscarMaquinasRedeRuim()
     }, 5000);
 
     setInterval(obterDadosMaquinas, 5000);
@@ -152,6 +153,7 @@ function init() {
     setInterval(obterDadosRedeInovacao, 5000)
     setInterval(quantidadeMaquinasCpuemAlerta , 5000);
     setInterval(quantidadeMemoriaEmAlerta , 5000)
+    setInterval(buscarMaquinasRedeRuim , 5000)
 }
 
 function drawCharts() {
@@ -305,6 +307,27 @@ function buscarMediaPacotes() {
         });
 }
 
+function buscarMaquinasRedeRuim() {
+    let idEmpresa = sessionStorage.fkEmpresa
+    fetch(`/medidas/QuantidadeMaquinasRedeRuim/${idEmpresa}`, { cache: 'no-store' })
+        .then(function (response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+        .then(function (dados) {
+          for(const dadosMaquinaRede of dados){
+             console.log(dadosMaquinaRede)
+             maquinaRuim.innerHTML = dadosMaquinaRede.quantidadeMaquinaRedeRuim
+
+          }
+        })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+        });
+}
 
 function quantidadeMaquinasCpuemAlerta(){
     let idEmpresa = sessionStorage.fkEmpresa
@@ -330,6 +353,8 @@ function quantidadeMaquinasCpuemAlerta(){
             console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
         });
 }
+
+
 
 function quantidadeMemoriaEmAlerta(){
     let idEmpresa = sessionStorage.fkEmpresa

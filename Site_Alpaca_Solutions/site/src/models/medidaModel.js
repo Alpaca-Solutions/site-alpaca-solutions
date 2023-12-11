@@ -799,6 +799,56 @@ function QuantidadeMemoriaAltaGeral(idEmpresa){
 
 
 }
+
+function QuantidadeMaquinasRedeRuim(idEmpresa){
+    instrucaoSql = ''
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = `SELECT COUNT(*) AS quantidadeMaquinaRedeRuim
+        FROM (
+          SELECT
+            MA.idMaquina
+          FROM
+            Medicoes M
+            JOIN Maquina MA ON M.id_computador = MA.idMaquina
+            JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+            JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
+          WHERE
+            MA.fkEmpresa = ${idEmpresa}
+            AND (TC.nomeTipo = 'Pacotes Recebidos' OR TC.nomeTipo = 'Pacotes Enviados')
+            AND (M.valor < 0.10 OR M.valor > 1000)
+          GROUP BY
+            MA.idMaquina
+        ) AS quantidadeMaquinaRedeRuim;
+        `;
+
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `
+        SELECT COUNT(*) AS quantidadeMaquinaRedeRuim
+        FROM (
+          SELECT
+            MA.idMaquina
+          FROM
+            Medicoes M
+            JOIN Maquina MA ON M.id_computador = MA.idMaquina
+            JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+            JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
+          WHERE
+            MA.fkEmpresa = ${idEmpresa}
+            AND (TC.nomeTipo = 'Pacotes Recebidos' OR TC.nomeTipo = 'Pacotes Enviados')
+            AND (M.valor < 0.10 OR M.valor > 1000)
+          GROUP BY
+            MA.idMaquina
+        ) AS quantidadeMaquinaRedeRuim;
+        `;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
 module.exports = {
     buscarUltimasMedidas,
     buscarMedidasEmTempoReal,
@@ -820,5 +870,6 @@ module.exports = {
     buscarDiscoGeral,
     buscarMediaRede,
     QuantideMaquinaCpuAlta,
-    QuantidadeMemoriaAltaGeral
+    QuantidadeMemoriaAltaGeral,
+    QuantidadeMaquinasRedeRuim
 }

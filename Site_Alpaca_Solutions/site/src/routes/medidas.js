@@ -82,7 +82,9 @@ router.get("/QuantideMaquinaCpuAlta/:idEmpresa", function (req, res) {
 router.get("/QuantidadeMemoriaAltaGeral/:idEmpresa", function (req, res) {
     medidaController.QuantidadeMemoriaAltaGeral(req, res);
 })
-
+router.get("/QuantidadeMaquinasRedeRuim/:idEmpresa", function (req, res) {
+    medidaController.QuantidadeMaquinasRedeRuim(req, res);
+})
 
 
 module.exports = router;
