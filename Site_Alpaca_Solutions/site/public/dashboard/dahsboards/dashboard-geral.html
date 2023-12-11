@@ -65,7 +65,7 @@
                         <div class="titulos_cards1">
                             <h1>DADOS REDE</h1>
                             <p>Velocidade de média download</p>
-                            <h2>10 Mbps</h2>
+                            <h2 id="mediaRedeMaquinas"></h2>
                         </div>
                         <div class="titulos_cards1">
                             <h1>Perda de pacotes</h1>
@@ -141,6 +141,7 @@ function init() {
         buscarDadosCPU();
         buscarDadosDisco()
         obterDadosRedeInovacao()
+        buscarMediaPacotes()
     }, 5000);
 
     setInterval(obterDadosMaquinas, 5000);
@@ -276,6 +277,29 @@ function buscarDadosDisco() {
             console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
         });
 }
+
+function buscarMediaPacotes() {
+    let idEmpresa = sessionStorage.fkEmpresa
+    fetch(`/medidas/buscarMediaRede/${idEmpresa}`, { cache: 'no-store' })
+        .then(function (response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+        .then(function (dados) {
+          for(const dadosRede of dados){
+            let mediaRede = (dados.mediaRede)
+            mediaRedeMaquinas.innerHTML = mediaRede + " Mbs"
+
+          }
+        })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+        });
+}
+
 
 
 

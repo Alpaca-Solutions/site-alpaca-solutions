@@ -72,4 +72,9 @@ router.get("/buscarCPUGeral/:idEmpresa", function (req, res) {
     medidaController.buscarDiscoGeral(req, res);
  })
 
+ router.get("/buscarMediaRede/:idEmpresa", function (req, res) {
+    medidaController.buscarMediaRede(req, res);
+})
+
+ 
 module.exports = router;

@@ -642,6 +642,48 @@ function buscarDiscoGeral(idEmpresa) {
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
+
+
+
+
+function buscarMediaRede(idEmpresa){
+    instrucaoSql = ''
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = `SELECT TOP 1 MA.idMaquina, ROUND(AVG(M.valor), 2) AS mediaRede
+        FROM Medicoes M
+        JOIN Maquina MA ON M.id_computador = MA.idMaquina
+        JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+        JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
+        WHERE MA.fkEmpresa = ${idEmpresa}
+          AND TC.nomeTipo IN ('Pacotes Recebidos', 'Pacotes Enviados')
+        GROUP BY MA.idMaquina;
+        
+        `;
+
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `
+        SELECT MA.idMaquina, ROUND(AVG(M.valor), 2) AS mediaRede
+        FROM Medicoes M
+        JOIN Maquina MA ON M.id_computador = MA.idMaquina
+        JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+        JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
+        WHERE MA.fkEmpresa = ${idEmpresa}
+          AND TC.nomeTipo IN ('Pacotes Recebidos', 'Pacotes Enviados')
+        GROUP BY MA.idMaquina;
+        
+        
+        `;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+
+}
+
 module.exports = {
     buscarUltimasMedidas,
     buscarMedidasEmTempoReal,
@@ -660,5 +702,6 @@ module.exports = {
     buscarRedeInovacao,
     buscarMemoriaComputadorEmpresa,
     buscarCPUGeral,
-    buscarDiscoGeral
+    buscarDiscoGeral,
+    buscarMediaRede
 }
