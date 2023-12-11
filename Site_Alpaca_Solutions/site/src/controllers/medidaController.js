@@ -340,7 +340,7 @@ function QuantideMaquinaCpuAlta(req, res) {
 
     var idEmpresa = req.params.idEmpresa
 
-    medidaModel.buscarMediaRede(idEmpresa).then(function (resultado) {
+    medidaModel.QuantideMaquinaCpuAlta(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -369,8 +369,8 @@ module.exports = {
     buscarMaquinasUsuario,
     buscarRedeInovacao,
     buscarMemoriaComputadorEmpresa,
-     buscarCPUGeral,
-     buscarDiscoGeral,
-     buscarMediaRede,
-     QuantideMaquinaCpuAlta
+    buscarCPUGeral,
+    buscarDiscoGeral,
+    buscarMediaRede,
+    QuantideMaquinaCpuAlta
 }
