@@ -149,6 +149,7 @@ function init() {
     setInterval(buscarDadosCPU , 5000);
     setInterval(buscarDadosDisco , 5000)
     setInterval(obterDadosRedeInovacao, 5000)
+    setInterval(quantidadeMaquinasCpuemAlerta , 5000);
 }
 
 function drawCharts() {
@@ -156,6 +157,7 @@ function drawCharts() {
     buscarDadosCPU()
     buscarDadosDisco()
     obterDadosRedeInovacao();
+    quantidadeMaquinasCpuemAlerta();
    
 }
 
