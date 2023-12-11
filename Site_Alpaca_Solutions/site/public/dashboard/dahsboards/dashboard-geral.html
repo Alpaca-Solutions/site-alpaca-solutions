@@ -316,8 +316,7 @@ function quantidadeMaquinasCpuemAlerta(){
         })
         .then(function (dados) {
           for(const dadosCpu of dados){
-             console.log(dadosRede)
-             qtdCpuAlerta.innerHTML = (dadosCpu.quantidadeMaquinaCpuAlta).toFixed(1);
+             qtdCpuAlerta.innerHTML = dadosCpu.quantidadeMaquinaCpuAlta
 
           }
         })
