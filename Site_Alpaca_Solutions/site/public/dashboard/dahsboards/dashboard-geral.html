@@ -188,7 +188,8 @@ function plotarDadosMemoria(dados) {
 
 
 function obterDadosRedeInovacao(){
-    fetch(`/medidas/buscarRedeInovacao`, { cache: 'no-store' })
+    let idEmpresa = sessionStorage.fkEmpresa
+    fetch(`/medidas/buscarRedeInovacao/${idEmpresa}`, { cache: 'no-store' })
     .then(function (response) {
         if (response.ok) {
             return response.json();
@@ -363,8 +364,8 @@ function plotarDadosRedeInovacao(dados) {
     data.addColumn({ type: 'string', role: 'style' });
 
     for (var i = 0; i < dados.length; i++) {
-        var maquina = 'Rede ' + dados[i].id_computador;
-        var usoDisco = parseFloat(dados[i].valor);
+        var maquina = 'Rede ' + dados[i].idMaquina;
+        var usoDisco = parseFloat(dados[i].mediaRede);
         var corBarra = getBarColor2(usoDisco);
 
         data.addRow([maquina, usoDisco, corBarra]);

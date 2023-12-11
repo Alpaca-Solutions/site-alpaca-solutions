@@ -503,23 +503,31 @@ function buscarMaquinasUsuario(idNovo){
 
 
 
-function buscarRedeInovacao(){
+function buscarRedeInovacao(idEmpresa){
     instrucaoSql = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `SELECT M.*, U.Tipo AS TipoUnidadeMedida, TC.nomeTipo AS NomeTipoComponente
+        instrucaoSql = `SELECT MA.idMaquina, ROUND(AVG(M.valor), 2) AS mediaRede
         FROM Medicoes M
-        JOIN UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
+        JOIN Maquina MA ON M.id_computador = MA.idMaquina
         JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
-        WHERE TC.nomeTipo = 'Pacotes Enviados';
+        JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
+        WHERE MA.fkEmpresa = ${idEmpresa}
+          AND TC.nomeTipo IN ('Pacotes Recebidos', 'Pacotes Enviados')
+        GROUP BY MA.idMaquina;
+        
         `;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
-        SELECT M.*, U.Tipo AS TipoUnidadeMedida, TC.nomeTipo AS NomeTipoComponente
+        SELECT MA.idMaquina, ROUND(AVG(M.valor), 2) AS mediaRede
         FROM Medicoes M
-        JOIN UnidadeMedida U ON M.fkUnidadeMedidaID = U.idParametros
+        JOIN Maquina MA ON M.id_computador = MA.idMaquina
         JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
-        WHERE TC.nomeTipo = 'Pacotes Enviados';
+        JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
+        WHERE MA.fkEmpresa = ${idEmpresa}
+          AND TC.nomeTipo IN ('Pacotes Recebidos', 'Pacotes Enviados')
+        GROUP BY MA.idMaquina;
+        
         
         `;
     } else {
@@ -651,6 +659,6 @@ module.exports = {
     buscarMaquinasUsuario,
     buscarRedeInovacao,
     buscarMemoriaComputadorEmpresa,
-     buscarCPUGeral,
-     buscarDiscoGeral
+    buscarCPUGeral,
+    buscarDiscoGeral
 }

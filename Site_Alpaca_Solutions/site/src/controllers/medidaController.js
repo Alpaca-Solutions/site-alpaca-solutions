@@ -250,8 +250,8 @@ function buscarMaquinasUsuario(req, res) {
 
 function buscarRedeInovacao(req, res) {
 
-
-    medidaModel.buscarRedeInovacao().then(function (resultado) {
+    var idEmpresa = req.params.idEmpresa
+    medidaModel.buscarRedeInovacao(idEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {

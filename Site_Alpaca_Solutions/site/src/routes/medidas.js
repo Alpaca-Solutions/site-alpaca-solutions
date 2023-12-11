@@ -42,7 +42,7 @@ router.get("/buscarCPUId/:idMaquina", function (req, res) {
     medidaController.buscarCPUId(req, res);
 })
 
-router.get("/buscarRedeInovacao", function (req, res) {
+router.get("/buscarRedeInovacao/:idEmpresa", function (req, res) {
     medidaController.buscarRedeInovacao(req, res);
 })
 
