@@ -690,36 +690,45 @@ function QuantideMaquinaCpuAlta(idEmpresa){
     instrucaoSql = ''
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucaoSql = `SELECT
-        MA.idMaquina,
-        CASE WHEN AVG(M.valor) > 80 THEN ROUND(AVG(M.valor), 2) ELSE 0 END AS quantidadeMaquinaCpuAlta
-      FROM
-        Medicoes M
-        JOIN Maquina MA ON M.id_computador = MA.idMaquina
-        JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
-        JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
-      WHERE
-        MA.fkEmpresa = ${idEmpresa}
-        AND TC.nomeTipo = 'Percentual de Uso do Processador'
-      GROUP BY
-        MA.idMaquina;
-        
+        COUNT(*) AS quantidadeMaquinaCpuAlta
+      FROM (
+        SELECT
+          MA.idMaquina
+        FROM
+          Medicoes M
+          JOIN Maquina MA ON M.id_computador = MA.idMaquina
+          JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+          JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
+        WHERE
+          MA.fkEmpresa = ${idEmpresa}
+          AND TC.nomeTipo = 'Percentual de uso do Processador'
+        GROUP BY
+          MA.idMaquina
+        HAVING
+          AVG(M.valor) > 80
+      ) AS quantidadeMaquinaCpuAlta;
         `;
 
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `
         SELECT
-        MA.idMaquina,
-        CASE WHEN AVG(M.valor) > 80 THEN ROUND(AVG(M.valor), 2) ELSE 0 END AS quantidadeMaquinaCpuAlta
-      FROM
-        Medicoes M
-        JOIN Maquina MA ON M.id_computador = MA.idMaquina
-        JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
-        JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
-      WHERE
-        MA.fkEmpresa = ${idEmpresa}
-        AND TC.nomeTipo = 'Percentual de Uso do Processador'
-      GROUP BY
-        MA.idMaquina;
+        COUNT(*) AS quantidadeMaquinaCpuAlta
+      FROM (
+        SELECT
+          MA.idMaquina
+        FROM
+          Medicoes M
+          JOIN Maquina MA ON M.id_computador = MA.idMaquina
+          JOIN TipoComponente TC ON M.fkTipoComponenteID = TC.idTipoComponente
+          JOIN UnidadeMedida UM ON M.fkUnidadeMedidaID = UM.idParametros
+        WHERE
+          MA.fkEmpresa = ${idEmpresa}
+          AND TC.nomeTipo = 'Percentual de uso do Processador'
+        GROUP BY
+          MA.idMaquina
+        HAVING
+          AVG(M.valor) > 80
+      ) AS quantidadeMaquinaCpuAlta;
         
         `;
     } else {
