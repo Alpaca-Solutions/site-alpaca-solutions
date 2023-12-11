@@ -142,6 +142,7 @@ function init() {
         buscarDadosDisco()
         obterDadosRedeInovacao()
         buscarMediaPacotes()
+        quantidadeMaquinasCpuemAlerta();
     }, 5000);
 
     setInterval(obterDadosMaquinas, 5000);
@@ -300,6 +301,28 @@ function buscarMediaPacotes() {
         });
 }
 
+
+function quantidadeMaquinasCpuemAlerta(){
+    let idEmpresa = sessionStorage.fkEmpresa
+    fetch(`/medidas/QuantideMaquinaCpuAlta/${idEmpresa}`, { cache: 'no-store' })
+        .then(function (response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+        .then(function (dados) {
+          for(const dadosCpu of dados){
+             console.log(dadosRede)
+             qtdCpuAlerta.innerHTML = (dadosCpu.quantidadeMaquinaCpuAlta).toFixed(1);
+
+          }
+        })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados para o gráfico: ${error.message}`);
+        });
+}
 
 
 

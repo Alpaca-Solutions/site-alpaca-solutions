@@ -76,5 +76,8 @@ router.get("/buscarCPUGeral/:idEmpresa", function (req, res) {
     medidaController.buscarMediaRede(req, res);
 })
 
- 
+router.get("/QuantideMaquinaCpuAlta/:idEmpresa", function (req, res) {
+    medidaController.QuantideMaquinaCpuAlta(req, res);
+})
+
 module.exports = router;
