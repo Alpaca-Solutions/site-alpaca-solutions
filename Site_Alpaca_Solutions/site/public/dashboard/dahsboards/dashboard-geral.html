@@ -316,6 +316,10 @@ function quantidadeMaquinasCpuemAlerta(){
         })
         .then(function (dados) {
           for(const dadosCpu of dados){
+
+            console.log(JSON.stringify(dadosCpu))
+            console.log(dadosCpu)
+
              qtdCpuAlerta.innerHTML = dadosCpu.quantidadeMaquinaCpuAlta
 
           }
